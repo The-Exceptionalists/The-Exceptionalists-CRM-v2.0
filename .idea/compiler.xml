@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="The-Exceptionalists-CRM-v2.0" target="11" />
+      <module name="The-Exceptionalists-CRM-v2.0" target="15" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
