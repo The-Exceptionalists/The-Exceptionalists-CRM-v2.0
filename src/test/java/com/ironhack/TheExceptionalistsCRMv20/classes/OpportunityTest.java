@@ -5,7 +5,7 @@ import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class OpportunityTest {
     static Contact contact;

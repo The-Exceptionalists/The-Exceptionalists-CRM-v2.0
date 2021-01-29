@@ -10,6 +10,8 @@ import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class StorageTest {
     private static Lead lead;
     private static Contact contact;
