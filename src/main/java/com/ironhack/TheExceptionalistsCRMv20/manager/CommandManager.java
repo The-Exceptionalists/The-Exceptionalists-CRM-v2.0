@@ -1,5 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.manager;
 
+import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.classes.Account;
 import com.ironhack.TheExceptionalistsCRMv20.classes.Contact;
 import com.ironhack.TheExceptionalistsCRMv20.classes.Lead;
@@ -57,8 +58,9 @@ public class CommandManager {
     }
 
     private static void saveChangesAndExit() {
-        new Thread(new State()).run();
+//        new Thread(new State()).run();
 
+        ConsoleApp.ctx.close();
         System.exit(0);
     }
 

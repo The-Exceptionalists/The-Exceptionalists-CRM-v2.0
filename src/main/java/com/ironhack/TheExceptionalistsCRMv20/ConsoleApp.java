@@ -12,16 +12,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Scanner;
 
 
 @SpringBootApplication
 public class ConsoleApp implements CommandLineRunner {
 
+    public static ConfigurableApplicationContext ctx;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleApp.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(ConsoleApp.class, args);
+        ctx = SpringApplication.run(ConsoleApp.class, args);
         Output.introResolutionAlert();
         Buffer.initStringsRepository();
         State.restoreState();
