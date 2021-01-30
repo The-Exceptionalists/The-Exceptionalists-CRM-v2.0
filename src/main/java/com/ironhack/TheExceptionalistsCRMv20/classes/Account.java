@@ -3,31 +3,31 @@ package com.ironhack.TheExceptionalistsCRMv20.classes;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
+import jdk.jfr.Enabled;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Account {
-    //Properties
+
+    @Id
     private String id;
     private String companyName;
+    @Enumerated(value = EnumType.STRING)
     private Industry industry;
     private int employeeCount;
     private String city;
     private String country;
+
     private List<Contact> contactList = new ArrayList<>();
     private List<Opportunity> opportunityList = new ArrayList<>();
 
-    //Constructor for the database
-    public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
-        setId(id);
-        setCompanyName(companyName);
-        setIndustry(industry);
-        setEmployeeCount(employeeCount);
-        setCity(city);
-        setCountry(country);
-        addContactToList(contact);
-        addOpportunityToList(opportunity);
+    public Account() {
     }
 
     //Constructor for a new Account
