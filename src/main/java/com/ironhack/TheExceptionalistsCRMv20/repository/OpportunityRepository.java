@@ -50,10 +50,59 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, String
             "WHERE status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.OPEN GROUP BY product")
     List<Object[]> countOfOpportunitiesByProductWhereOpen();
 
+    @Query(value = "SELECT a.country, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "GROUP BY a.country")
+    List<Object[]> countOfOpportuntiesByCountry();
+
+    @Query(value = "SELECT a.country, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.CLOSED_WON GROUP BY a.country")
+    List<Object[]> countOfOpportuntiesByCountryWhereClosedWon();
+
+    @Query(value = "SELECT a.country, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.CLOSED_LOST GROUP BY a.country")
+    List<Object[]> countOfOpportuntiesByCountryWhereClosedLost();
+
+    @Query(value = "SELECT a.country, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.OPEN GROUP BY a.country")
+    List<Object[]> countOfOpportuntiesByCountryWhereOpen();
+
+    @Query(value = "SELECT a.city, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "GROUP BY a.city")
+    List<Object[]> countOfOpportuntiesByCity();
+
+    @Query(value = "SELECT a.city, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.CLOSED_WON GROUP BY a.city")
+    List<Object[]> countOfOpportuntiesByCityWhereClosedWon();
+
+    @Query(value = "SELECT a.city, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.CLOSED_LOST GROUP BY a.city")
+    List<Object[]> countOfOpportuntiesByCityWhereClosedLost();
+
+    @Query(value = "SELECT a.city, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.OPEN GROUP BY a.city")
+    List<Object[]> countOfOpportuntiesByCityWhereOpen();
+
+    @Query(value = "SELECT a.industry, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "GROUP BY a.industry")
+    List<Object[]> countOfOpportuntiesByIndustry();
+
+    @Query(value = "SELECT a.industry, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.CLOSED_WON GROUP BY a.industry")
+    List<Object[]> countOfOpportuntiesByIndustryWhereClosedWon();
+
+    @Query(value = "SELECT a.industry, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.CLOSED_LOST GROUP BY a.industry")
+    List<Object[]> countOfOpportuntiesByIndustryWhereClosedLost();
+
+    @Query(value = "SELECT a.industry, COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
+            "WHERE o.status = com.ironhack.TheExceptionalistsCRMv20.enums.Status.OPEN GROUP BY a.industry")
+    List<Object[]> countOfOpportuntiesByIndustryWhereOpen();
+
 
 
     //Returns a count of Opportunities for a specific SalesRep Id
     Integer countBySalesRepId(String salesRepId);
     //Return a count of Opportunities for a specific SalesRep Name
     Integer countBySalesRepName(String salesRep);
+
 }
