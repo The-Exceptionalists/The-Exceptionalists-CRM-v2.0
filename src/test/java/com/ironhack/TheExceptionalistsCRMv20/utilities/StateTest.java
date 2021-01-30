@@ -2,8 +2,8 @@ package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
 import com.google.gson.*;
 import com.google.gson.reflect.*;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Account;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Lead;
+import com.ironhack.TheExceptionalistsCRMv20.model.Account;
+import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

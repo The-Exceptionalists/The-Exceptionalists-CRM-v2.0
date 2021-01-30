@@ -3,6 +3,9 @@ package com.ironhack.TheExceptionalistsCRMv20.classes;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
+import com.ironhack.TheExceptionalistsCRMv20.model.Account;
+import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
+import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

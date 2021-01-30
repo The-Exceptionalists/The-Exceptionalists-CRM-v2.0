@@ -2,10 +2,10 @@ package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
 import com.google.gson.*;
 import com.google.gson.reflect.*;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Account;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.model.Account;
+import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
+import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
+import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 
 import java.io.FileWriter;
 import java.io.IOException;

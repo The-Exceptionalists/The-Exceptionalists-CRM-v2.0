@@ -1,11 +1,12 @@
 package com.ironhack.TheExceptionalistsCRMv20.classes;
 
+import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LeadTest {
-    
+
     @Test
     void setName_noEmpty_true() {
         Lead lead = new Lead("Juan Alberto", "juan@juan.es", "Juan's Company", "669695702");

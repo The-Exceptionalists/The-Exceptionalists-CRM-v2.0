@@ -1,25 +1,49 @@
-package com.ironhack.TheExceptionalistsCRMv20.classes;
+package com.ironhack.TheExceptionalistsCRMv20.model;
 
 import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "opportunities")
 public class Opportunity {
-    //Properties
+    @Id
     private String id;
+    @Enumerated(value = EnumType.STRING)
     private Product product;
     private int quantity;
+    @OneToOne
     private Contact decisionMaker;
+    @Enumerated(value = EnumType.STRING)
     private Status status;
+    @ManyToOne
+    private SalesRep salesRep;
+    @ManyToOne
+    private Account account;
 
-    //Constructor for the database
+    public Opportunity() {
+    }
+
     public Opportunity(String id, Product product, int quantity, Contact decisionMaker, Status status) {
         setId(id);
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
         setStatus(status);
+    }
+
+    //Constructor for a new Opportunity
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
+        setId(Storage.getNewId(ItemType.OPPORTUNITY));
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
+        setAccount(account);
+        setSalesRep(salesRep);
     }
 
     //Constructor for a new Opportunity
@@ -98,6 +122,22 @@ public class Opportunity {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public SalesRep getSalesRep() {
+        return salesRep;
+    }
+
+    public void setSalesRep(SalesRep salesRep) {
+        this.salesRep = salesRep;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

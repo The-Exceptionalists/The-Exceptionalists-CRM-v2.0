@@ -1,9 +1,9 @@
 package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
-import com.ironhack.TheExceptionalistsCRMv20.classes.Account;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.model.Account;
+import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
+import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
+import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
 
 import java.util.ArrayList;

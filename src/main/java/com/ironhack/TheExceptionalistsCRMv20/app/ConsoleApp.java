@@ -1,4 +1,4 @@
-package com.ironhack.TheExceptionalistsCRMv20;
+package com.ironhack.TheExceptionalistsCRMv20.app;
 
 
 import com.ironhack.TheExceptionalistsCRMv20.manager.CommandManager;

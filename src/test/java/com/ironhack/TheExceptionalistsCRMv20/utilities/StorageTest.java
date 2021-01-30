@@ -1,9 +1,9 @@
 package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
-import com.ironhack.TheExceptionalistsCRMv20.classes.Account;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.model.Account;
+import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
+import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
+import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
@@ -24,7 +24,9 @@ class StorageTest {
         lead = new Lead("le0000000012", "Diego Pérez", "diego.perez@gmail.com", "CocaCola", "444 333 222 111");
         contact = new Contact("co0000000013", "Diego Pérez", "diego.perez@gmail.com", "CocaCola", "444 333 222 111");
         opportunity = new Opportunity("op0000000014", Product.HYBRID, 10, contact, Status.OPEN);
-        account = new Account("ac0000000015", "CocaCola", Industry.ECOMMERCE, 100, "Madrid", "Spain", contact, opportunity);
+        account = new Account("ac0000000015", "CocaCola", Industry.ECOMMERCE, 100, "Madrid", "Spain");
+        account.getContactList().add(contact);
+        account.getOpportunityList().add(opportunity);
     }
 
     @Test

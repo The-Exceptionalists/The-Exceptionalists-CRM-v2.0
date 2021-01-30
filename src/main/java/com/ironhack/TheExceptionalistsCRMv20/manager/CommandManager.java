@@ -1,16 +1,15 @@
 package com.ironhack.TheExceptionalistsCRMv20.manager;
 
-import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Account;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.classes.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.app.ConsoleApp;
+import com.ironhack.TheExceptionalistsCRMv20.model.Account;
+import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
+import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
+import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.State;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 

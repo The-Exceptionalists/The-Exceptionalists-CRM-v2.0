@@ -1,5 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.classes;
 
+import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

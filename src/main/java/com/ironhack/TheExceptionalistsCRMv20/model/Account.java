@@ -1,18 +1,15 @@
-package com.ironhack.TheExceptionalistsCRMv20.classes;
+package com.ironhack.TheExceptionalistsCRMv20.model;
 
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
-import jdk.jfr.Enabled;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "accounts")
 public class Account {
 
     @Id
@@ -23,11 +20,30 @@ public class Account {
     private int employeeCount;
     private String city;
     private String country;
-
+    @OneToMany(mappedBy = "account")
     private List<Contact> contactList = new ArrayList<>();
+    @OneToMany(mappedBy = "account")
     private List<Opportunity> opportunityList = new ArrayList<>();
 
     public Account() {
+    }
+
+    public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country) {
+        setId(id);
+        setCompanyName(companyName);
+        setIndustry(industry);
+        setEmployeeCount(employeeCount);
+        setCity(city);
+        setCountry(country);
+    }
+
+    public Account(String companyName, Industry industry, int employeeCount, String city, String country) {
+        setId(Storage.getNewId(ItemType.ACCOUNT));
+        setCompanyName(companyName);
+        setIndustry(industry);
+        setEmployeeCount(employeeCount);
+        setCity(city);
+        setCountry(country);
     }
 
     //Constructor for a new Account

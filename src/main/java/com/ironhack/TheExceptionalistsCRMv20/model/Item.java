@@ -1,14 +1,12 @@
-package com.ironhack.TheExceptionalistsCRMv20.classes;
+package com.ironhack.TheExceptionalistsCRMv20.model;
 
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "items")
 public class Item {
     @Id
     private String id;
@@ -52,6 +50,9 @@ public class Item {
     public String getName() {
         return name;
     }
+    public String getNameToPrint() {
+        return "Name: " + name;
+    }
 
     public void setName(String name) {
         if (!Validator.validateName(name))
@@ -63,6 +64,10 @@ public class Item {
         return email;
     }
 
+    public String getEmailToPrint() {
+        return "Email: " + email;
+    }
+
     public void setEmail(String email) {
         if (!Validator.validateEmail(email)) throw new IllegalArgumentException();
         this.email = email;
@@ -70,6 +75,10 @@ public class Item {
 
     public String getCompanyName() {
         return companyName;
+    }
+
+    public String getCompanyNameToPrint() {
+        return "Company: " + companyName;
     }
 
     public void setCompanyName(String companyName) {
@@ -80,6 +89,10 @@ public class Item {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getPhoneNumberToPrint() {
+        return "Phone: " + phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
