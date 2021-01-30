@@ -29,11 +29,10 @@ public class ConsoleApp implements CommandLineRunner {
         while (true) {
             CommandManager.introduceCommand();
         }
-
     }
 
     @Override
     public void run(String... args) throws Exception {
-        LOGGER.info("welcome to my app");
+        LOGGER.info("Welcome to my app");
     }
 }
