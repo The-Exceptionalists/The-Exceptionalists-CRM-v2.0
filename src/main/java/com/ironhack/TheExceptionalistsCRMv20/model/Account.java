@@ -58,6 +58,17 @@ public class Account {
         addOpportunityToList(opportunity);
     }
 
+    public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
+        setId(id);
+        setCompanyName(companyName);
+        setIndustry(industry);
+        setEmployeeCount(employeeCount);
+        setCity(city);
+        setCountry(country);
+        addContactToList(contact);
+        addOpportunityToList(opportunity);
+    }
+
     //Methods
     private void addOpportunityToList(Opportunity opportunity) {
         opportunityList.add(opportunity);
