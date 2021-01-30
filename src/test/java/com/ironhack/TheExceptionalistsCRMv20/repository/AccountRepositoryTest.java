@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,27 +40,34 @@ class AccountRepositoryTest {
         SalesRep salesRep = salesRepRepository.save(new SalesRep("sr002", "María Aguilar"));
         Opportunity opportunity = opportunityRepository.save(new Opportunity("op003", Product.HYBRID, 10, contact,
                 Status.OPEN));
-        Account account = accountRepository.save(new Account("ac004", contact.getCompanyName(), Industry.ECOMMERCE,
+        Account account = accountRepository.save(new Account("ac004", "IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain", contact, opportunity));
         opportunity.setAccount(account);
         opportunity.setSalesRep(salesRep);
         opportunity = opportunityRepository.save(opportunity);
-        //account = accountRepository.save(account);
+        contact.setAccount(account);
+        contact = contactRepository.save(contact);
+        account.setContactList(List.of(contact));
+        account.setOpportunityList(List.of(opportunity));
+        account = accountRepository.save(account);
     }
 
     @AfterEach
     public void tearDown() {
-        /*accountRepository.deleteAll();
+        contactRepository.deleteAll();
         opportunityRepository.deleteAll();
         salesRepRepository.deleteAll();
-        contactRepository.deleteAll();*/
+        accountRepository.deleteAll();
     }
 
     @Test
     public void save_ContactSalesRepOpportunityAccount_SavedCorrectly() {
-        Optional<Account> account = accountRepository.findById("op003");
+        Optional<Opportunity> opportunity = opportunityRepository.findById("op003");
+        Optional<Account> account = accountRepository.findById("ac004");
 
-        assertEquals("Madrid", account.get().getCompanyName());
-        assertEquals("Pedro Luis", account.get().getContactList().get(0).getName());
+        assertEquals(10, opportunity.get().getQuantity());
+        assertEquals("IKEA", account.get().getCompanyName());
+        assertEquals("Pedro Luis", opportunity.get().getDecisionMaker().getName());
+        assertEquals("pedro.luis@gmail.com", account.get().getContactList().get(0).getEmail());
     }
 }

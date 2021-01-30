@@ -1,4 +1,4 @@
-package com.ironhack.TheExceptionalistsCRMv20.app;
+package com.ironhack.TheExceptionalistsCRMv20;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

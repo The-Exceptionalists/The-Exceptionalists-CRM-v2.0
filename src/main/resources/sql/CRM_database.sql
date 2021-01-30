@@ -30,16 +30,20 @@ CREATE TABLE leads (
     
 CREATE TABLE contacts (
     id VARCHAR(255) NOT NULL,
+    account_id VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (id)
-        REFERENCES items (id)
+        REFERENCES items (id),
+    FOREIGN KEY (account_id)
+        REFERENCES accounts (id)
 );
     
         
 CREATE TABLE accounts (
     id VARCHAR(255) NOT NULL,
+    company_name VARCHAR(255),
     industry VARCHAR(255),
-    num_employees INT,
+    employee_count INT,
     city VARCHAR(255),
     country VARCHAR(255),
     PRIMARY KEY (id)
@@ -48,7 +52,7 @@ CREATE TABLE accounts (
 CREATE TABLE opportunities (
     id VARCHAR(255) NOT NULL,
     quantity INT,
-    decision_maker VARCHAR(255),
+    decision_maker_id VARCHAR(255),
     status VARCHAR(255),
     product VARCHAR(255),
     account_id VARCHAR(255),

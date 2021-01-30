@@ -1,6 +1,5 @@
-package com.ironhack.TheExceptionalistsCRMv20.classes;
+package com.ironhack.TheExceptionalistsCRMv20.model;
 
-import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
