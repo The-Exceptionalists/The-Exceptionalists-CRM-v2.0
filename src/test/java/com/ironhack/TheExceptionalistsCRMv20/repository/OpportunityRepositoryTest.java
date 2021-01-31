@@ -278,6 +278,13 @@ class OpportunityRepositoryTest {
     }
 
     @Test
+    public void medianOfQuantity_OpportunitiesSaved_Median() {
+        double median = opportunityRepository.medianOfQuantity();
+
+        assertEquals(22.5, median);
+    }
+
+    @Test
     public void maxOfQuantity_OpportunitiesSaved_Max() {
         Integer max = opportunityRepository.maxOfQuantity();
 

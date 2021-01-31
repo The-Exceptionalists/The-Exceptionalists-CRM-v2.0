@@ -102,6 +102,13 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, String
     @Query("SELECT AVG(quantity) FROM Opportunity")
     public double meanOfQuantity();
 
+    @Query(value = "SELECT AVG(op.quantity) FROM " +
+            "(SELECT o.quantity, @rownum\\:=@rownum+1 as 'row_number', @total_rows\\:=@rownum " +
+            "FROM opportunities o, (SELECT @rownum\\:=0) r " +
+            "ORDER BY o.quantity) as op " +
+            "WHERE op.row_number IN (FLOOR((@total_rows+1)/2), FLOOR((@total_rows+2)/2))", nativeQuery = true)
+    public double medianOfQuantity();
+
     @Query("SELECT MAX(quantity) FROM Opportunity")
     public Integer maxOfQuantity();
 
