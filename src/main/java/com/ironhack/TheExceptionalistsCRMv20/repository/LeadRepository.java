@@ -21,23 +21,25 @@ public interface LeadRepository extends JpaRepository<Lead, String> {
     @Query(value = "sELECT o.product, COUNT(*) FROM leads l JOIN sales_rep s ON l.sales_rep_id = s.id JOIN opportunities o ON s.id = o.sales_rep_id GROUP BY o.product;", nativeQuery = true)
     List<Object[]> countOfLeadsByProduct();
 
-//    //Return a list of Leads and count all Lead by Country
-//    @Query(value = "SELECT a.country, COUNT(*) FROM Account a " +
-//            "JOIN FETCH Opportunity o ON a.id = o.account " +
-//            "JOIN FETCH SalesRep s ON s.id = o.salesRep " +
-//            "JOIN FETCH Lead l ON s.id = l.salesRep GROUP BY a.country")
-//    List<Object[]> countOfLeadsByCountry();
+    //Return a list of Leads and count all Lead by Country
+    @Query(value = "SELECT a.country, COUNT(*) FROM accounts a " +
+            "JOIN opportunities o ON a.id = o.account_id " +
+            "JOIN sales_rep s ON s.id = o.sales_rep_id " +
+            "JOIN leads l ON s.id = l.sales_rep_id GROUP BY a.country", nativeQuery = true)
+    List<Object[]> countOfLeadsByCountry();
 
     //Return a list of Leads and count all Lead by city
-//    @Query(value = "SELECT a.city, a.COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
-//            "JOIN FETCH SalesRep s ON o.salesRep = s.id" +
-//            "JOIN FETCH Lead l ON s.id = l.salesRep GROUP BY a.city")
-//    List<Object[]> countOfLeadsByCity();
+    @Query(value = "SELECT a.city, COUNT(*) FROM accounts a " +
+            "JOIN opportunities o ON a.id = o.account_id " +
+            "JOIN sales_rep s ON s.id = o.sales_rep_id " +
+            "JOIN leads l ON s.id = l.sales_rep_id GROUP BY a.city", nativeQuery = true)
+    List<Object[]> countOfLeadsByCity();
 
     //Return a list of Leads and count all Lead by industry
-//    @Query(value = "SELECT a.industry, a.COUNT(*) FROM Account a JOIN FETCH Opportunity o ON a.id = o.account " +
-//            "JOIN FETCH SalesRep s ON o.salesRep = s.id" +
-//            "JOIN FETCH Lead l ON s.id = l.salesRep GROUP BY a.industry")
-//    List<Object[]> countOfLeadsByIndustry();
+    @Query(value = "SELECT a.industry, COUNT(*) FROM accounts a " +
+            "JOIN opportunities o ON a.id = o.account_id " +
+            "JOIN sales_rep s ON s.id = o.sales_rep_id " +
+            "JOIN leads l ON s.id = l.sales_rep_id GROUP BY a.industry", nativeQuery = true)
+    List<Object[]> countOfLeadsByIndustry();
 
 }

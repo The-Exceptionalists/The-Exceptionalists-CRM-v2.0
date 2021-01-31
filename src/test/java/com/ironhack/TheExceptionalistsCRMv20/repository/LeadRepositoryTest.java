@@ -69,14 +69,14 @@ class LeadRepositoryTest {
 
     }
 
-//    @AfterEach
-//    void tearDown() {
-//        leadRepository.deleteAll();
-//        opportunityRepository.deleteAll();
-//        salesRepRepository.deleteAll();
-//        contactRepository.deleteAll();
-//        accountRepository.deleteAll();
-//    }
+    @AfterEach
+    void tearDown() {
+        leadRepository.deleteAll();
+        opportunityRepository.deleteAll();
+        salesRepRepository.deleteAll();
+        contactRepository.deleteAll();
+        accountRepository.deleteAll();
+    }
 
 
     @Test
@@ -100,40 +100,32 @@ class LeadRepositoryTest {
         assertEquals(new BigInteger("3"), result.get(2)[1]);
     }
 
-//    @Test
-//    void countOfLeadsByCountry_containsLeads_listOfLeadAndCounty() {
-//        List<Object[]> result = leadRepository.countOfLeadsByCountry();
-//        assertEquals(2L, result.size());
-//        assertEquals("Spain", result.get(0)[0]);
-//        assertEquals(9L, result.get(0)[1]);
-//        assertEquals("Germany", result.get(0)[0]);
-//        assertEquals(3L, result.get(0)[1]);
-//    }
-//
-//    @Test
-//    void countOfOpportuntiesByCity_containsOpportunities_listOfProductAndCount() {
-//        List<Object[]> result = opportunityRepository.countOfOpportuntiesByCity();
-//        assertEquals(1, result.size());
-//        assertEquals("Madrid", result.get(0)[0]);
-//        assertEquals(4L, result.get(0)[1]);
-//    }
-//
-//    @Test
-//    void countOfOpportuntiesByCityWhereOpen_containsOpportunities_listOfProductAndCount() {
-//        List<Object[]> result = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
-//        assertEquals(1, result.size());
-//        assertEquals("Madrid", result.get(0)[0]);
-//        assertEquals(1L, result.get(0)[1]);
-//    }
-//
-//    @Test
-//    void countOfOpportuntiesByIndustry_containsOpportunities_listOfProductAndCount() {
-//        List<Object[]> result = opportunityRepository.countOfOpportuntiesByIndustry();
-//        assertEquals(1, result.size());
-//        assertEquals(Industry.ECOMMERCE, result.get(0)[0]);
-//        assertEquals(4L, result.get(0)[1]);
-//    }
-//
+    @Test
+    void countOfLeadsByCountry_containsLeads_listOfLeadAndCounty() {
+        List<Object[]> result = leadRepository.countOfLeadsByCountry();
+        assertEquals(2, result.size());
+        assertEquals("Spain", result.get(0)[0]);
+        assertEquals(new BigInteger("6"), result.get(0)[1]);
+        assertEquals("Germany", result.get(1)[0]);
+        assertEquals(new BigInteger("3"), result.get(1)[1]);
+    }
+
+    @Test
+    void countOfLeadsByCity_containsLeads_listOfProductAndCount() {
+        List<Object[]> result = leadRepository.countOfLeadsByCity();
+        assertEquals(2, result.size());
+        assertEquals("Madrid", result.get(0)[0]);
+        assertEquals(new BigInteger("6"), result.get(0)[1]);
+    }
+
+    @Test
+    void countOfLeadByIndustry_containsLeads_listOfProductAndCount() {
+        List<Object[]> result = leadRepository.countOfLeadsByIndustry();
+        assertEquals(2, result.size());
+        assertEquals(Industry.ECOMMERCE.toString(), result.get(0)[0]);
+        assertEquals(new BigInteger("6"), result.get(0)[1]);
+    }
+
 
 
 }
