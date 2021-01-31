@@ -20,7 +20,7 @@ public class Account {
     private int employeeCount;
     private String city;
     private String country;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+    @OneToMany(mappedBy = "account")
     private List<Contact> contactList = new ArrayList<>();
     @OneToMany(mappedBy = "account")
     private List<Opportunity> opportunityList = new ArrayList<>();

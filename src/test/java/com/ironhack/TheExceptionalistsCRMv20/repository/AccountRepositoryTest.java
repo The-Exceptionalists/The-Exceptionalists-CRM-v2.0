@@ -35,39 +35,71 @@ class AccountRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        Contact contact = contactRepository.save(new Contact("co001", "Pedro Luis",
+        Contact contact1 = contactRepository.save(new Contact("co001", "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
-        SalesRep salesRep = salesRepRepository.save(new SalesRep("sr002", "María Aguilar"));
-        Opportunity opportunity = opportunityRepository.save(new Opportunity("op003", Product.HYBRID, 10, contact,
+        Contact contact2 = contactRepository.save(new Contact("co002", "Raquel García",
+                "raquel.garcia@gmail.com", "CocaCola", "666 999 888 777"));
+
+        SalesRep salesRep1 = salesRepRepository.save(new SalesRep("sr003", "María Aguilar"));
+        SalesRep salesRep2 = salesRepRepository.save(new SalesRep("sr004", "Juan Delgado"));
+
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity("op005", Product.HYBRID, 10, contact1,
                 Status.OPEN));
-        Account account = accountRepository.save(new Account("ac004", "IKEA", Industry.ECOMMERCE,
-                200, "Madrid", "Spain", contact, opportunity));
-        opportunity.setAccount(account);
-        opportunity.setSalesRep(salesRep);
-        opportunity = opportunityRepository.save(opportunity);
-        contact.setAccount(account);
-        contact = contactRepository.save(contact);
-        account.setContactList(List.of(contact));
-        account.setOpportunityList(List.of(opportunity));
-        account = accountRepository.save(account);
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op006", Product.FLATBED, 5, contact2,
+                Status.OPEN));
+
+        Account account1 = accountRepository.save(new Account("ac007", "IKEA", Industry.ECOMMERCE,
+                200, "Madrid", "Spain", contact1, opportunity1));
+        Account account2 = accountRepository.save(new Account("ac008", "CocaCola", Industry.PRODUCE,
+                300, "Barcelona", "Spain", contact2, opportunity2));
+
+        opportunity1.setAccount(account1);
+        opportunity1.setSalesRep(salesRep1);
+        opportunity2.setAccount(account2);
+        opportunity2.setSalesRep(salesRep2);
+        opportunity1 = opportunityRepository.save(opportunity1);
+        opportunity2 = opportunityRepository.save(opportunity2);
+        contact1.setAccount(account1);
+        contact1 = contactRepository.save(contact1);
+        contact2.setAccount(account2);
+        contact2 = contactRepository.save(contact2);
+        //account1 = accountRepository.save(account1);
     }
 
     @AfterEach
     public void tearDown() {
-        contactRepository.deleteAll();
         opportunityRepository.deleteAll();
         salesRepRepository.deleteAll();
+        contactRepository.deleteAll();
         accountRepository.deleteAll();
     }
 
     @Test
     public void save_ContactSalesRepOpportunityAccount_SavedCorrectly() {
-        Optional<Opportunity> opportunity = opportunityRepository.findById("op003");
-        Optional<Account> account = accountRepository.findById("ac004");
+        Optional<Account> account = accountRepository.findByIdWithContact("ac007");
 
-        assertEquals(10, opportunity.get().getQuantity());
         assertEquals("IKEA", account.get().getCompanyName());
-        assertEquals("Pedro Luis", opportunity.get().getDecisionMaker().getName());
         assertEquals("pedro.luis@gmail.com", account.get().getContactList().get(0).getEmail());
+    }
+
+    @Test
+    public void meanOfEmployeeCount_AccountsSaved_Mean() {
+        double mean = accountRepository.meanOfEmployeeCount();
+
+        assertEquals(250, mean);
+    }
+
+    @Test
+    public void maxOfEmployeeCount_AccountsSaved_Max() {
+        Integer max = accountRepository.maxOfEmployeeCount();
+
+        assertEquals(300, max);
+    }
+
+    @Test
+    public void minOfEmployeeCount_AccountsSaved_Min() {
+        Integer min = accountRepository.minOfEmployeeCount();
+
+        assertEquals(200, min);
     }
 }

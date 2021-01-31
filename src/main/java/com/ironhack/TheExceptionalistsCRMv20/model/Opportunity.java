@@ -15,13 +15,13 @@ public class Opportunity {
     @Enumerated(value = EnumType.STRING)
     private Product product;
     private int quantity;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Contact decisionMaker;
     @Enumerated(value = EnumType.STRING)
     private Status status;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private SalesRep salesRep;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Account account;
 
     public Opportunity() {

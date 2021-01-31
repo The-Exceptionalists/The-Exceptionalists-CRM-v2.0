@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class OpportunityRepositoryTest {
 
@@ -44,11 +45,11 @@ class OpportunityRepositoryTest {
         SalesRep salesRep = salesRepRepository.save(new SalesRep("sr005", "María Aguilar"));
         Opportunity opportunity1 = opportunityRepository.save(new Opportunity("op006", Product.HYBRID, 10, contact1,
                 Status.OPEN));
-        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op007", Product.BOX, 10, contact2,
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op007", Product.BOX, 20, contact2,
                 Status.CLOSED_WON));
-        Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op008", Product.HYBRID, 10, contact3,
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op008", Product.HYBRID, 25, contact3,
                 Status.CLOSED_WON));
-        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op009", Product.FLATBED, 10, contact4,
+        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op009", Product.FLATBED, 30, contact4,
                 Status.CLOSED_LOST));
         Account account = accountRepository.save(new Account("ac010", "IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain", contact1, opportunity1));
@@ -85,9 +86,9 @@ class OpportunityRepositoryTest {
 
     @AfterEach
     void tearDown() {
-        contactRepository.deleteAll();
         opportunityRepository.deleteAll();
         salesRepRepository.deleteAll();
+        contactRepository.deleteAll();
         accountRepository.deleteAll();
     }
 
@@ -267,5 +268,26 @@ class OpportunityRepositoryTest {
         assertEquals(1, result.size());
         assertEquals(Industry.ECOMMERCE, result.get(0)[0]);
         assertEquals(1L, result.get(0)[1]);
+    }
+
+    @Test
+    public void meanOfQuantity_OpportunitiesSaved_Mean() {
+        double mean = opportunityRepository.meanOfQuantity();
+
+        assertEquals(21.25, mean);
+    }
+
+    @Test
+    public void maxOfQuantity_OpportunitiesSaved_Max() {
+        Integer max = opportunityRepository.maxOfQuantity();
+
+        assertEquals(30, max);
+    }
+
+    @Test
+    public void minOfQuantity_OpportunitiesSaved_Min() {
+        Integer min = opportunityRepository.minOfQuantity();
+
+        assertEquals(10, min);
     }
 }

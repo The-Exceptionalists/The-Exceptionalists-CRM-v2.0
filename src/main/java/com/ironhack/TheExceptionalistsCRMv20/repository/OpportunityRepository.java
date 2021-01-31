@@ -99,6 +99,15 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, String
     List<Object[]> countOfOpportuntiesByIndustryWhereOpen();
 
 
+    @Query("SELECT AVG(quantity) FROM Opportunity")
+    public double meanOfQuantity();
+
+    @Query("SELECT MAX(quantity) FROM Opportunity")
+    public Integer maxOfQuantity();
+
+    @Query("SELECT MIN(quantity) FROM Opportunity")
+    public Integer minOfQuantity();
+
 
     //Returns a count of Opportunities for a specific SalesRep Id
     Integer countBySalesRepId(String salesRepId);
