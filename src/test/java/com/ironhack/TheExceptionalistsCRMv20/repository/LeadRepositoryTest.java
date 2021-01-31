@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,71 +37,77 @@ class LeadRepositoryTest {
     void setUp() {
 
 
-        Account account = accountRepository.save(new Account( "IKEA", Industry.ECOMMERCE,
+        Account account = accountRepository.save(new Account( "ac001","IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain"));
+        Account account2 = accountRepository.save(new Account( "ac002","Muebles julian", Industry.PRODUCE,
+                23, "Eisenach", "Germany"));
 
-        Contact contact1 = contactRepository.save(new Contact("Pedro Luis",
+        Contact contact1 = contactRepository.save(new Contact("co001" , "Pedro Luis",
+                "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
+        Contact contact2 = contactRepository.save(new Contact("co002" , "Jens Trittel",
+                "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account2));
+        Contact contact3 = contactRepository.save(new Contact("co003" , "Pedro Francisco",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
 
-        SalesRep salesRep = salesRepRepository.save(new SalesRep("sr005", "María Aguilar"));
+        SalesRep salesRep = salesRepRepository.save(new SalesRep("sr005", "Maria Aguilar"));
 
-        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(Product.HYBRID, 10, contact1,
-                Status.OPEN, account, salesRep));
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity("op001",Product.HYBRID, 10, contact1,
+                Status.OPEN,  salesRep, account));
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op002",Product.BOX, 10, contact2,
+                Status.OPEN,  salesRep, account2));
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op003",Product.FLATBED, 10, contact3,
+                Status.OPEN,  salesRep, account));
+//        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op004",Product.FLATBED, 10, contact1,
+//                Status.OPEN,  salesRep, account));
 
-        Lead lead1 = leadRepository.save(new Lead("Pedro Luis",
+        Lead lead1 = leadRepository.save(new Lead("le001", "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", salesRep));
+        Lead lead2 = leadRepository.save(new Lead("le002", "Pedro Juan",
+                "pedro.luis@gmail.comm", "Muebles bonicos", "666 333 222 1112", salesRep));
+        Lead lead3 = leadRepository.save(new Lead("le003", "Pedro piedras",
+                "pedro.luis@gmail.commm", "Mueblesfeos", "666 333 222 1113", salesRep));
 
     }
 
-    @AfterEach
-    void tearDown() {
-        leadRepository.deleteAll();
-        opportunityRepository.deleteAll();
-        salesRepRepository.deleteAll();
-        contactRepository.deleteAll();
-        accountRepository.deleteAll();
+//    @AfterEach
+//    void tearDown() {
+//        leadRepository.deleteAll();
+//        opportunityRepository.deleteAll();
+//        salesRepRepository.deleteAll();
+//        contactRepository.deleteAll();
+//        accountRepository.deleteAll();
+//    }
+
+
+    @Test
+    void countOfLeadsBySalesReps_salesRepExistent_listOfNameAndCount() {
+
+        List<Object[]> result = leadRepository.countOfLeadsBySalesReps();
+        assertEquals(1, result.size());
+        assertEquals("Maria Aguilar", result.get(0)[0]);
+        assertEquals(3L, result.get(0)[1]);
     }
 
     @Test
-    void sometest(){
-
+    void countOfLeadsByProduct_containsLeads_listOfProductAndCountOfLeads() {
+        List<Object[]> result = leadRepository.countOfLeadsByProduct();
+        assertEquals(3, result.size());
+        assertEquals(Product.HYBRID.toString(), result.get(0)[0]);
+        assertEquals(new BigInteger("3"), result.get(0)[1]);
+        assertEquals(Product.BOX.toString(), result.get(1)[0]);
+        assertEquals(new BigInteger("3"), result.get(1)[1]);
+        assertEquals(Product.FLATBED.toString(), result.get(2)[0]);
+        assertEquals(new BigInteger("3"), result.get(2)[1]);
     }
-//    @Test
-//    void countBySalesRep_salesRepExistingId_count() {
-//        assertEquals(4, leadRepository.countBySalesRepId("sr005"));
-//    }
-//
-//    @Test
-//    void countBySalesRepName_salesRepExistingName_count() {
-//        assertEquals(4, opportunityRepository.countBySalesRepName("María Aguilar"));
-//    }
 
 //    @Test
-//    void countOfLeadsBySalesReps_salesRepExistent_listOfNameAndCount() {
-//        List<Object[]> result = leadRepository.countOfLeadsBySalesReps();
-//        assertEquals(1, result.size());
-//        assertEquals("María Aguilar", result.get(0)[0]);
-//        assertEquals(4L, result.get(0)[1]);
-//    }
-//
-//    @Test
-//    void countOfOpportunitiesByProduct_containsOpportunities_listOfProductAndCount() {
-//        List<Object[]> result = opportunityRepository.countOfOpportunitiesByProduct();
-//        assertEquals(3L, result.size());
-//        assertEquals(Product.HYBRID, result.get(0)[0]);
-//        assertEquals(2L, result.get(0)[1]);
-//        assertEquals(Product.BOX, result.get(1)[0]);
-//        assertEquals(1L, result.get(1)[1]);
-//        assertEquals(Product.FLATBED, result.get(2)[0]);
-//        assertEquals(1L, result.get(2)[1]);
-//    }
-//
-//    @Test
-//    void countOfOpportuntiesByCountry_containsOpportunities_listOfProductAndCounty() {
-//        List<Object[]> result = opportunityRepository.countOfOpportuntiesByCountry();
-//        assertEquals(1, result.size());
+//    void countOfLeadsByCountry_containsLeads_listOfLeadAndCounty() {
+//        List<Object[]> result = leadRepository.countOfLeadsByCountry();
+//        assertEquals(2L, result.size());
 //        assertEquals("Spain", result.get(0)[0]);
-//        assertEquals(4L, result.get(0)[1]);
+//        assertEquals(9L, result.get(0)[1]);
+//        assertEquals("Germany", result.get(0)[0]);
+//        assertEquals(3L, result.get(0)[1]);
 //    }
 //
 //    @Test

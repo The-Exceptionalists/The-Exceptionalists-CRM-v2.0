@@ -20,6 +20,7 @@ public class Account {
     private int employeeCount;
     private String city;
     private String country;
+
     @OneToMany(mappedBy = "account")
     private List<Contact> contactList = new ArrayList<>();
     @OneToMany(mappedBy = "account")
@@ -28,14 +29,24 @@ public class Account {
     public Account() {
     }
 
+    //Constructor para test
     public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country) {
-        setId(id);
-        setCompanyName(companyName);
-        setIndustry(industry);
-        setEmployeeCount(employeeCount);
-        setCity(city);
-        setCountry(country);
+        this.id = id;
+        this.companyName = companyName;
+        this.industry = industry;
+        this.employeeCount = employeeCount;
+        this.city = city;
+        this.country = country;
     }
+
+    //    public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country) {
+//        setId(id);
+//        setCompanyName(companyName);
+//        setIndustry(industry);
+//        setEmployeeCount(employeeCount);
+//        setCity(city);
+//        setCountry(country);
+//    }
 
     public Account(String companyName, Industry industry, int employeeCount, String city, String country) {
         setId(Storage.getNewId(ItemType.ACCOUNT));
@@ -57,6 +68,7 @@ public class Account {
         addContactToList(contact);
         addOpportunityToList(opportunity);
     }
+
 
     public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
         setId(id);
