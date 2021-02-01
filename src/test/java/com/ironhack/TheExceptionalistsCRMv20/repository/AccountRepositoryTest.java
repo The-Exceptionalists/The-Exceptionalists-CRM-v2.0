@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.persistence.criteria.CriteriaBuilder;
+
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class AccountRepositoryTest {
@@ -35,26 +35,26 @@ class AccountRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        Contact contact1 = contactRepository.save(new Contact("co001", "Pedro Luis",
+        Contact contact1 = contactRepository.save(new Contact(1, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
-        Contact contact2 = contactRepository.save(new Contact("co002", "Raquel García",
+        Contact contact2 = contactRepository.save(new Contact(2, "Raquel García",
                 "raquel.garcia@gmail.com", "CocaCola", "666 999 888 777"));
         Contact contact3 = contactRepository.save(new Contact("co010", "Alvaro Rodríguez",
                 "alvaro.rodriguez@gmail.com", "IKEA", "666 000 555 444"));
 
-        SalesRep salesRep1 = salesRepRepository.save(new SalesRep("sr003", "María Aguilar"));
-        SalesRep salesRep2 = salesRepRepository.save(new SalesRep("sr004", "Juan Delgado"));
+        SalesRep salesRep1 = salesRepRepository.save(new SalesRep(3, "María Aguilar"));
+        SalesRep salesRep2 = salesRepRepository.save(new SalesRep(4, "Juan Delgado"));
 
-        Opportunity opportunity1 = opportunityRepository.save(new Opportunity("op005", Product.HYBRID, 10, contact1,
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(5, Product.HYBRID, 10, contact1,
                 Status.OPEN));
-        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op006", Product.FLATBED, 5, contact2,
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity(6, Product.FLATBED, 5, contact2,
                 Status.OPEN));
         Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op009", Product.BOX, 10, contact3,
                 Status.OPEN));
 
-        Account account1 = accountRepository.save(new Account("ac007", "IKEA", Industry.ECOMMERCE,
+        Account account1 = accountRepository.save(new Account(7, "IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain", contact1, opportunity1));
-        Account account2 = accountRepository.save(new Account("ac008", "CocaCola", Industry.PRODUCE,
+        Account account2 = accountRepository.save(new Account(8, "CocaCola", Industry.PRODUCE,
                 300, "Barcelona", "Spain", contact2, opportunity2));
 
         opportunity1.setAccount(account1);
@@ -84,7 +84,7 @@ class AccountRepositoryTest {
 
     @Test
     public void save_ContactSalesRepOpportunityAccount_SavedCorrectly() {
-        Optional<Account> account = accountRepository.findByIdWithContact("ac007");
+        Optional<Account> account = accountRepository.findByIdWithContact(7);
 
         assertEquals("IKEA", account.get().getCompanyName());
         assertEquals("pedro.luis@gmail.com", account.get().getContactList().get(0).getEmail());

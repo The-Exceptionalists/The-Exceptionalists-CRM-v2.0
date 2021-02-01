@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Table(name = "items")
 public class Item {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private String email;
     private String companyName;
@@ -18,7 +19,14 @@ public class Item {
     public Item() {
     }
 
-    public Item(String id, String name, String email, String companyName, String phoneNumber) {
+    public Item(String name, String email, String companyName, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.companyName = companyName;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Item(Integer id, String name, String email, String companyName, String phoneNumber) {
         setId(id);
         setName(name);
         setEmail(email);
@@ -26,24 +34,17 @@ public class Item {
         setPhoneNumber(phoneNumber);
     }
 
-    public String getId() {
+
+
+    public Integer getId() {
         return id;
     }
-    public String getIdToPrint() {
-        //Shows only the part of the id string that the user needs to see
-        char[] idArray = id.toCharArray();
-        int charCount = 0;
-        for (int i = 2; i < idArray.length; i++) {
-            if (idArray[i] != '0') {
-                charCount = i;
-                break;
-            }
-        }
-        return "Id: " + id.substring(charCount);
+
+    public String getIdToPrint(){
+        return "Id: " + id;
     }
 
-
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

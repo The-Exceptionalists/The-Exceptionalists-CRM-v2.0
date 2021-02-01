@@ -1,29 +1,38 @@
 package com.ironhack.TheExceptionalistsCRMv20.manager;
 
-import com.ironhack.TheExceptionalistsCRMv20.app.ConsoleApp;
+import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
+import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
+import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
+import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.Account;
 import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
 import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
 import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
-import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
-import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
-import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
+import com.ironhack.TheExceptionalistsCRMv20.repository.*;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class CommandManager {
-    private static List<String> commandList;
 
-    public static List<String> getCommandList() {
-        return commandList;
+public class CommandManager {
+    private static LeadRepository leadRepository;
+    private static ContactRepository contactRepository;
+    private static OpportunityRepository opportunityRepository;
+    private static AccountRepository accountRepository;
+    private static SalesRepRepository salesRepRepository;
+
+
+    public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
+        CommandManager.leadRepository = leadRepository;
+        CommandManager.contactRepository = contactRepository;
+        CommandManager.opportunityRepository = opportunityRepository;
+        CommandManager.accountRepository = accountRepository;
+        CommandManager.salesRepRepository = salesRepRepository;
     }
 
-    //Method that asks for a command and validates it
     public static void introduceCommand() {
         CommandManager.setCommandList();
         Buffer.setUpLayout();
@@ -57,8 +66,6 @@ public class CommandManager {
     }
 
     private static void saveChangesAndExit() {
-//        new Thread(new State()).run();
-
         ConsoleApp.ctx.close();
         System.exit(0);
     }
@@ -67,7 +74,7 @@ public class CommandManager {
     private static void createObject(String word) {
         if ("lead".equals(word)) {
             Lead lead = promptLead();
-            Storage.add(lead);
+            leadRepository.save(lead);
             System.out.println("New lead successfully added!");
         }
     }
@@ -76,19 +83,19 @@ public class CommandManager {
     public static void showList(String objectType) {
         switch (objectType) {
             case "leads" -> {
-                List<Lead> leadList = Storage.getAllLeads();
+                List<Lead> leadList = leadRepository.findAll();
                 printLeadList(leadList, 0);
             }
             case "opportunities" -> {
-                List<Opportunity> opportunityList = Storage.getAllOpportunities();
+                List<Opportunity> opportunityList = opportunityRepository.findAll();
                 printOpportunityList(opportunityList, 0);
             }
             case "contacts" -> {
-                List<Contact> contactList = Storage.getAllContacts();
+                List<Contact> contactList = contactRepository.findAll();
                 printContactList(contactList, 0);
             }
             case "accounts" -> {
-                List<Account> accountList = Storage.getAllAccounts();
+                List<Account> accountList = accountRepository.findAll();
                 printAccountList(accountList, 0);
             }
         }
@@ -98,18 +105,15 @@ public class CommandManager {
     private static void convertLeadToOpportunity(int id) {
         try {
             //Searches a lead, changing the parameter id to the format used in Storage
-            StringBuilder zeros = new StringBuilder();
-            zeros.append("0".repeat(Math.max(0, 10 - String.valueOf(id).length())));
-            Lead lead = Storage.searchLead("le" + zeros + id);
+            Lead lead = leadRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
             Contact contact = leadToContact(lead);
             Opportunity opportunity = promptOpportunity(contact);
             Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
             //Adds all objects to the storage class
-            Storage.add(contact);
-            Storage.add(opportunity);
-            Storage.add(account);
-            //Remove the lead
-            Storage.removeLead("le" + zeros + id);
+            contactRepository.save(contact);
+            opportunityRepository.save(opportunity);
+            accountRepository.save(account);
+            leadRepository.deleteById(id);
             //Return an error message if the id is not found
         } catch (IllegalArgumentException | NullPointerException e) {
             Buffer.setUpLayout();
@@ -230,12 +234,10 @@ public class CommandManager {
         Buffer.resetPromptMessages();
         Buffer.initStringsRepository();
         Buffer.setUpLayout();
-        StringBuilder zeros = new StringBuilder();
-        zeros.append("0".repeat(Math.max(0, 10 - String.valueOf(id).length())));
         switch (objectType) {
             case "opportunity" -> {
                 try {
-                    Opportunity opportunity = Storage.searchOpportunity("op" + zeros + id);
+                    Opportunity opportunity = opportunityRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertOpportunityStringRepository(opportunity, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Opportunity - press INTRO");
@@ -252,7 +254,7 @@ public class CommandManager {
             }
             case "lead" -> {
                 try {
-                    Lead lead = Storage.searchLead("le" + zeros + id);
+                    Lead lead = leadRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertLeadStringRepository(lead, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Lead - press INTRO");
@@ -269,7 +271,7 @@ public class CommandManager {
             }
             case "contact" -> {
                 try {
-                    Contact contact = Storage.searchContact("co" + zeros + id);
+                    Contact contact = contactRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertContactStringRepository(contact, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Contact - press INTRO");
@@ -286,7 +288,7 @@ public class CommandManager {
             }
             case "account" -> {
                 try {
-                    Account account = Storage.searchAccount("ac" + zeros + id);
+                    Account account = accountRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertAccountStringRepository(account, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Account - press INTRO");
@@ -312,11 +314,11 @@ public class CommandManager {
         String text;
         try {
             //Searches an opportunity, changing the parameter id to the format used in Storage
-            Opportunity opportunity = Storage.searchOpportunity("op" + "0".repeat(Math.max(0, 10 - String.valueOf(id).length())) + id);
+            Opportunity opportunity = opportunityRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
             //Compares the current value of status and it changes only if it's open
             if (opportunity.getStatus() == Status.OPEN) {
                 opportunity.setStatus(close);
-                Storage.update(opportunity);
+                opportunityRepository.save(opportunity);
                 text = "Opportunity closed!";
                 normalOneLinePrint(text);
             } else if (opportunity.getStatus() == Status.CLOSED_LOST) {
@@ -590,6 +592,12 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("", 54);
         Buffer.insertStringIntoRepository("EXIT", 55);
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
+    }
+
+    private static List<String> commandList;
+
+    public static List<String> getCommandList() {
+        return commandList;
     }
 
 }

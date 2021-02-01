@@ -1,8 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.model;
 
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
-import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +11,8 @@ import java.util.List;
 public class Account {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String companyName;
     @Enumerated(value = EnumType.STRING)
     private Industry industry;
@@ -28,7 +27,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country) {
+    public Account(Integer id, String companyName, Industry industry, int employeeCount, String city, String country) {
         setId(id);
         setCompanyName(companyName);
         setIndustry(industry);
@@ -38,7 +37,6 @@ public class Account {
     }
 
     public Account(String companyName, Industry industry, int employeeCount, String city, String country) {
-        setId(Storage.getNewId(ItemType.ACCOUNT));
         setCompanyName(companyName);
         setIndustry(industry);
         setEmployeeCount(employeeCount);
@@ -46,9 +44,7 @@ public class Account {
         setCountry(country);
     }
 
-    //Constructor for a new Account
-    public Account(String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
-        setId(Storage.getNewId(ItemType.ACCOUNT));
+    public Account(Integer id, String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
         setCompanyName(companyName);
         setIndustry(industry);
         setEmployeeCount(employeeCount);
@@ -58,8 +54,7 @@ public class Account {
         addOpportunityToList(opportunity);
     }
 
-    public Account(String id, String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
-        setId(id);
+    public Account(String companyName, Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
         setCompanyName(companyName);
         setIndustry(industry);
         setEmployeeCount(employeeCount);
@@ -79,24 +74,11 @@ public class Account {
     }
 
     //Getters and setters
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getIdToPrint() {
-        //Shows only the part of the id string that the user needs to see
-        char[] idArray = id.toCharArray();
-        int charCount = 0;
-        for (int i = 2; i < idArray.length; i++) {
-            if (idArray[i] != '0') {
-                charCount = i;
-                break;
-            }
-        }
-        return "Id: " + id.substring(charCount);
-    }
-
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -185,17 +167,7 @@ public class Account {
         this.opportunityList = opportunityList;
     }
 
-    public String toString() {
-
-        return "Account{" +
-                "id=" +
-                ", companyName='" + companyName + '\'' +
-                ", industry=" + industry +
-                ", employeeCount=" + employeeCount +
-                ", city='" + city + '\'' +
-                ", country='" + country + '\'' +
-                ", contactList=" + contactList +
-                ", opportunityList=" + opportunityList +
-                '}';
+    public String getIdToPrint() {
+        return "Id: " + id;
     }
 }

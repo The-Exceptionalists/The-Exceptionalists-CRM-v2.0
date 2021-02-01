@@ -1,8 +1,5 @@
 package com.ironhack.TheExceptionalistsCRMv20.model;
 
-import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -19,18 +16,24 @@ public class Lead extends Item{
     }
 
     //Constructor for a new Lead
-    public Lead(String id, String name, String email, String companyName, String phoneNumber) {
+    public Lead(Integer id, String name, String email, String companyName, String phoneNumber) {
         super(id, name, email, companyName, phoneNumber);
     }
 
     //Constructor for a new Lead
     public Lead(String name, String email, String companyName, String phoneNumber) {
-        super(Storage.getNewId(ItemType.LEAD), name, email, companyName, phoneNumber);
+        super(name, email, companyName, phoneNumber);
     }
 
     //Constructor for a new Lead
     public Lead(String name, String email, String companyName, String phoneNumber, SalesRep salesRep) {
-        super(Storage.getNewId(ItemType.LEAD), name, email, companyName, phoneNumber);
+        super(name, email, companyName, phoneNumber);
+        setSalesRep(salesRep);
+    }
+
+    //Constructor for a new Lead
+    public Lead(Integer id, String name, String email, String companyName, String phoneNumber, SalesRep salesRep) {
+        super(id, name, email, companyName, phoneNumber);
         setSalesRep(salesRep);
     }
 

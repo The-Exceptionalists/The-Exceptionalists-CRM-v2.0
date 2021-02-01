@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, String> {
+public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     @Query("SELECT a FROM Account a JOIN FETCH a.contactList c WHERE a.id = :id")
-    public Optional<Account> findByIdWithContact(@Param("id")String id);
+    public Optional<Account> findByIdWithContact(@Param("id")Integer id);
 
     @Query("SELECT AVG(employeeCount) FROM Account")
     public double meanOfEmployeeCount();

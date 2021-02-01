@@ -1,9 +1,7 @@
 package com.ironhack.TheExceptionalistsCRMv20.model;
 
-import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 
 import javax.persistence.*;
 
@@ -11,7 +9,8 @@ import javax.persistence.*;
 @Table(name = "opportunities")
 public class Opportunity {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @Enumerated(value = EnumType.STRING)
     private Product product;
     private int quantity;
@@ -27,7 +26,7 @@ public class Opportunity {
     public Opportunity() {
     }
 
-    public Opportunity(String id, Product product, int quantity, Contact decisionMaker, Status status) {
+    public Opportunity(Integer id, Product product, int quantity, Contact decisionMaker, Status status) {
         setId(id);
         setProduct(product);
         setQuantity(quantity);
@@ -37,7 +36,16 @@ public class Opportunity {
 
     //Constructor for a new Opportunity
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
-        setId(Storage.getNewId(ItemType.OPPORTUNITY));
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
+        setAccount(account);
+        setSalesRep(salesRep);
+    }
+
+    public Opportunity(Integer id, Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
+        setId(id);
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
@@ -48,7 +56,6 @@ public class Opportunity {
 
     //Constructor for a new Opportunity
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
-        setId(Storage.getNewId(ItemType.OPPORTUNITY));
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
@@ -56,24 +63,15 @@ public class Opportunity {
     }
 
     //Getters and setters
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getIdToPrint() {
-        //Shows only the part of the id string that the user needs to see
-        char[] idArray = id.toCharArray();
-        int charCount = 0;
-        for (int i = 2; i < idArray.length; i++) {
-            if (idArray[i] != '0') {
-                charCount = i;
-                break;
-            }
-        }
-        return "Id: " + id.substring(charCount);
+    public String getIdToPrint(){
+        return "Id: " + id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -138,25 +136,5 @@ public class Opportunity {
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    @Override
-    public String toString() {
-        //Shows only the part of the id string that the user needs to see
-        char[] idArray = id.toCharArray();
-        int charCount = 0;
-        for (int i = 2; i < idArray.length; i++) {
-            if (idArray[i] != '0') {
-                charCount = i;
-                break;
-            }
-        }
-        return "Opportunity{" +
-                "id=" + id +
-                ", product=" + product +
-                ", quantity=" + quantity +
-                ", decisionMaker=" + decisionMaker +
-                ", status=" + status +
-                '}';
     }
 }
