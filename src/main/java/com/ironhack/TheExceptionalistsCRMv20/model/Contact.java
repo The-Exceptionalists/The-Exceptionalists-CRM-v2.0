@@ -1,8 +1,5 @@
 package com.ironhack.TheExceptionalistsCRMv20.model;
 
-import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
-
 import javax.persistence.*;
 
 @Entity
@@ -19,20 +16,22 @@ public class Contact extends Item{
     }
 
     //Constructor for a new Contact
-    public Contact(String id, String name, String email, String companyName, String phoneNumber) {
+    public Contact(Integer id, String name, String email, String companyName, String phoneNumber) {
         super(id, name, email, companyName, phoneNumber);
     }
 
     //Constructor for a new Contact
-    public Contact(String name, String email, String companyName, String phoneNumber, Account account) {
-        super(Storage.getNewId(ItemType.CONTACT),name, email, companyName, phoneNumber);
-        setAccount(account);
+    public Contact(String name, String email, String companyName, String phoneNumber) {
+        super(name, email, companyName, phoneNumber);
     }
 
     //Constructor for a new Contact
-    public Contact(String name, String email, String companyName, String phoneNumber) {
-        super(Storage.getNewId(ItemType.CONTACT),name, email, companyName, phoneNumber);
+    public Contact(String name, String email, String companyName, String phoneNumber, Account account) {
+        super(name, email, companyName, phoneNumber);
+        setAccount(account);
     }
+
+
 
     public Account getAccount() {
         return account;

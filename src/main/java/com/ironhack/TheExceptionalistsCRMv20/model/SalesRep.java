@@ -7,7 +7,8 @@ import java.util.List;
 @Table(name = "sales_rep")
 public class SalesRep {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
 
     @OneToMany(mappedBy = "salesRep")
@@ -18,16 +19,20 @@ public class SalesRep {
     public SalesRep() {
     }
 
-    public SalesRep(String id, String name) {
+    public SalesRep(String name) {
+        this.name = name;
+    }
+
+    public SalesRep(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

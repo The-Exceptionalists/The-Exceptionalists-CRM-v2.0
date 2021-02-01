@@ -244,7 +244,7 @@ public class Buffer {
             case 3 -> startingRepository = 22;
         }
         insertStringIntoRepository(getResultItem() + resultIndex, startingRepository++);
-        insertStringIntoRepository(salesRep.getId(), startingRepository++);
+        insertStringIntoRepository(String.valueOf(salesRep.getId()), startingRepository++);
         insertStringIntoRepository(salesRep.getName(), startingRepository++);
     }
 

@@ -11,7 +11,6 @@ import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
@@ -137,10 +136,10 @@ public class CommandManager {
 
     //Creates a Contact object from a Lead object
     private static Contact leadToContact(Lead lead) {
-        String name = lead.getName();
-        String email = lead.getEmail();
-        String companyName = lead.getCompanyName();
-        String phoneNumber = lead.getPhoneNumber();
+        Integer name = lead.getName();
+        Integer email = lead.getEmail();
+        Integer companyName = lead.getCompanyName();
+        Integer phoneNumber = lead.getPhoneNumber();
         return new Contact(name, email, companyName, phoneNumber);
     }
 
@@ -151,7 +150,7 @@ public class CommandManager {
         Buffer.initStringsRepository();
         Buffer.insertStringIntoRepository("New Opportunity creation", 7);
         Scanner sc = new Scanner(System.in);
-        String text = "Type of truck (Hybrid, Flatbed or Box):";
+        Integer text = "Type of truck (Hybrid, Flatbed or Box):";
         printItemPrompt(text);
         String product = sc.nextLine().toLowerCase();
         //Keeps asking for the correct value
@@ -165,7 +164,7 @@ public class CommandManager {
         Product productEnum = findProductEnum(product);
         text = "Number of trucks: ";
         printItemPrompt(text);
-        String number = sc.nextLine();
+        Integer number = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateNumber(number)) {
             Buffer.setPromptLineOne("Enter a correct number of trucks: ");
@@ -180,13 +179,13 @@ public class CommandManager {
     }
 
     //Prompts all required parameters for the account creation
-    private static Account promptAccount(String companyName, Contact contact, Opportunity opportunity) {
+    private static Account promptAccount(Integer companyName, Contact contact, Opportunity opportunity) {
         //Output for prompt Account
         Buffer.resetPromptMessages();
         Buffer.initStringsRepository();
         Buffer.insertStringIntoRepository("New Account creation", 7);
         Scanner sc = new Scanner(System.in);
-        String text = "Industries: Produce, Ecommerce, Manufacturing, Medical, Other";
+        Integer text = "Industries: Produce, Ecommerce, Manufacturing, Medical, Other";
         printItemPrompt(text);
         String industry = sc.nextLine().toLowerCase();
         //Keeps asking for the correct value
@@ -200,7 +199,7 @@ public class CommandManager {
         Industry industryEnum = findIndustryEnum(industry);
         text = "Insert employee count: ";
         printItemPrompt(text);
-        String employeeCount = sc.nextLine();
+        Integer employeeCount = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateNumber(employeeCount)) {
             Buffer.setPromptLineOne("Enter a correct number of employees:");
@@ -211,7 +210,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Number of employees: " + employeeCount, 11);
         text = "Insert city name:";
         printItemPrompt(text);
-        String city = sc.nextLine();
+        Integer city = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateName(city)) {
             Buffer.setPromptLineOne("Enter a correct value:");
@@ -222,7 +221,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("City name: " + city, 12);
         text = "Insert country: ";
         printItemPrompt(text);
-        String country = sc.nextLine();
+        Integer country = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateName(country)) {
             Buffer.setPromptLineOne("Enter a correct value:");
@@ -321,7 +320,7 @@ public class CommandManager {
         Buffer.resetPromptMessages();
         Buffer.initStringsRepository();
         Buffer.setUpLayout();
-        String text;
+        Integer text;
         try {
             //Searches an opportunity, changing the parameter id to the format used in Storage
             Opportunity opportunity = Storage.searchOpportunity("op" + "0".repeat(Math.max(0, 10 - String.valueOf(id).length())) + id);
@@ -346,7 +345,7 @@ public class CommandManager {
         }
     }
 
-    private static void normalOneLinePrint(String text) {
+    private static void normalOneLinePrint(Integer text) {
         Buffer.setPromptLineOne(text);
         Buffer.insertCentralPromptPoints(1);
         Output.printScreen();
@@ -398,10 +397,10 @@ public class CommandManager {
         Buffer.initStringsRepository();
         Buffer.resetPromptMessages();
         Buffer.insertStringIntoRepository("New Lead creation", 7);
-        String text = "Insert Lead name:";
+        Integer text = "Insert Lead name:";
         Scanner sc = new Scanner(System.in);
         printItemPrompt(text);
-        String name = sc.nextLine();
+        Integer name = sc.nextLine();
         while (!Validator.validateName(name)) {
             Buffer.setPromptLineOne("Enter a correct name");
             printItemPrompt(text);
@@ -411,7 +410,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Name: " + name, 11);
         text = "Insert Lead email: ";
         printItemPrompt(text);
-        String email = sc.nextLine();
+        Integer email = sc.nextLine();
         while (!Validator.validateEmail(email)) {
             Buffer.setPromptLineOne("Enter a correct email"); //Be more specific with the format
             printItemPrompt(text);
@@ -421,7 +420,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Email: " + email, 12);
         text = "Company name: ";
         printItemPrompt(text);
-        String companyName = sc.nextLine();
+        Integer companyName = sc.nextLine();
         while (!Validator.validateCompanyName(companyName)) {
             Buffer.setPromptLineOne("Enter a correct company name"); //Be more specific with the format
             printItemPrompt(text);
@@ -431,7 +430,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Company: " + companyName, 13);
         text = "Phone number: ";
         printItemPrompt(text);
-        String phoneNumber = sc.nextLine();
+        Integer phoneNumber = sc.nextLine();
         while (!Validator.validatePhoneNumber(phoneNumber)) {
             Buffer.setPromptLineOne("Enter a correct phone number"); //Be more specific with the format
             printItemPrompt(text);
@@ -444,7 +443,7 @@ public class CommandManager {
         return new Lead(name, email, companyName, phoneNumber);
     }
 
-    private static void printItemPrompt(String text) {
+    private static void printItemPrompt(Integer text) {
         Buffer.setPromptLineTwo(text);
         Buffer.insertCentralPromptPoints(1);
         Buffer.insertCentralPromptPoints(2);
