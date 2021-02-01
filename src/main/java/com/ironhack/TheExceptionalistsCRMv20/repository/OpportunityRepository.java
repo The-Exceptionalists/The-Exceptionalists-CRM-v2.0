@@ -3,13 +3,12 @@ package com.ironhack.TheExceptionalistsCRMv20.repository;
 import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface OpportunityRepository extends JpaRepository<Opportunity, String> {
+public interface OpportunityRepository extends JpaRepository<Opportunity, Integer> {
 
     //Returns a list of names and count of all Opportunities by SalesRep
     @Query(value = "SELECT s.name, COUNT(*) FROM SalesRep s JOIN FETCH Opportunity o ON s.id = o.salesRep " +
@@ -122,7 +121,7 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, String
 
 
     //Returns a count of Opportunities for a specific SalesRep Id
-    Integer countBySalesRepId(String salesRepId);
+    Integer countBySalesRepId(Integer salesRepId);
     //Return a count of Opportunities for a specific SalesRep Name
     Integer countBySalesRepName(String salesRep);
 

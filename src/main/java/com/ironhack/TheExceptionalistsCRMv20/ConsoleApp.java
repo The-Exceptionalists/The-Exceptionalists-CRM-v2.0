@@ -2,7 +2,6 @@ package com.ironhack.TheExceptionalistsCRMv20;
 
 
 import com.ironhack.TheExceptionalistsCRMv20.manager.CommandManager;
-import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
@@ -51,7 +50,6 @@ public class ConsoleApp implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Output.introResolutionAlert();
         Buffer.initStringsRepository();
-        //State.restoreState();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
         while (true) {
             CommandManager.introduceCommand();

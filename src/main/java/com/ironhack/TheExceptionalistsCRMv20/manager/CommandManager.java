@@ -1,5 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.manager;
 
+import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
@@ -7,13 +8,10 @@ import com.ironhack.TheExceptionalistsCRMv20.model.Account;
 import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
 import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
 import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
-import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Scanner;
@@ -37,11 +35,11 @@ public class CommandManager {
 
     public static void introduceCommand() {
         CommandManager.setCommandList();
-//        Buffer.setUpLayout();
-//        Buffer.setPromptLineTwo("Introduce a command from the list:");
-//        Buffer.insertCentralPromptPoints(2);
-//        Buffer.insertCentralPromptPoints(1);
-//        Output.printScreen();
+        Buffer.setUpLayout();
+        Buffer.setPromptLineTwo("Introduce a command from the list:");
+        Buffer.insertCentralPromptPoints(2);
+        Buffer.insertCentralPromptPoints(1);
+        Output.printScreen();
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
         command = command.toLowerCase();
@@ -68,8 +66,6 @@ public class CommandManager {
     }
 
     private static void saveChangesAndExit() {
-//        new Thread(new State()).run();
-
         ConsoleApp.ctx.close();
         System.exit(0);
     }
@@ -78,7 +74,7 @@ public class CommandManager {
     private static void createObject(String word) {
         if ("lead".equals(word)) {
             Lead lead = promptLead();
-            Storage.add(lead);
+            leadRepository.save(lead);
             System.out.println("New lead successfully added!");
         }
     }
@@ -87,19 +83,19 @@ public class CommandManager {
     public static void showList(String objectType) {
         switch (objectType) {
             case "leads" -> {
-                List<Lead> leadList = Storage.getAllLeads();
+                List<Lead> leadList = leadRepository.findAll();
                 printLeadList(leadList, 0);
             }
             case "opportunities" -> {
-                List<Opportunity> opportunityList = Storage.getAllOpportunities();
+                List<Opportunity> opportunityList = opportunityRepository.findAll();
                 printOpportunityList(opportunityList, 0);
             }
             case "contacts" -> {
-                List<Contact> contactList = Storage.getAllContacts();
+                List<Contact> contactList = contactRepository.findAll();
                 printContactList(contactList, 0);
             }
             case "accounts" -> {
-                List<Account> accountList = Storage.getAllAccounts();
+                List<Account> accountList = accountRepository.findAll();
                 printAccountList(accountList, 0);
             }
         }
@@ -109,18 +105,15 @@ public class CommandManager {
     private static void convertLeadToOpportunity(int id) {
         try {
             //Searches a lead, changing the parameter id to the format used in Storage
-            StringBuilder zeros = new StringBuilder();
-            zeros.append("0".repeat(Math.max(0, 10 - String.valueOf(id).length())));
-            Lead lead = Storage.searchLead("le" + zeros + id);
+            Lead lead = leadRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
             Contact contact = leadToContact(lead);
             Opportunity opportunity = promptOpportunity(contact);
             Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
             //Adds all objects to the storage class
-            Storage.add(contact);
-            Storage.add(opportunity);
-            Storage.add(account);
-            //Remove the lead
-            Storage.removeLead("le" + zeros + id);
+            contactRepository.save(contact);
+            opportunityRepository.save(opportunity);
+            accountRepository.save(account);
+            leadRepository.deleteById(id);
             //Return an error message if the id is not found
         } catch (IllegalArgumentException | NullPointerException e) {
             Buffer.setUpLayout();
@@ -136,10 +129,10 @@ public class CommandManager {
 
     //Creates a Contact object from a Lead object
     private static Contact leadToContact(Lead lead) {
-        Integer name = lead.getName();
-        Integer email = lead.getEmail();
-        Integer companyName = lead.getCompanyName();
-        Integer phoneNumber = lead.getPhoneNumber();
+        String name = lead.getName();
+        String email = lead.getEmail();
+        String companyName = lead.getCompanyName();
+        String phoneNumber = lead.getPhoneNumber();
         return new Contact(name, email, companyName, phoneNumber);
     }
 
@@ -150,7 +143,7 @@ public class CommandManager {
         Buffer.initStringsRepository();
         Buffer.insertStringIntoRepository("New Opportunity creation", 7);
         Scanner sc = new Scanner(System.in);
-        Integer text = "Type of truck (Hybrid, Flatbed or Box):";
+        String text = "Type of truck (Hybrid, Flatbed or Box):";
         printItemPrompt(text);
         String product = sc.nextLine().toLowerCase();
         //Keeps asking for the correct value
@@ -164,7 +157,7 @@ public class CommandManager {
         Product productEnum = findProductEnum(product);
         text = "Number of trucks: ";
         printItemPrompt(text);
-        Integer number = sc.nextLine();
+        String number = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateNumber(number)) {
             Buffer.setPromptLineOne("Enter a correct number of trucks: ");
@@ -179,13 +172,13 @@ public class CommandManager {
     }
 
     //Prompts all required parameters for the account creation
-    private static Account promptAccount(Integer companyName, Contact contact, Opportunity opportunity) {
+    private static Account promptAccount(String companyName, Contact contact, Opportunity opportunity) {
         //Output for prompt Account
         Buffer.resetPromptMessages();
         Buffer.initStringsRepository();
         Buffer.insertStringIntoRepository("New Account creation", 7);
         Scanner sc = new Scanner(System.in);
-        Integer text = "Industries: Produce, Ecommerce, Manufacturing, Medical, Other";
+        String text = "Industries: Produce, Ecommerce, Manufacturing, Medical, Other";
         printItemPrompt(text);
         String industry = sc.nextLine().toLowerCase();
         //Keeps asking for the correct value
@@ -199,7 +192,7 @@ public class CommandManager {
         Industry industryEnum = findIndustryEnum(industry);
         text = "Insert employee count: ";
         printItemPrompt(text);
-        Integer employeeCount = sc.nextLine();
+        String employeeCount = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateNumber(employeeCount)) {
             Buffer.setPromptLineOne("Enter a correct number of employees:");
@@ -210,7 +203,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Number of employees: " + employeeCount, 11);
         text = "Insert city name:";
         printItemPrompt(text);
-        Integer city = sc.nextLine();
+        String city = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateName(city)) {
             Buffer.setPromptLineOne("Enter a correct value:");
@@ -221,7 +214,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("City name: " + city, 12);
         text = "Insert country: ";
         printItemPrompt(text);
-        Integer country = sc.nextLine();
+        String country = sc.nextLine();
         //Keeps asking for the correct value
         while (!Validator.validateName(country)) {
             Buffer.setPromptLineOne("Enter a correct value:");
@@ -241,12 +234,10 @@ public class CommandManager {
         Buffer.resetPromptMessages();
         Buffer.initStringsRepository();
         Buffer.setUpLayout();
-        StringBuilder zeros = new StringBuilder();
-        zeros.append("0".repeat(Math.max(0, 10 - String.valueOf(id).length())));
         switch (objectType) {
             case "opportunity" -> {
                 try {
-                    Opportunity opportunity = Storage.searchOpportunity("op" + zeros + id);
+                    Opportunity opportunity = opportunityRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertOpportunityStringRepository(opportunity, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Opportunity - press INTRO");
@@ -263,7 +254,7 @@ public class CommandManager {
             }
             case "lead" -> {
                 try {
-                    Lead lead = Storage.searchLead("le" + zeros + id);
+                    Lead lead = leadRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertLeadStringRepository(lead, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Lead - press INTRO");
@@ -280,7 +271,7 @@ public class CommandManager {
             }
             case "contact" -> {
                 try {
-                    Contact contact = Storage.searchContact("co" + zeros + id);
+                    Contact contact = contactRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertContactStringRepository(contact, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Contact - press INTRO");
@@ -297,7 +288,7 @@ public class CommandManager {
             }
             case "account" -> {
                 try {
-                    Account account = Storage.searchAccount("ac" + zeros + id);
+                    Account account = accountRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
                     Buffer.insertAccountStringRepository(account, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Account - press INTRO");
@@ -320,14 +311,14 @@ public class CommandManager {
         Buffer.resetPromptMessages();
         Buffer.initStringsRepository();
         Buffer.setUpLayout();
-        Integer text;
+        String text;
         try {
             //Searches an opportunity, changing the parameter id to the format used in Storage
-            Opportunity opportunity = Storage.searchOpportunity("op" + "0".repeat(Math.max(0, 10 - String.valueOf(id).length())) + id);
+            Opportunity opportunity = opportunityRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
             //Compares the current value of status and it changes only if it's open
             if (opportunity.getStatus() == Status.OPEN) {
                 opportunity.setStatus(close);
-                Storage.update(opportunity);
+                opportunityRepository.save(opportunity);
                 text = "Opportunity closed!";
                 normalOneLinePrint(text);
             } else if (opportunity.getStatus() == Status.CLOSED_LOST) {
@@ -345,7 +336,7 @@ public class CommandManager {
         }
     }
 
-    private static void normalOneLinePrint(Integer text) {
+    private static void normalOneLinePrint(String text) {
         Buffer.setPromptLineOne(text);
         Buffer.insertCentralPromptPoints(1);
         Output.printScreen();
@@ -397,10 +388,10 @@ public class CommandManager {
         Buffer.initStringsRepository();
         Buffer.resetPromptMessages();
         Buffer.insertStringIntoRepository("New Lead creation", 7);
-        Integer text = "Insert Lead name:";
+        String text = "Insert Lead name:";
         Scanner sc = new Scanner(System.in);
         printItemPrompt(text);
-        Integer name = sc.nextLine();
+        String name = sc.nextLine();
         while (!Validator.validateName(name)) {
             Buffer.setPromptLineOne("Enter a correct name");
             printItemPrompt(text);
@@ -410,7 +401,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Name: " + name, 11);
         text = "Insert Lead email: ";
         printItemPrompt(text);
-        Integer email = sc.nextLine();
+        String email = sc.nextLine();
         while (!Validator.validateEmail(email)) {
             Buffer.setPromptLineOne("Enter a correct email"); //Be more specific with the format
             printItemPrompt(text);
@@ -420,7 +411,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Email: " + email, 12);
         text = "Company name: ";
         printItemPrompt(text);
-        Integer companyName = sc.nextLine();
+        String companyName = sc.nextLine();
         while (!Validator.validateCompanyName(companyName)) {
             Buffer.setPromptLineOne("Enter a correct company name"); //Be more specific with the format
             printItemPrompt(text);
@@ -430,7 +421,7 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Company: " + companyName, 13);
         text = "Phone number: ";
         printItemPrompt(text);
-        Integer phoneNumber = sc.nextLine();
+        String phoneNumber = sc.nextLine();
         while (!Validator.validatePhoneNumber(phoneNumber)) {
             Buffer.setPromptLineOne("Enter a correct phone number"); //Be more specific with the format
             printItemPrompt(text);
@@ -443,7 +434,7 @@ public class CommandManager {
         return new Lead(name, email, companyName, phoneNumber);
     }
 
-    private static void printItemPrompt(Integer text) {
+    private static void printItemPrompt(String text) {
         Buffer.setPromptLineTwo(text);
         Buffer.insertCentralPromptPoints(1);
         Buffer.insertCentralPromptPoints(2);

@@ -34,24 +34,24 @@ class OpportunityRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Contact contact1 = contactRepository.save(new Contact("co001", "Pedro Luis",
+        Contact contact1 = contactRepository.save(new Contact(1, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
-        Contact contact2 = contactRepository.save(new Contact("co002", "Pedro Luis",
+        Contact contact2 = contactRepository.save(new Contact(2, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
-        Contact contact3 = contactRepository.save(new Contact("co003", "Pedro Luis",
+        Contact contact3 = contactRepository.save(new Contact(3, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
-        Contact contact4 = contactRepository.save(new Contact("co004", "Pedro Luis",
+        Contact contact4 = contactRepository.save(new Contact(4, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
-        SalesRep salesRep = salesRepRepository.save(new SalesRep("sr005", "María Aguilar"));
-        Opportunity opportunity1 = opportunityRepository.save(new Opportunity("op006", Product.HYBRID, 10, contact1,
+        SalesRep salesRep = salesRepRepository.save(new SalesRep(5, "María Aguilar"));
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(6, Product.HYBRID, 10, contact1,
                 Status.OPEN));
-        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op007", Product.BOX, 20, contact2,
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity(7, Product.BOX, 20, contact2,
                 Status.CLOSED_WON));
-        Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op008", Product.HYBRID, 25, contact3,
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity(8, Product.HYBRID, 25, contact3,
                 Status.CLOSED_WON));
-        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op009", Product.FLATBED, 30, contact4,
+        Opportunity opportunity4 = opportunityRepository.save(new Opportunity(9, Product.FLATBED, 30, contact4,
                 Status.CLOSED_LOST));
-        Account account = accountRepository.save(new Account("ac010", "IKEA", Industry.ECOMMERCE,
+        Account account = accountRepository.save(new Account(10, "IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain", contact1, opportunity1));
         opportunity1.setAccount(account);
         opportunity1.setSalesRep(salesRep);
@@ -86,7 +86,7 @@ class OpportunityRepositoryTest {
 
     @Test
     void countBySalesRep_salesRepExistingId_count() {
-        assertEquals(4, opportunityRepository.countBySalesRepId("sr005"));
+        assertEquals(4, opportunityRepository.countBySalesRepId(5));
     }
 
     @Test
