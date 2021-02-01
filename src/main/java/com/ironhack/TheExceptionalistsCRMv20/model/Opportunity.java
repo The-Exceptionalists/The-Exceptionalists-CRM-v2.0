@@ -44,6 +44,16 @@ public class Opportunity {
         setSalesRep(salesRep);
     }
 
+    public Opportunity(Integer id, Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
+        setId(id);
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
+        setAccount(account);
+        setSalesRep(salesRep);
+    }
+
     //Constructor for a new Opportunity
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
         setProduct(product);

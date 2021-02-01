@@ -31,6 +31,12 @@ public class Lead extends Item{
         setSalesRep(salesRep);
     }
 
+    //Constructor for a new Lead
+    public Lead(Integer id, String name, String email, String companyName, String phoneNumber, SalesRep salesRep) {
+        super(id, name, email, companyName, phoneNumber);
+        setSalesRep(salesRep);
+    }
+
     public SalesRep getSalesRep() {
         return salesRep;
     }

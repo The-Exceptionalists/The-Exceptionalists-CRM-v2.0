@@ -31,6 +31,12 @@ public class Contact extends Item{
         setAccount(account);
     }
 
+    //Constructor for a new Contact
+    public Contact(Integer id, String name, String email, String companyName, String phoneNumber, Account account) {
+        super(id, name, email, companyName, phoneNumber);
+        setAccount(account);
+    }
+
 
 
     public Account getAccount() {
