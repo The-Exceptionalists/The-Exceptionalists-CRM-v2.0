@@ -39,7 +39,7 @@ class AccountRepositoryTest {
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111"));
         Contact contact2 = contactRepository.save(new Contact(2, "Raquel García",
                 "raquel.garcia@gmail.com", "CocaCola", "666 999 888 777"));
-        Contact contact3 = contactRepository.save(new Contact("co010", "Alvaro Rodríguez",
+        Contact contact3 = contactRepository.save(new Contact(10, "Alvaro Rodríguez",
                 "alvaro.rodriguez@gmail.com", "IKEA", "666 000 555 444"));
 
         SalesRep salesRep1 = salesRepRepository.save(new SalesRep(3, "María Aguilar"));
@@ -49,7 +49,7 @@ class AccountRepositoryTest {
                 Status.OPEN));
         Opportunity opportunity2 = opportunityRepository.save(new Opportunity(6, Product.FLATBED, 5, contact2,
                 Status.OPEN));
-        Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op009", Product.BOX, 10, contact3,
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity(9, Product.BOX, 10, contact3,
                 Status.OPEN));
 
         Account account1 = accountRepository.save(new Account(7, "IKEA", Industry.ECOMMERCE,
