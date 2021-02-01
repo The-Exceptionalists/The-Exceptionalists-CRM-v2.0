@@ -1,36 +1,48 @@
 package com.ironhack.TheExceptionalistsCRMv20.manager;
 
-import com.ironhack.TheExceptionalistsCRMv20.app.ConsoleApp;
+import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
+import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
+import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.Account;
 import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
 import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
 import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
-import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
-import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
-import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
+import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
+import com.ironhack.TheExceptionalistsCRMv20.repository.*;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Storage;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class CommandManager {
-    private static List<String> commandList;
 
-    public static List<String> getCommandList() {
-        return commandList;
+public class CommandManager {
+    private static LeadRepository leadRepository;
+    private static ContactRepository contactRepository;
+    private static OpportunityRepository opportunityRepository;
+    private static AccountRepository accountRepository;
+    private static SalesRepRepository salesRepRepository;
+
+
+    public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
+        CommandManager.leadRepository = leadRepository;
+        CommandManager.contactRepository = contactRepository;
+        CommandManager.opportunityRepository = opportunityRepository;
+        CommandManager.accountRepository = accountRepository;
+        CommandManager.salesRepRepository = salesRepRepository;
     }
 
-    //Method that asks for a command and validates it
     public static void introduceCommand() {
         CommandManager.setCommandList();
-        Buffer.setUpLayout();
-        Buffer.setPromptLineTwo("Introduce a command from the list:");
-        Buffer.insertCentralPromptPoints(2);
-        Buffer.insertCentralPromptPoints(1);
-        Output.printScreen();
+//        Buffer.setUpLayout();
+//        Buffer.setPromptLineTwo("Introduce a command from the list:");
+//        Buffer.insertCentralPromptPoints(2);
+//        Buffer.insertCentralPromptPoints(1);
+//        Output.printScreen();
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
         command = command.toLowerCase();
@@ -590,6 +602,12 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("", 54);
         Buffer.insertStringIntoRepository("EXIT", 55);
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
+    }
+
+    private static List<String> commandList;
+
+    public static List<String> getCommandList() {
+        return commandList;
     }
 
 }
