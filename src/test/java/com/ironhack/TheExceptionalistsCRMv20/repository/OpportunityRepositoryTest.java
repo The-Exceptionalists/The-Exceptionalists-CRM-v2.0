@@ -55,38 +55,30 @@ class OpportunityRepositoryTest {
                 200, "Madrid", "Spain", contact1, opportunity1));
         opportunity1.setAccount(account);
         opportunity1.setSalesRep(salesRep);
-        opportunity1 = opportunityRepository.save(opportunity1);
+        opportunityRepository.save(opportunity1);
         opportunity2.setAccount(account);
         opportunity2.setSalesRep(salesRep);
-        opportunity2 = opportunityRepository.save(opportunity2);
+        opportunityRepository.save(opportunity2);
         opportunity3.setAccount(account);
         opportunity3.setSalesRep(salesRep);
-        opportunity3 = opportunityRepository.save(opportunity3);
+        opportunityRepository.save(opportunity3);
         opportunity4.setAccount(account);
         opportunity4.setSalesRep(salesRep);
-        opportunity4 = opportunityRepository.save(opportunity4);
+        opportunityRepository.save(opportunity4);
         contact1.setAccount(account);
-        contact1 = contactRepository.save(contact1);
-        account.setContactList(List.of(contact1));
-        account.setOpportunityList(List.of(opportunity1));
+        contactRepository.save(contact1);
         contact2.setAccount(account);
-        contact2 = contactRepository.save(contact2);
-        account.setContactList(List.of(contact2));
-        account.setOpportunityList(List.of(opportunity2));
+        contactRepository.save(contact2);
         contact3.setAccount(account);
-        contact3 = contactRepository.save(contact3);
-        account.setContactList(List.of(contact3));
-        account.setOpportunityList(List.of(opportunity3));
+        contactRepository.save(contact3);
         contact4.setAccount(account);
-        contact4 = contactRepository.save(contact4);
-        account.setContactList(List.of(contact4));
-        account.setOpportunityList(List.of(opportunity4));
-        account = accountRepository.save(account);
+        contactRepository.save(contact4);
     }
 
     @AfterEach
     void tearDown() {
         opportunityRepository.deleteAll();
+        contactRepository.deleteAll();
         salesRepRepository.deleteAll();
         contactRepository.deleteAll();
         accountRepository.deleteAll();
