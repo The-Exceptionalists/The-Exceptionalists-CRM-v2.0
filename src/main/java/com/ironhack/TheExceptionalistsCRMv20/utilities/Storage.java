@@ -1,10 +1,11 @@
 package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
-import com.ironhack.TheExceptionalistsCRMv20.model.Account;
-import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.enums.ItemType;
+import com.ironhack.TheExceptionalistsCRMv20.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,8 +14,19 @@ import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-
+@Component
 public class Storage {
+
+    @Autowired
+    private static AccountRepository accountRepository;
+    @Autowired
+    private static ContactRepository contactRepository;
+    @Autowired
+    private static LeadRepository leadRepository;
+    @Autowired
+    private static OpportunityRepository opportunityRepository;
+    @Autowired
+    private static SalesRepRepository salesRepRepository;
 
     private static int id = 0;
 
@@ -28,10 +40,12 @@ public class Storage {
      *
      * @param item
      */
+
     public static void add(Account item) {
         ReadWriteLock reentrantLock = new ReentrantReadWriteLock();
         reentrantLock.writeLock();
-        accountHashMap.put(item.getId(), item);
+        accountRepository.save(item);
+//        accountHashMap.put(item.getId(), item);
         reentrantLock.writeLock();
     }
 
@@ -43,7 +57,8 @@ public class Storage {
     public static void add(Contact item) {
         ReadWriteLock reentrantLock = new ReentrantReadWriteLock();
         reentrantLock.writeLock();
-        contactHashMap.put(item.getId(), item);
+        contactRepository.save(item);
+//        contactHashMap.put(item.getId(), item);
         reentrantLock.writeLock();
     }
 
@@ -55,7 +70,8 @@ public class Storage {
     public static void add(Opportunity item) {
         ReadWriteLock reentrantLock = new ReentrantReadWriteLock();
         reentrantLock.writeLock();
-        opportunityHashMap.put(item.getId(), item);
+        opportunityRepository.save(item);
+//        opportunityHashMap.put(item.getId(), item);
         reentrantLock.writeLock();
     }
 
@@ -67,7 +83,15 @@ public class Storage {
     public static void add(Lead item) {
         ReadWriteLock reentrantLock = new ReentrantReadWriteLock();
         reentrantLock.writeLock();
-        leadHashMap.put(item.getId(), item);
+        leadRepository.save(item);
+//        leadHashMap.put(item.getId(), item);
+        reentrantLock.writeLock();
+    }
+
+    public static void add(SalesRep item) {
+        ReadWriteLock reentrantLock = new ReentrantReadWriteLock();
+        reentrantLock.writeLock();
+        salesRepRepository.save(item);
         reentrantLock.writeLock();
     }
 
@@ -170,10 +194,11 @@ public class Storage {
      * @return
      */
     public static Lead searchLead(String id) {
-        if (leadHashMap.containsKey(id))
-            return leadHashMap.get(id);
-        else throw new IllegalArgumentException(id + "not found");
-
+//        return leadRepository.findById(id).get();
+//        if (leadHashMap.containsKey(id))
+//            return leadHashMap.get(id);
+//        else throw new IllegalArgumentException(id + "not found");
+        return null;
     }
 
     /**

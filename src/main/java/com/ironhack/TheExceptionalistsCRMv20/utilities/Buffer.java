@@ -1,9 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
-import com.ironhack.TheExceptionalistsCRMv20.model.Account;
-import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.model.*;
 
 import java.util.Arrays;
 
@@ -202,6 +199,34 @@ public class Buffer {
         }
     }
 
+    public static void insertItemThree() {
+        int startingRow = 7;
+        char startingLocationA = 'a';
+        char startingLocationB = 'e';
+
+        for (int i = 0; i < 3; i++){
+            switch(i) {
+                case 0 -> startingRow = 7;
+                case 1 -> startingRow = 12;
+                case 2 -> startingRow = 17;
+            }
+            screenBuffer[startingRow - 1][4] = 'i';
+            screenBuffer[startingRow - 1][5] = (char ) ('1' + i);
+
+
+            for (int j = 0; j < 4; j++) {
+                screenBuffer[startingRow + j][4] = 'i';
+                screenBuffer[startingRow + j][5] = (char) (startingLocationA + i);
+                screenBuffer[startingRow + i][24] = 'i';
+                screenBuffer[startingRow + i][25] = (char) (startingLocationB + i);
+            }
+
+        }
+
+
+
+    }
+
     public static void insertItemList(int startingRow){
         char startingLocation = 'a' ;
 
@@ -209,6 +234,18 @@ public class Buffer {
             screenBuffer[startingRow + i][4 ] = 'g';
             screenBuffer[startingRow + i][5 ] = (char) (startingLocation + i);
         }
+    }
+
+    public static void insertSalesRepStringRepository(SalesRep salesRep, int resultIndex, int listIndex) {
+        int startingRepository = 0;
+        switch (listIndex) {
+            case 1 -> startingRepository = 10;
+            case 2 -> startingRepository = 16;
+            case 3 -> startingRepository = 22;
+        }
+        insertStringIntoRepository(getResultItem() + resultIndex, startingRepository++);
+        insertStringIntoRepository(salesRep.getId(), startingRepository++);
+        insertStringIntoRepository(salesRep.getName(), startingRepository++);
     }
 
     /**
@@ -385,4 +422,6 @@ public class Buffer {
     public static void setAppVersion(String appVersion) {
         Buffer.appVersion = appVersion;
     }
+
+
 }

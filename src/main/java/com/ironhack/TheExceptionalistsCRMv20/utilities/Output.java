@@ -1,5 +1,7 @@
 package com.ironhack.TheExceptionalistsCRMv20.utilities;
 
+import com.ironhack.TheExceptionalistsCRMv20.enums.PrintLayout;
+
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -491,5 +493,36 @@ public class Output {
         System.out.println(DEFAULT + "\n\n\n\n");
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
+    }
+
+    public static void printPage(String uniquePrompt, PrintLayout printLayout){
+        Buffer.resetPromptMessages();
+        Buffer.resetScreenBuffer();
+        Buffer.initStringsRepository();
+        Buffer.setUpLayout();
+        Buffer.setPromptLineTwo(uniquePrompt);
+        Buffer.insertCentralPromptPoints(2);
+        if (printLayout == printLayout.MENU_ON)
+            Buffer.insertOptionsAnchors();
+        Output.printScreen();
+    }
+
+    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout){
+        Buffer.resetPromptMessages();
+        Buffer.resetScreenBuffer();
+        Buffer.initStringsRepository();
+        Buffer.setUpLayout();
+        Buffer.setPromptLineOne(firstPrompt);
+        Buffer.setPromptLineTwo(secondPrompt);
+        Buffer.insertCentralPromptPoints(1);
+        Buffer.insertCentralPromptPoints(2);
+        switch(printLayout){
+            case SOLO_LAYOUT -> Buffer.insertItemSolo();
+            case THREE_LAYOUT -> Buffer.insertItemThree();
+            case LIST_LAYOUT -> Buffer.insertItemList(6);
+        }
+        if (printLayout == PrintLayout.MENU_ON)
+            Buffer.insertOptionsAnchors();
+        Output.printScreen();
     }
 }
