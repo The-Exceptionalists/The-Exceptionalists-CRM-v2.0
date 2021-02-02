@@ -55,7 +55,7 @@ public class Validator {
                 case "show" -> {
                     //Convert switch to if when no more functionalities are added
                     switch (word[1]) {
-                        case "leads", "opportunities", "contacts", "accounts", "salesrep" -> {
+                        case "leads", "opportunities", "contacts", "accounts", "salesreps" -> {
                             return word.length == 2;
                         }
                     }

@@ -12,6 +12,7 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
@@ -56,11 +57,11 @@ public class CommandManager {
             case "new" -> createObject(words[1]);
             case "show" -> showList(words[1]);
             case "convert" -> convertLeadToOpportunity(Integer.parseInt(words[1]));
-            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));
+            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));  //TODO: Add the name of the SalesRep on Lead and Opportunity
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);  //TODO: Create this method to control these reports
+            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
             case "help" -> introduceCommand();
             case "exit" -> saveChangesAndExit();
         }
@@ -106,7 +107,7 @@ public class CommandManager {
                 List<Account> accountList = accountRepository.findAll();
                 printAccountList(accountList, 0);
             }
-            case "salesReps" -> {
+            case "salesreps" -> {
                 List<SalesRep> salesRepList = salesRepRepository.findAll();
                 printSalesRepList(salesRepList, 0);
             }
@@ -117,17 +118,21 @@ public class CommandManager {
     private static void convertLeadToOpportunity(int id) {
         try {
             //Searches a lead, changing the parameter id to the format used in Storage
-            Lead lead = leadRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
+            Lead lead = leadRepository.findById(id).get();
             Contact contact = leadToContact(lead);
             Opportunity opportunity = promptOpportunity(contact);
+            opportunity.setSalesRep(lead.getSalesRep());
+            //TODO: Add the option to add the opportunity and contact on an existing Account
             Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
+            opportunity.setAccount(account);
+            contact.setAccount(account);
             //Adds all objects to the storage class
             contactRepository.save(contact);
             opportunityRepository.save(opportunity);
             accountRepository.save(account);
             leadRepository.deleteById(id);
             //Return an error message if the id is not found
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
             Buffer.setUpLayout();
             Buffer.setPromptLineOne("Lead with id " + id + " not found.");
             Buffer.insertCentralPromptPoints(2);
@@ -249,7 +254,7 @@ public class CommandManager {
         switch (objectType) {
             case "opportunity" -> {
                 try {
-                    Opportunity opportunity = opportunityRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
+                    Opportunity opportunity = opportunityRepository.findById(id).get();
                     Buffer.insertOpportunityStringRepository(opportunity, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Opportunity - press INTRO");
@@ -257,7 +262,7 @@ public class CommandManager {
                     Output.printScreen();
                     Scanner sc = new Scanner(System.in);
                     String next = sc.nextLine();
-                } catch (IllegalArgumentException | NullPointerException e) {
+                } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
                     Buffer.setPromptLineTwo("Lookup Opportunity - press INTRO");
                     Buffer.insertCentralPromptPoints(2);
                     normalOneLinePrint("Opportunity with id " + id + " not found.");
@@ -266,7 +271,7 @@ public class CommandManager {
             }
             case "lead" -> {
                 try {
-                    Lead lead = leadRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
+                    Lead lead = leadRepository.findById(id).get();
                     Buffer.insertLeadStringRepository(lead, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Lead - press INTRO");
@@ -274,7 +279,7 @@ public class CommandManager {
                     Output.printScreen();
                     Scanner sc = new Scanner(System.in);
                     String next = sc.nextLine();
-                } catch (IllegalArgumentException | NullPointerException e) {
+                } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
                     Buffer.setPromptLineTwo("Lookup Lead - press INTRO");
                     Buffer.insertCentralPromptPoints(2);
                     normalOneLinePrint("Lead with id " + id + " not found.");
@@ -283,7 +288,7 @@ public class CommandManager {
             }
             case "contact" -> {
                 try {
-                    Contact contact = contactRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
+                    Contact contact = contactRepository.findById(id).get();
                     Buffer.insertContactStringRepository(contact, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Contact - press INTRO");
@@ -291,7 +296,7 @@ public class CommandManager {
                     Output.printScreen();
                     Scanner sc = new Scanner(System.in);
                     String next = sc.nextLine();
-                } catch (IllegalArgumentException | NullPointerException e) {
+                } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
                     Buffer.setPromptLineTwo("Lookup Contact - press INTRO");
                     Buffer.insertCentralPromptPoints(2);
                     normalOneLinePrint("Contact with id " + id + " not found.");
@@ -300,7 +305,7 @@ public class CommandManager {
             }
             case "account" -> {
                 try {
-                    Account account = accountRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
+                    Account account = accountRepository.findById(id).get();
                     Buffer.insertAccountStringRepository(account, 1, 1);
                     Buffer.insertItemSolo();
                     Buffer.setPromptLineTwo("Lookup Account - press INTRO");
@@ -308,7 +313,7 @@ public class CommandManager {
                     Output.printScreen();
                     Scanner sc = new Scanner(System.in);
                     String next = sc.nextLine();
-                } catch (IllegalArgumentException | NullPointerException e) {
+                } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
                     Buffer.setPromptLineTwo("Lookup Account - press INTRO");
                     Buffer.insertCentralPromptPoints(2);
                     normalOneLinePrint("Account with id " + id + " not found.");
@@ -326,7 +331,7 @@ public class CommandManager {
         String text;
         try {
             //Searches an opportunity, changing the parameter id to the format used in Storage
-            Opportunity opportunity = opportunityRepository.findById(id).get();//TODO: Check if lead exists and return nullpointerexception
+            Opportunity opportunity = opportunityRepository.findById(id).get();
             //Compares the current value of status and it changes only if it's open
             if (opportunity.getStatus() == Status.OPEN) {
                 opportunity.setStatus(close);
@@ -341,7 +346,7 @@ public class CommandManager {
                 normalOneLinePrint(text);
             }
             //Return an error message if the id is not found
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
             text = "Opportunity with id " + id + " not found.";
             normalOneLinePrint(text);
 
@@ -462,9 +467,19 @@ public class CommandManager {
             phoneNumber = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("Phone: " + phoneNumber, 14);
+        text = "SalesRep ID: ";
+        printItemPrompt(text);
+        String salesRepId = sc.nextLine();
+        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+            Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
+            printItemPrompt(text);
+            Buffer.resetPromptOne();
+            salesRepId = sc.nextLine();
+        }
+        Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
         String nextRet = sc.nextLine();
-        return new Lead(name, email, companyName, phoneNumber);
+        return new Lead(name, email, companyName, phoneNumber, salesRepRepository.findById(Integer.parseInt(salesRepId)).get());
     }
 
     private static void printItemPrompt(String text) {
