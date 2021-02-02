@@ -47,7 +47,7 @@ public class Validator {
                 case "new" -> {
                     //Convert switch to if when no more functionalities are added
                     switch (word[1]) {
-                        case "lead" -> {
+                        case "lead", "salesrep" -> {
                             return word.length == 2;
                         }
                     }
@@ -55,7 +55,7 @@ public class Validator {
                 case "show" -> {
                     //Convert switch to if when no more functionalities are added
                     switch (word[1]) {
-                        case "leads", "opportunities", "contacts", "accounts" -> {
+                        case "leads", "opportunities", "contacts", "accounts", "salesrep" -> {
                             return word.length == 2;
                         }
                     }
@@ -63,7 +63,7 @@ public class Validator {
                 case "lookup" -> {
                     //Convert switch to if when no more functionalities are added
                     switch (word[1]) {
-                        case "opportunity", "contact", "lead", "account" -> {
+                        case "opportunity", "contact", "lead", "account", "salesrep" -> {
                             if (word.length == 3) {
                                 return validateNumber(word[2]);
                             }
@@ -74,6 +74,19 @@ public class Validator {
                 case "convert", "close-won", "close-lost" -> {
                     if (word.length == 2) {
                         return validateNumber(word[1]);
+                    }
+                    return false;
+                }
+
+                case "report" -> {
+                    switch (word[1]) {
+                        case "lead", "opportunity", "closed-won", "closed-lost", "open" -> {
+                            switch (word[3]) {
+                                case "salesrep", "product", "country", "city", "industry" -> {
+                                    return word.length == 4 && word[2].equals("by");
+                                }
+                            }
+                        }
                     }
                     return false;
                 }
