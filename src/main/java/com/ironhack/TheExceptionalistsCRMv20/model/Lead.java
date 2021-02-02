@@ -25,11 +25,6 @@ public class Lead extends Item{
         super(name, email, companyName, phoneNumber);
     }
 
-    //Constructor for tests
-    public Lead(String id, String name, String email, String companyName, String phoneNumber, SalesRep salesRep) {
-        super(id, name, email, companyName, phoneNumber);
-        this.salesRep = salesRep;
-    }
 
     //Constructor for a new Lead
     public Lead(String name, String email, String companyName, String phoneNumber, SalesRep salesRep) {

@@ -63,7 +63,8 @@ public class CommandManager {
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[1]);  //TODO: Create this method to control these reports
+            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);  //TODO: Create this method to control these reports
+            case "help" -> introduceCommand();
             case "exit" -> saveChangesAndExit();
         }
     }
@@ -633,8 +634,62 @@ public class CommandManager {
         }
     }
 
-    private static void showStats(String criterion) {
-
+    private static void showStats(String stat, String criterion) {
+        double result = 0;
+        switch (stat) {
+            case "mean" -> {
+                switch (criterion) {
+                    case "employeecount" -> {
+                        result = accountRepository.meanOfEmployeeCount();
+                    }
+                    case "quantity" -> {
+                        result = opportunityRepository.meanOfQuantity();
+                    }
+                    case "opps" -> {
+                        result = accountRepository.meanOfOpportunitiesOnAccounts();
+                    }
+                }
+            }
+            case "median" -> {
+                switch (criterion) {
+                    case "employeecount" -> {
+                        result = accountRepository.medianOfEmployeeCount();
+                    }
+                    case "quantity" -> {
+                        result = opportunityRepository.medianOfQuantity();
+                    }
+                    case "opps" -> {
+                        result = accountRepository.medianOfOpportunitiesOnAccounts();
+                    }
+                }
+            }
+            case "max" -> {
+                switch (criterion) {
+                    case "employeecount" -> {
+                        result = accountRepository.maxOfEmployeeCount();
+                    }
+                    case "quantity" -> {
+                        result = opportunityRepository.maxOfQuantity();
+                    }
+                    case "opps" -> {
+                        result = accountRepository.maxOfOpportunitiesOnAccounts();
+                    }
+                }
+            }
+            case "min" -> {
+                switch (criterion) {
+                    case "employeecount" -> {
+                        result = accountRepository.minOfEmployeeCount();
+                    }
+                    case "quantity" -> {
+                        result = opportunityRepository.minOfQuantity();
+                    }
+                    case "opps" -> {
+                        result = accountRepository.minOfOpportunitiesOnAccounts();
+                    }
+                }
+            }
+        }
     }
 
     //Method to create the command list for printing

@@ -30,12 +30,6 @@ public class Contact extends Item{
         super(name, email, companyName, phoneNumber);
         setAccount(account);
     }
-    //Constructor para test
-
-    public Contact(String id, String name, String email, String companyName, String phoneNumber, Account account) {
-        super(id, name, email, companyName, phoneNumber);
-        this.account = account;
-    }
 
     //Constructor for a new Contact
     public Contact(Integer id, String name, String email, String companyName, String phoneNumber, Account account) {

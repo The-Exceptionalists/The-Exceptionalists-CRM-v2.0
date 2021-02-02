@@ -37,34 +37,34 @@ class LeadRepositoryTest {
     void setUp() {
 
 
-        Account account = accountRepository.save(new Account( "ac001","IKEA", Industry.ECOMMERCE,
+        Account account = accountRepository.save(new Account( 001,"IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain"));
-        Account account2 = accountRepository.save(new Account( "ac002","Muebles julian", Industry.PRODUCE,
+        Account account2 = accountRepository.save(new Account( 002,"Muebles julian", Industry.PRODUCE,
                 23, "Eisenach", "Germany"));
 
-        Contact contact1 = contactRepository.save(new Contact("co001" , "Pedro Luis",
+        Contact contact1 = contactRepository.save(new Contact(001 , "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
-        Contact contact2 = contactRepository.save(new Contact("co002" , "Jens Trittel",
+        Contact contact2 = contactRepository.save(new Contact(002 , "Jens Trittel",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account2));
-        Contact contact3 = contactRepository.save(new Contact("co003" , "Pedro Francisco",
+        Contact contact3 = contactRepository.save(new Contact(003 , "Pedro Francisco",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
 
-        SalesRep salesRep = salesRepRepository.save(new SalesRep("sr005", "Maria Aguilar"));
+        SalesRep salesRep = salesRepRepository.save(new SalesRep(005, "Maria Aguilar"));
 
-        Opportunity opportunity1 = opportunityRepository.save(new Opportunity("op001",Product.HYBRID, 10, contact1,
-                Status.OPEN,  salesRep, account));
-        Opportunity opportunity2 = opportunityRepository.save(new Opportunity("op002",Product.BOX, 10, contact2,
-                Status.OPEN,  salesRep, account2));
-        Opportunity opportunity3 = opportunityRepository.save(new Opportunity("op003",Product.FLATBED, 10, contact3,
-                Status.OPEN,  salesRep, account));
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(001,Product.HYBRID, 10, contact1,
+                Status.OPEN, account, salesRep));
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity(002,Product.BOX, 10, contact2,
+                Status.OPEN,  account, salesRep));
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity(003,Product.FLATBED, 10, contact3,
+                Status.OPEN,  account, salesRep));
 //        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op004",Product.FLATBED, 10, contact1,
 //                Status.OPEN,  salesRep, account));
 
-        Lead lead1 = leadRepository.save(new Lead("le001", "Pedro Luis",
+        Lead lead1 = leadRepository.save(new Lead(001, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", salesRep));
-        Lead lead2 = leadRepository.save(new Lead("le002", "Pedro Juan",
+        Lead lead2 = leadRepository.save(new Lead(002, "Pedro Juan",
                 "pedro.luis@gmail.comm", "Muebles bonicos", "666 333 222 1112", salesRep));
-        Lead lead3 = leadRepository.save(new Lead("le003", "Pedro piedras",
+        Lead lead3 = leadRepository.save(new Lead(003, "Pedro piedras",
                 "pedro.luis@gmail.commm", "Mueblesfeos", "666 333 222 1113", salesRep));
 
     }
