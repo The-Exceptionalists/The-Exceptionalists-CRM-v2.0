@@ -106,6 +106,10 @@ public class CommandManager {
                 List<Account> accountList = accountRepository.findAll();
                 printAccountList(accountList, 0);
             }
+            case "salesReps" -> {
+                List<SalesRep> salesRepList = salesRepRepository.findAll();
+                printSalesRepList(salesRepList, 0);
+            }
         }
     }
 
@@ -598,6 +602,37 @@ public class CommandManager {
 
         } else {
             Buffer.setPromptLineTwo("Accounts List - press INTRO");
+            printScreenBeforeAndPromptNext();
+        }
+    }
+
+    //Method that prints a list of accounts
+    private static void printSalesRepList(List<SalesRep> salesRepList, int index) {
+        Buffer.resetScreenBuffer();
+        Buffer.initStringsRepository();
+        Buffer.resetPromptMessages();
+        Buffer.setUpLayout();
+        Buffer.insertItemList(6);
+
+        int startingRepositoryIndex = 10;
+        int finalCounter = index;
+        for (int i = index; i < salesRepList.size() && i < index + 15; i++) {
+            Buffer.insertStringIntoRepository(salesRepList.get(i).getIdToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(salesRepList.get(i).getNameToPrint(), startingRepositoryIndex++);
+            finalCounter++;
+        }
+        if (finalCounter < salesRepList.size()) {
+            Buffer.setPromptLineOne("SalesReps List");
+            Buffer.insertCentralPromptPoints(1);
+            Buffer.setPromptLineTwo("press INTRO to next page");
+            printScreenBeforeAndPromptNext();
+            printSalesRepList(salesRepList, finalCounter);
+        } else if (salesRepList.size() == 0) {
+            Buffer.setPromptLineTwo("SalesRep leads List - press INTRO");
+            printScreenBeforeAndPromptNext();
+
+        } else {
+            Buffer.setPromptLineTwo("SalesRep List - press INTRO");
             printScreenBeforeAndPromptNext();
         }
     }
