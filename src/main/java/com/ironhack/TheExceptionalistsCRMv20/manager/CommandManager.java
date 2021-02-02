@@ -715,6 +715,9 @@ public class CommandManager {
                 }
             }
         }
+
+        //TODO: Add the outputs
+        System.out.println(result);
     }
 
     //Method to create the command list for printing
