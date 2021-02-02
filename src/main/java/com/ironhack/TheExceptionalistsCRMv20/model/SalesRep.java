@@ -28,6 +28,13 @@ public class SalesRep {
         this.name = name;
     }
 
+    public String getIdToPrint(){
+        return "Id: " + id;
+    }
+    public String getNameToPrint() {
+        return "Name: " + name;
+    }
+
     public Integer getId() {
         return id;
     }
