@@ -1,16 +1,18 @@
 package com.ironhack.TheExceptionalistsCRMv20.repository;
 
 import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
+import com.ironhack.TheExceptionalistsCRMv20.model.SalesRep;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface LeadRepository extends JpaRepository<Lead, Integer> {
+public interface LeadRepository extends JpaRepository<Lead, String> {
 
-    //  Returns a list of names and count of all Leads by SalesRep
+//  Returns a list of names and count of all Leads by SalesRep
     @Query(value = "SELECT s.name, COUNT(*) FROM Lead l JOIN FETCH SalesRep s ON l.salesRep = s.id GROUP BY s.name")
     List<Object[]> countOfLeadsBySalesReps();
 
@@ -39,4 +41,5 @@ public interface LeadRepository extends JpaRepository<Lead, Integer> {
             "JOIN sales_rep s ON s.id = o.sales_rep_id " +
             "JOIN leads l ON s.id = l.sales_rep_id GROUP BY a.industry", nativeQuery = true)
     List<Object[]> countOfLeadsByIndustry();
+
 }

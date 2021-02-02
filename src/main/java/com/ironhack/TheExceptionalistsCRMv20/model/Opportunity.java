@@ -34,6 +34,18 @@ public class Opportunity {
         setStatus(status);
     }
 
+    //Constructor para test
+
+    public Opportunity(String id, Product product, int quantity, Contact decisionMaker, Status status, SalesRep salesRep, Account account) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
+        this.salesRep = salesRep;
+        this.account = account;
+    }
+
     //Constructor for a new Opportunity
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
         setProduct(product);
