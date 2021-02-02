@@ -4,10 +4,7 @@ import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
-import com.ironhack.TheExceptionalistsCRMv20.model.Account;
-import com.ironhack.TheExceptionalistsCRMv20.model.Contact;
-import com.ironhack.TheExceptionalistsCRMv20.model.Lead;
-import com.ironhack.TheExceptionalistsCRMv20.model.Opportunity;
+import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
@@ -76,10 +73,17 @@ public class CommandManager {
 
     //Method that handles the object creation
     private static void createObject(String word) {
-        if ("lead".equals(word)) {
-            Lead lead = promptLead();
-            leadRepository.save(lead);
-            System.out.println("New lead successfully added!");
+        switch (word) {
+            case "lead" -> {
+                Lead lead = promptLead();
+                leadRepository.save(lead);
+                System.out.println("New lead successfully added!");
+            }
+            case "salesrep" -> {
+                SalesRep salesRep = promptSalesRep();
+                salesRepRepository.save(salesRep);
+                System.out.println("New SalesRep successfully added!");
+            }
         }
     }
 
@@ -385,6 +389,27 @@ public class CommandManager {
             }
         }
         return null;
+    }
+
+    //Prompts all required parameters for the SalesRep creation
+    private static SalesRep promptSalesRep() {
+        Buffer.initStringsRepository();
+        Buffer.resetPromptMessages();
+        Buffer.insertStringIntoRepository("New SalesRep creation", 7);
+        String text = "Insert SalesRep name:";
+        Scanner sc = new Scanner(System.in);
+        printItemPrompt(text);
+        String name = sc.nextLine();
+        while (!Validator.validateName(name)) {
+            Buffer.setPromptLineOne("Enter a correct name");
+            printItemPrompt(text);
+            Buffer.resetPromptOne();
+            name = sc.nextLine();
+        }
+        Buffer.insertStringIntoRepository("Name: " + name, 11);
+        printItemPrompt("SalesRep Created! - press INTRO");
+        String nextRet = sc.nextLine();
+        return new SalesRep(name);
     }
 
     //Prompts all required parameters for the lead creation
