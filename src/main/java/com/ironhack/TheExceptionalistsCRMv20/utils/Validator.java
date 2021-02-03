@@ -91,6 +91,18 @@ public class Validator {
                     return false;
                 }
 
+                case "mean", "median", "max", "min" -> {
+                    switch (word[1]) {
+                        case "employeecount", "quantity" -> {
+                            return word.length == 2;
+                        }
+                        case "opps" -> {
+                            return word[2].equals("per") && word[3].equals("account");
+                        }
+                    }
+                    return false;
+                }
+
             }
         } else if (word.length == 1) {
             if (word[0].equals("help")) {
