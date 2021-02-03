@@ -1,5 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.repository;
 
+import com.ironhack.TheExceptionalistsCRMv20.Application;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class AccountRepositoryTest {
 
     @Autowired
