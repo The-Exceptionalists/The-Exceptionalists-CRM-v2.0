@@ -2,6 +2,7 @@ package com.ironhack.TheExceptionalistsCRMv20.manager;
 
 import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
+import com.ironhack.TheExceptionalistsCRMv20.enums.PrintLayout;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
@@ -22,6 +23,8 @@ public class CommandManager {
     private static OpportunityRepository opportunityRepository;
     private static AccountRepository accountRepository;
     private static SalesRepRepository salesRepRepository;
+    private static String normalPrompt = "Introduce a command from the list:";
+    private static String errorPrompt = "";
 
 
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
@@ -34,11 +37,8 @@ public class CommandManager {
 
     public static void introduceCommand() {
         CommandManager.setCommandList();
-        Buffer.setUpLayout();
-        Buffer.setPromptLineTwo("Introduce a command from the list:");
-        Buffer.insertCentralPromptPoints(2);
-        Buffer.insertCentralPromptPoints(1);
-        Output.printScreen();
+        Output.printPage(errorPrompt, normalPrompt, PrintLayout.MENU_ON, false);
+        errorPrompt = "";
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
         command = command.toLowerCase();
@@ -46,7 +46,7 @@ public class CommandManager {
         if (Validator.validateCommand(command)) {
             processCommand(command);
         } else {
-            Buffer.setPromptLineOne("Command not found");
+            errorPrompt = "Command not found";
         }
     }
 
@@ -62,7 +62,8 @@ public class CommandManager {
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
             case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
-            case "help" -> introduceCommand();
+//            case "help" -> introduceCommand();
+            case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
     }
@@ -71,6 +72,13 @@ public class CommandManager {
         ConsoleApp.ctx.close();
         System.exit(0);
     }
+
+    private static void helpPage(){
+        Output.printHelpPage();
+        Scanner sc = new Scanner(System.in);
+        String command = sc.nextLine();
+    }
+
 
     //Method that handles the object creation
     private static void createObject(String word) {
@@ -472,6 +480,7 @@ public class CommandManager {
         String salesRepId = sc.nextLine();
         while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
             Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
+            //TODO if you "gionni"it it dies. Dont be like gionni. Springs Lives Matters
             printItemPrompt(text);
             Buffer.resetPromptOne();
             salesRepId = sc.nextLine();
@@ -785,8 +794,8 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Close Opportunity as won", 50);
         Buffer.insertStringIntoRepository("CLOSE-LOST <Id>", 51);
         Buffer.insertStringIntoRepository("Close Opportunity as lost", 52);
-        Buffer.insertStringIntoRepository("", 53);
-        Buffer.insertStringIntoRepository("", 54);
+        Buffer.insertStringIntoRepository("HELP", 53);
+        Buffer.insertStringIntoRepository("Shows more commands available", 54);
         Buffer.insertStringIntoRepository("EXIT", 55);
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
     }
