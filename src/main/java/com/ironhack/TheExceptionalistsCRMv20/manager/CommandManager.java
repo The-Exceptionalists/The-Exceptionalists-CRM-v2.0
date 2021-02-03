@@ -162,32 +162,37 @@ public class CommandManager {
                 printItemPrompt(text);
                 sc = new Scanner(System.in);
                 String accountId = sc.nextLine();
-                while(Validator.validateNumber(accountId) && !accountRepository.existsById(Integer.parseInt(accountId))) {
+                while(Validator.validateNumber(accountId) && accountRepository.findById(Integer.parseInt(accountId)).isEmpty()) {
                     Buffer.setPromptLineOne("Enter a valid and existing Account ID.");
                     printItemPrompt(text);
                     Buffer.resetPromptOne();
                     sc = new Scanner(System.in);
                     accountId = sc.nextLine();
                 }
-                Account account = accountRepository.findById(Integer.parseInt(accountId)).get();
-                opportunity.setAccount(account);
-                contact.setAccount(account);
+                Account accountForOpp = accountRepository.findByIdFetchOpp(Integer.parseInt(accountId)).get();
+                Account accountForCon = accountRepository.findByIdFetchCon(Integer.parseInt(accountId)).get();
+                opportunity.setAccount(accountForOpp);
+                contact.setAccount(accountForCon);
                 //Adds all objects to the storage class
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
                 leadRepository.deleteById(id);
-                printItemPrompt("New Account created - press INTRO");
-                String retNext = sc.nextLine();
+                printItemPrompt("Contact and Opportunity added to the specified account - press INTRO");
+                sc.nextLine();
             }
             //Return an error message if the id is not found
         } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
-            Buffer.setUpLayout();
-            Buffer.setPromptLineOne("Lead with id " + id + " not found.");
+            Buffer.setPromptLineTwo("Convert Lead - press INTRO");
             Buffer.insertCentralPromptPoints(2);
-            Buffer.insertCentralPromptPoints(1);
-            Output.printScreen();
-            Scanner sc = new Scanner(System.in);
-            String retScanner = sc.nextLine();
+            normalOneLinePrint("Lead with id " + id + " not found.");
+            Buffer.resetPromptMessages();
+//            Buffer.setUpLayout();
+//            Buffer.setPromptLineOne("Lead with id " + id + " not found.");
+//            Buffer.insertCentralPromptPoints(2);
+//            Buffer.insertCentralPromptPoints(1);
+//            Output.printScreen();
+//            Scanner sc = new Scanner(System.in);
+//            String retScanner = sc.nextLine();
 
         }
     }
@@ -557,6 +562,7 @@ public class CommandManager {
         for (int i = index; i < leadList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository(leadList.get(i).getIdToPrint(), startingRepositoryIndex++);
             Buffer.insertStringIntoRepository(leadList.get(i).getNameToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(leadList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < leadList.size()) {
@@ -595,6 +601,7 @@ public class CommandManager {
         for (int i = index; i < opportunityList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository(opportunityList.get(i).getIdToPrint(), startingRepositoryIndex++);
             Buffer.insertStringIntoRepository(opportunityList.get(i).getDecisionMaker().getNameToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(opportunityList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < opportunityList.size()) {
@@ -606,7 +613,6 @@ public class CommandManager {
         } else if (opportunityList.size() == 0) {
             Buffer.setPromptLineTwo("Empty Opportunities List - press INTRO");
             printScreenBeforeAndPromptNext();
-
         } else {
             Buffer.setPromptLineTwo("Opportunities List - press INTRO");
             printScreenBeforeAndPromptNext();
