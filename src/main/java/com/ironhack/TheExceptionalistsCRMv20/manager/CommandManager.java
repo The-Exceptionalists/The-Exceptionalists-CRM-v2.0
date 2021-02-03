@@ -6,8 +6,8 @@ import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
 import java.util.ArrayList;

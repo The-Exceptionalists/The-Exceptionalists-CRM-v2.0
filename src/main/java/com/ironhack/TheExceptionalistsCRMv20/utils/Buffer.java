@@ -1,4 +1,4 @@
-package com.ironhack.TheExceptionalistsCRMv20.utilities;
+package com.ironhack.TheExceptionalistsCRMv20.utils;
 
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 
