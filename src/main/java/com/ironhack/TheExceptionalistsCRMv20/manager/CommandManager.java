@@ -57,7 +57,7 @@ public class CommandManager {
             case "new" -> createObject(words[1]);
             case "show" -> showList(words[1]);
             case "convert" -> convertLeadToOpportunity(Integer.parseInt(words[1]));
-            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));  //TODO: Add the name of the SalesRep on Lead and Opportunity
+            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
