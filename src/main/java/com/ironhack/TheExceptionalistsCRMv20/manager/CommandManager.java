@@ -84,6 +84,11 @@ public class CommandManager {
     private static void createObject(String word) {
         switch (word) {
             case "lead" -> {
+                if(salesRepRepository.count() == 0L){
+                    //TODO: add a message, to tell the user, we need at least a salesRep. if not we go into a endless cicle.
+                    System.out.println("You should add at least a salesRep, before create a lead");
+                    introduceCommand();
+                };
                 Lead lead = promptLead();
                 leadRepository.save(lead);
                 System.out.println("New lead successfully added!");
@@ -478,12 +483,17 @@ public class CommandManager {
         text = "SalesRep ID: ";
         printItemPrompt(text);
         String salesRepId = sc.nextLine();
-        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+        while(!Validator.validateNumber(salesRepId)) {
             Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
-            //TODO if you "gionni"it it dies. Dont be like gionni. Springs Lives Matters
             printItemPrompt(text);
             Buffer.resetPromptOne();
             salesRepId = sc.nextLine();
+        }
+        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+                Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
+                printItemPrompt(text);
+                Buffer.resetPromptOne();
+                salesRepId = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
