@@ -135,15 +135,50 @@ public class CommandManager {
             Contact contact = leadToContact(lead);
             Opportunity opportunity = promptOpportunity(contact);
             opportunity.setSalesRep(lead.getSalesRep());
-            //TODO: Add the option to add the opportunity and contact on an existing Account
-            Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
-            opportunity.setAccount(account);
-            contact.setAccount(account);
-            //Adds all objects to the storage class
-            contactRepository.save(contact);
-            opportunityRepository.save(opportunity);
-            accountRepository.save(account);
-            leadRepository.deleteById(id);
+            Buffer.resetPromptMessages();
+            String text = "Do you want to create a new Account? (YES / NO)";
+            printItemPrompt(text);
+            Scanner sc = new Scanner(System.in);
+            String createNewAccount = sc.nextLine();
+            createNewAccount.toLowerCase();
+            while(!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
+                Buffer.setPromptLineOne("Enter a correct response.");
+                printItemPrompt(text);
+                Buffer.resetPromptOne();
+                sc = new Scanner(System.in);
+                createNewAccount = sc.nextLine().toLowerCase();
+            }
+            if(createNewAccount.equals("yes")) {
+                Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
+                opportunity.setAccount(account);
+                contact.setAccount(account);
+                //Adds all objects to the storage class
+                contactRepository.save(contact);
+                opportunityRepository.save(opportunity);
+                accountRepository.save(account);
+                leadRepository.deleteById(id);
+            } else {
+                text = "Enter an Account ID:";
+                printItemPrompt(text);
+                sc = new Scanner(System.in);
+                String accountId = sc.nextLine();
+                while(Validator.validateNumber(accountId) && !accountRepository.existsById(Integer.parseInt(accountId))) {
+                    Buffer.setPromptLineOne("Enter a valid and existing Account ID.");
+                    printItemPrompt(text);
+                    Buffer.resetPromptOne();
+                    sc = new Scanner(System.in);
+                    accountId = sc.nextLine();
+                }
+                Account account = accountRepository.findById(Integer.parseInt(accountId)).get();
+                opportunity.setAccount(account);
+                contact.setAccount(account);
+                //Adds all objects to the storage class
+                contactRepository.save(contact);
+                opportunityRepository.save(opportunity);
+                leadRepository.deleteById(id);
+                printItemPrompt("New Account created - press INTRO");
+                String retNext = sc.nextLine();
+            }
             //Return an error message if the id is not found
         } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
             Buffer.setUpLayout();
