@@ -48,7 +48,7 @@ public class ConsoleApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Output.introResolutionAlert();
+//        Output.introResolutionAlert();
         Buffer.initStringsRepository();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
         while (true) {

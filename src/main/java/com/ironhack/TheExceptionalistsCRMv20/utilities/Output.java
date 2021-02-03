@@ -182,6 +182,12 @@ public class Output {
                     }
                     case 'g' -> {
                         switch (Buffer.screenBuffer[i][j + 1]) {
+                            case '1' -> {
+                                System.out.print(DARK_GREY_BCK+ BOLD + UNDERLINE
+                                        + insertText(Buffer.getStringFromRepository(10) + BLOCK
+                                        + Buffer.getStringFromRepository(11), 40) + DEFAULT);
+                                j += 19;
+                            }
                             case 'a' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(10) + BLOCK
@@ -282,6 +288,12 @@ public class Output {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(42) + BLOCK
                                         + Buffer.getStringFromRepository(43), 40) + DEFAULT);
+                                j += 19;
+                            }
+                            case 'r' -> {
+                                System.out.print(DARK_GREY_BCK
+                                        + insertText(Buffer.getStringFromRepository(44) + BLOCK
+                                        + Buffer.getStringFromRepository(45), 40) + DEFAULT);
                                 j += 19;
                             }
 
@@ -507,10 +519,43 @@ public class Output {
         Output.printScreen();
     }
 
+    public static void printHelpPage(){
+        Buffer.resetPromptMessages();
+        Buffer.resetScreenBuffer();
+        Buffer.initStringsRepository();
+        Buffer.setUpLayout();
+        Buffer.setPromptLineTwo("Press INTRO to continue");
+        Buffer.insertCentralPromptPoints(2);
+        Buffer.insertItemList(6);
+        Buffer.prepareHelpPage();
+        Output.printScreen();
+    }
+
     public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout){
         Buffer.resetPromptMessages();
         Buffer.resetScreenBuffer();
         Buffer.initStringsRepository();
+        Buffer.setUpLayout();
+        Buffer.setPromptLineOne(firstPrompt);
+        Buffer.setPromptLineTwo(secondPrompt);
+        Buffer.insertCentralPromptPoints(1);
+        Buffer.insertCentralPromptPoints(2);
+        switch(printLayout){
+            case SOLO_LAYOUT -> Buffer.insertItemSolo();
+            case THREE_LAYOUT -> Buffer.insertItemThree();
+            case LIST_LAYOUT -> Buffer.insertItemList(6);
+        }
+        if (printLayout == PrintLayout.MENU_ON)
+            Buffer.insertOptionsAnchors();
+        Output.printScreen();
+    }
+
+    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout, boolean resetPromptMessages){
+        if (resetPromptMessages){
+            Buffer.resetPromptMessages();
+            Buffer.initStringsRepository();
+        }
+        Buffer.resetScreenBuffer();
         Buffer.setUpLayout();
         Buffer.setPromptLineOne(firstPrompt);
         Buffer.setPromptLineTwo(secondPrompt);
