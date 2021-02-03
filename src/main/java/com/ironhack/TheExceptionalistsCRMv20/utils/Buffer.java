@@ -286,6 +286,8 @@ public class Buffer {
         insertStringIntoRepository(lead.getPhoneNumberToPrint(), startingRepository++);
         insertStringIntoRepository(lead.getEmailToPrint(), startingRepository++);
         insertStringIntoRepository(lead.getCompanyNameToPrint(), startingRepository++);
+        insertStringIntoRepository(lead.getSalesRepToPrint(), startingRepository++);
+
     }
 
     /**
