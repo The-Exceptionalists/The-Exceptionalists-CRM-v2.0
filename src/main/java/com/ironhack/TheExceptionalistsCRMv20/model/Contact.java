@@ -6,7 +6,7 @@ import javax.persistence.*;
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "contacts")
 public class Contact extends Item{
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Account account;
 
     @OneToOne(mappedBy = "decisionMaker")

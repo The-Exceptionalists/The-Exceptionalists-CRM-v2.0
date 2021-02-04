@@ -229,22 +229,21 @@ public class Buffer {
 
     public static void prepareHelpPage(){
         int startingRepository = 10;
-//        screenBuffer[7][5 ] = '1';
-        insertStringIntoRepository("List of Commands Available", startingRepository += 2);
-        insertStringIntoRepository("", startingRepository += 2);
+        insertStringIntoRepository("List of Commands Available:", startingRepository += 2);
         insertStringIntoRepository("NEW LEAD", startingRepository += 2);
         insertStringIntoRepository("SHOW <ObjectInPlural>: Show a list of objects", startingRepository += 2);
         insertStringIntoRepository("CONVERT ID: Start the process to convert a lead to opportunity", startingRepository += 2);
         insertStringIntoRepository("LOOKUP <Object> <Id>: Show an object by his id", startingRepository += 2);
-        insertStringIntoRepository("CLOSE-WON <Id>: ", startingRepository += 2);
-        insertStringIntoRepository("CLOSE-Close <Id>:", startingRepository += 2);
-        insertStringIntoRepository("REPORT", startingRepository += 2);
-        insertStringIntoRepository("MEAN", startingRepository += 2);
-        insertStringIntoRepository("MEDIAN", startingRepository += 2);
-        insertStringIntoRepository("MAX", startingRepository += 2);
-        insertStringIntoRepository("MIN", startingRepository += 2);
-        insertStringIntoRepository("HELP", startingRepository += 2);
-        insertStringIntoRepository("EXIT", startingRepository += 2);
+        insertStringIntoRepository("CLOSE-WON <Id>: Closes an opportunity and marks it as won", startingRepository += 2);
+        insertStringIntoRepository("CLOSE-Close <Id>: Closes an opportunity and marks it as lost", startingRepository += 2);
+        insertStringIntoRepository("REPORT <Lead/Opportunity/CLOSED-WON/CLOSED-LOST/OPEN>", startingRepository += 2);
+        insertStringIntoRepository("          by <SalesRep/Product/Country/City/Industry>", startingRepository += 2);
+        insertStringIntoRepository("MEAN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("MEDIAN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("MAX <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("MIN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("HELP : Already here!", startingRepository += 2);
+        insertStringIntoRepository("EXIT : Exists the application.", startingRepository += 2);
 
     }
 

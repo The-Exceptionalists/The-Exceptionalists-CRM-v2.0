@@ -29,7 +29,7 @@ public class SalesRep {
     }
 
     public String getIdToPrint(){
-        return "Id: " + id;
+        return "SalesRep Id: " + id;
     }
     public String getNameToPrint() {
         return "Name: " + name;
