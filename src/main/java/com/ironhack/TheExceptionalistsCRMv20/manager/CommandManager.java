@@ -11,7 +11,6 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
-import java.io.OutputStream;
 import java.util.*;
 
 
@@ -178,7 +177,7 @@ public class CommandManager {
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
                 leadRepository.deleteById(id);
-                printItemPrompt("Contact and Opportunity added to the specified account - press INTRO");
+                printItemPrompt("Contact and Opportunity added - press INTRO");
                 sc.nextLine();
             }
             //Return an error message if the id is not found
