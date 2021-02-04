@@ -526,7 +526,6 @@ public class CommandManager {
             phoneNumber = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("Phone: " + phoneNumber, 14);
-//        text = "Insert SalesRep ID: ";
         String salesRepId = promptSalesRepId();
         Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
@@ -542,7 +541,6 @@ public class CommandManager {
             showList("salesreps");
             salesRepId = promptSalesRepId();
         } else {
-
             while (!Validator.validateNumber(salesRepId)) {
                 if (salesRepId.toLowerCase().startsWith("show") || salesRepId.toLowerCase().startsWith("show ")) {
                     salesRepId = promptSalesRepId();
