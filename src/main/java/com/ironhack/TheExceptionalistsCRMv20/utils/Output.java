@@ -381,12 +381,12 @@ public class Output {
                                 j += 13;
                             }
                             case 'n' -> {
-                                System.out.print(LIGHT_GREY_BCK + DARK_TEXT
+                                System.out.print(LIGHT_GREY_BCK + BLACK_TEXT + BOLD
                                         + insertText(Buffer.getStringFromRepository(53), 28) + DEFAULT);
                                 j += 13;
                             }
                             case 'o' -> {
-                                System.out.print(LIGHT_GREY_BCK + BLACK_TEXT + BOLD
+                                System.out.print(LIGHT_GREY_BCK + DARK_TEXT
                                         + insertText(Buffer.getStringFromRepository(54), 28) + DEFAULT);
                                 j += 13;
                             }
