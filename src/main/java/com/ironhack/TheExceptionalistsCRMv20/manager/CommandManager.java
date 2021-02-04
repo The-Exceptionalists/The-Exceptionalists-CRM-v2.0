@@ -11,6 +11,7 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
+import java.io.OutputStream;
 import java.util.*;
 
 
@@ -58,7 +59,7 @@ public class CommandManager {
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
+            case "mean", "median", "max", "min" -> showStats(words[0], words[1]);
             case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
@@ -69,7 +70,7 @@ public class CommandManager {
         System.exit(0);
     }
 
-    private static void helpPage(){
+    private static void helpPage() {
         Output.printHelpPage();
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
@@ -80,14 +81,15 @@ public class CommandManager {
     private static void createObject(String word) {
         switch (word) {
             case "lead" -> {
-                if(salesRepRepository.count() == 0L){
+                if (salesRepRepository.count() == 0L) {
                     //TODO: add a message, to tell the user, we need at least a salesRep. if not we go into a endless cicle.
                     Output.printPage("You should add at least a salesRep, before create a lead", "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
 //                    System.out.println("You should add at least a salesRep, before create a lead");
                     Scanner sc = new Scanner(System.in);
                     sc.nextLine();
                     introduceCommand();
-                };
+                }
+                ;
                 Lead lead = promptLead();
                 leadRepository.save(lead);
 //                System.out.println("New lead successfully added!");
@@ -141,14 +143,14 @@ public class CommandManager {
             Scanner sc = new Scanner(System.in);
             String createNewAccount = sc.nextLine();
             createNewAccount.toLowerCase();
-            while(!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
+            while (!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
                 Buffer.setPromptLineOne("Enter a correct response.");
                 printItemPrompt(text);
                 Buffer.resetPromptOne();
                 sc = new Scanner(System.in);
                 createNewAccount = sc.nextLine().toLowerCase();
             }
-            if(createNewAccount.equals("yes")) {
+            if (createNewAccount.equals("yes")) {
                 Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
                 opportunity.setAccount(account);
                 contact.setAccount(account);
@@ -169,10 +171,9 @@ public class CommandManager {
                     sc = new Scanner(System.in);
                     accountId = sc.nextLine();
                 }
-                Account accountForOpp = accountRepository.findByIdFetchOpp(Integer.parseInt(accountId)).get();
-                Account accountForCon = accountRepository.findByIdFetchCon(Integer.parseInt(accountId)).get();
-                opportunity.setAccount(accountForOpp);
-                contact.setAccount(accountForCon);
+                Account account = accountRepository.findById(Integer.parseInt(accountId)).get();
+                opportunity.setAccount(account);
+                contact.setAccount(account);
                 //Adds all objects to the storage class
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
@@ -541,17 +542,27 @@ public class CommandManager {
         text = "SalesRep ID: ";
         printItemPrompt(text);
         String salesRepId = sc.nextLine();
-        while(!Validator.validateNumber(salesRepId)) {
-            Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
-            printItemPrompt(text);
-            Buffer.resetPromptOne();
-            salesRepId = sc.nextLine();
-        }
-        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+        if (salesRepId.toLowerCase().startsWith("show ")) {
+            showList("salesreps");
+        } else {
+            while (!Validator.validateNumber(salesRepId)) {
+                if (salesRepId.startsWith("show")){
+                    showList("salesreps");
+                }
                 Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
                 printItemPrompt(text);
                 Buffer.resetPromptOne();
                 salesRepId = sc.nextLine();
+            }
+            while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+                if (salesRepId.startsWith("show")) {
+                    showList("salesreps");
+                }
+                Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
+                printItemPrompt(text);
+                Buffer.resetPromptOne();
+                salesRepId = sc.nextLine();
+            }
         }
         Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
@@ -631,6 +642,7 @@ public class CommandManager {
         } else if (opportunityList.size() == 0) {
             Buffer.setPromptLineTwo("Empty Opportunities List - press INTRO");
             printScreenBeforeAndPromptNext();
+
         } else {
             Buffer.setPromptLineTwo("Opportunities List - press INTRO");
             printScreenBeforeAndPromptNext();
