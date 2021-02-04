@@ -25,7 +25,8 @@ spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
    
 5. Create the next Schema into your MySQL.
 
-https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/CRM_database.sql
+[MySQL Schema](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/CRM_database.sql)
+
 
 4. Run the ConsoleApp.java file on the path:
 
