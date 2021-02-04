@@ -11,7 +11,6 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
-import java.io.OutputStream;
 import java.util.*;
 
 
@@ -187,13 +186,6 @@ public class CommandManager {
             Buffer.insertCentralPromptPoints(2);
             normalOneLinePrint("Lead with id " + id + " not found.");
             Buffer.resetPromptMessages();
-//            Buffer.setUpLayout();
-//            Buffer.setPromptLineOne("Lead with id " + id + " not found.");
-//            Buffer.insertCentralPromptPoints(2);
-//            Buffer.insertCentralPromptPoints(1);
-//            Output.printScreen();
-//            Scanner sc = new Scanner(System.in);
-//            String retScanner = sc.nextLine();
 
         }
     }
@@ -590,8 +582,8 @@ public class CommandManager {
         int finalCounter = index;
         for (int i = index; i < leadList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository(leadList.get(i).getIdToPrint(), startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository(leadList.get(i).getNameToPrint(), startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository(leadList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(leadList.get(i).getNameToPrint() + "  " +
+                    leadList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < leadList.size()) {
@@ -629,8 +621,8 @@ public class CommandManager {
         int finalCounter = index;
         for (int i = index; i < opportunityList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository(opportunityList.get(i).getIdToPrint(), startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository(opportunityList.get(i).getDecisionMaker().getNameToPrint(), startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository(opportunityList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(opportunityList.get(i).getDecisionMaker().getNameToPrint() + "  " +
+                    opportunityList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < opportunityList.size()) {
