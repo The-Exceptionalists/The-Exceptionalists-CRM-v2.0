@@ -61,7 +61,10 @@ public class Buffer {
     private static String appVersion = "ver: 1.0";
 
 
+
     private static String[] stringsRepository;
+
+
 
     public static void initStringsRepository(){
         stringsRepository = new String[60];
@@ -441,6 +444,12 @@ public class Buffer {
     public static void setAppVersion(String appVersion) {
         Buffer.appVersion = appVersion;
     }
+    public static String[] getStringsRepository() {
+        return stringsRepository;
+    }
 
+    public static void setStringsRepository(String[] stringsRepository) {
+        Buffer.stringsRepository = stringsRepository;
+    }
 
 }
