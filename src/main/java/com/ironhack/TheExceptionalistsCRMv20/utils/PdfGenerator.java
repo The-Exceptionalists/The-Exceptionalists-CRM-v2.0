@@ -15,11 +15,12 @@ import java.util.*;
 
 public class PdfGenerator {
 
-    private LeadRepository leadRepository;
-    private OpportunityRepository opportunityRepository;
-    private AccountRepository accountRepository;
-    private SalesRepRepository salesRepRepository;
-    private ContactRepository contactRepository;
+    private static LeadRepository leadRepository;
+    private static OpportunityRepository opportunityRepository;
+    private static AccountRepository accountRepository;
+    private static SalesRepRepository salesRepRepository;
+    private static ContactRepository contactRepository;
+
 
     //Report
     private List<Object[]> leadsBySalesReps = leadRepository.countOfLeadsBySalesReps();
@@ -63,30 +64,25 @@ public class PdfGenerator {
             Font.BOLD);
 
 
-    public PdfGenerator(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
-        this.leadRepository = leadRepository;
-        this.contactRepository = contactRepository;
-        this.opportunityRepository = opportunityRepository;
-        this.accountRepository = accountRepository;
-        this.salesRepRepository = salesRepRepository;
 
+
+    public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
+        PdfGenerator.leadRepository = leadRepository;
+        PdfGenerator.contactRepository = contactRepository;
+        PdfGenerator.opportunityRepository = opportunityRepository;
+        PdfGenerator.accountRepository = accountRepository;
+        PdfGenerator.salesRepRepository = salesRepRepository;
     }
 
 
-    public void generatePdf() {
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
-        try {
-            PdfWriter.getInstance(document, new FileOutputStream("igenerate.pdf"));
+    public static void generatePdf() throws DocumentException, FileNotFoundException {
+        Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream("generate.pdf"));
             document.open();
-            document.addTitle("Crm Test");
-
-
-
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+            addMetaData(document);
+            addTitlePage(document);
+            addContent(document);
+            document.close();
 
 
     }
@@ -228,7 +224,6 @@ public class PdfGenerator {
 
 
     public void createPdf() throws IOException {
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         String filename = "sample.pdf";
         String message = "CRM Report";
 

@@ -46,12 +46,14 @@ public class ConsoleApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //Init init = new Init(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
-        //init.addLeads();
-        //init.addAccounts();
+        Init init = new Init(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
+        init.addLeads();
+        init.addAccounts();
         Output.introResolutionAlert();
         Buffer.initStringsRepository();
+        PdfGenerator.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
+
         while (true) {
             CommandManager.introduceCommand();
         }

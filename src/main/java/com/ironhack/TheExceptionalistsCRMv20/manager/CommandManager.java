@@ -7,10 +7,10 @@ import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
+import com.ironhack.TheExceptionalistsCRMv20.utils.*;
+import com.itextpdf.text.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,6 +33,13 @@ public class CommandManager {
         CommandManager.opportunityRepository = opportunityRepository;
         CommandManager.accountRepository = accountRepository;
         CommandManager.salesRepRepository = salesRepRepository;
+        try {
+            PdfGenerator.generatePdf();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void introduceCommand() {
