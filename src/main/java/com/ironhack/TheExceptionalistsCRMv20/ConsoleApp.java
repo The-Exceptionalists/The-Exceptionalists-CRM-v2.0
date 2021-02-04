@@ -41,7 +41,6 @@ public class ConsoleApp implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleApp.class);
 
 
-
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         ctx = SpringApplication.run(ConsoleApp.class, args);
     }
