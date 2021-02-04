@@ -42,7 +42,7 @@ public class Lead extends Item {
         return salesRep;
     }
 
-    public String getSalesRepToPrint(){
+    public String getSalesRepToPrint() {
         return "SalesRep: " + salesRep.getName();
     }
 

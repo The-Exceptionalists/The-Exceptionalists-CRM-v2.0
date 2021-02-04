@@ -15,35 +15,35 @@ public class Init {
 
     public void addLeads() {
 
-            Account account = accountRepository.save(new Account(id++, "IKEA", Industry.ECOMMERCE,
-                    200, "Madrid", "Spain"));
-            Account account2 = accountRepository.save(new Account(id++, "Muebles julian", Industry.PRODUCE,
-                    23, "Eisenach", "Germany"));
+        Account account = accountRepository.save(new Account(id++, "IKEA", Industry.ECOMMERCE,
+                200, "Madrid", "Spain"));
+        Account account2 = accountRepository.save(new Account(id++, "Muebles julian", Industry.PRODUCE,
+                23, "Eisenach", "Germany"));
 
-            Contact contact1 = contactRepository.save(new Contact(id++, "Pedro Luis",
-                    "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
-            Contact contact2 = contactRepository.save(new Contact(id++, "Jens Trittel",
-                    "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account2));
-            Contact contact3 = contactRepository.save(new Contact(id++, "Pedro Francisco",
-                    "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
+        Contact contact1 = contactRepository.save(new Contact(id++, "Pedro Luis",
+                "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
+        Contact contact2 = contactRepository.save(new Contact(id++, "Jens Trittel",
+                "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account2));
+        Contact contact3 = contactRepository.save(new Contact(id++, "Pedro Francisco",
+                "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
 
-            SalesRep salesRep = salesRepRepository.save(new SalesRep(id++, "Maria Aguilar"));
+        SalesRep salesRep = salesRepRepository.save(new SalesRep(id++, "Maria Aguilar"));
 
-            Opportunity opportunity1 = opportunityRepository.save(new Opportunity(id++, Product.HYBRID, 10, contact1,
-                    Status.OPEN, account, salesRep));
-            Opportunity opportunity2 = opportunityRepository.save(new Opportunity(id++, Product.BOX, 10, contact2,
-                    Status.OPEN, account, salesRep));
-            Opportunity opportunity3 = opportunityRepository.save(new Opportunity(id++, Product.FLATBED, 10, contact3,
-                    Status.OPEN, account, salesRep));
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(id++, Product.HYBRID, 10, contact1,
+                Status.OPEN, account, salesRep));
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity(id++, Product.BOX, 10, contact2,
+                Status.OPEN, account, salesRep));
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity(id++, Product.FLATBED, 10, contact3,
+                Status.OPEN, account, salesRep));
 //        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op004",Product.FLATBED, 10, contact1,
 //                Status.OPEN,  salesRep, account));
 
-            Lead lead1 = leadRepository.save(new Lead(id++, "Pedro Luis",
-                    "pedro.luis@gmail.com", "IKEA", "666 333 222 111", salesRep));
-            Lead lead2 = leadRepository.save(new Lead(id++, "Pedro Juan",
-                    "pedro.luis@gmail.comm", "Muebles bonicos", "666 333 222 1112", salesRep));
-            Lead lead3 = leadRepository.save(new Lead(id++, "Pedro piedras",
-                    "pedro.luis@gmail.commm", "Mueblesfeos", "666 333 222 1113", salesRep));
+        Lead lead1 = leadRepository.save(new Lead(id++, "Pedro Luis",
+                "pedro.luis@gmail.com", "IKEA", "666 333 222 111", salesRep));
+        Lead lead2 = leadRepository.save(new Lead(id++, "Pedro Juan",
+                "pedro.luis@gmail.comm", "Muebles bonicos", "666 333 222 1112", salesRep));
+        Lead lead3 = leadRepository.save(new Lead(id++, "Pedro piedras",
+                "pedro.luis@gmail.commm", "Mueblesfeos", "666 333 222 1113", salesRep));
 
     }
 
@@ -90,10 +90,10 @@ public class Init {
     }
 
     public Init(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
-            this.leadRepository = leadRepository;
-            this.contactRepository = contactRepository;
-            this.opportunityRepository = opportunityRepository;
-            this.accountRepository = accountRepository;
-            this.salesRepRepository = salesRepRepository;
+        this.leadRepository = leadRepository;
+        this.contactRepository = contactRepository;
+        this.opportunityRepository = opportunityRepository;
+        this.accountRepository = accountRepository;
+        this.salesRepRepository = salesRepRepository;
     }
 }

@@ -26,7 +26,6 @@ public class CommandManager {
     private static List<String> commandList;
 
 
-
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
         CommandManager.leadRepository = leadRepository;
         CommandManager.contactRepository = contactRepository;
@@ -40,15 +39,15 @@ public class CommandManager {
         HashMap<String, List<Object[]>> hashMap = new HashMap<>();
         HashMap<String, Double> stats = new HashMap<>();
 
-        hashMap.put("Count of Opportunities By Sales Rep",opportunityRepository.countOfOpportunitiesBySalesReps());
-        hashMap.put("Count of Opportunities by Sales Reps Where Closed Won",opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon());
-        hashMap.put("Count of Opportunities by Sales Reps Where Closed Lost",opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost());
-        hashMap.put("Count of Opportunities by Sales Reps Where Closed Open",opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen());
-        hashMap.put("Count of Leads by Sales Reps",leadRepository.countOfLeadsBySalesReps());
-        hashMap.put("Count of Opportunities by Product",opportunityRepository.countOfOpportunitiesByProduct());
-        hashMap.put("Count of Opportunities by Product Where Closed Won",opportunityRepository.countOfOpportunitiesByProductWhereClosedWon());
-        hashMap.put("Count of Opportunities by Product Where Closed Lost",opportunityRepository.countOfOpportunitiesByProductWhereClosedLost());
-        hashMap.put("Count of Opportunities by Product Where Open",opportunityRepository.countOfOpportunitiesByProductWhereOpen());
+        hashMap.put("Count of Opportunities By Sales Rep", opportunityRepository.countOfOpportunitiesBySalesReps());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Won", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Lost", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Open", opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen());
+        hashMap.put("Count of Leads by Sales Reps", leadRepository.countOfLeadsBySalesReps());
+        hashMap.put("Count of Opportunities by Product", opportunityRepository.countOfOpportunitiesByProduct());
+        hashMap.put("Count of Opportunities by Product Where Closed Won", opportunityRepository.countOfOpportunitiesByProductWhereClosedWon());
+        hashMap.put("Count of Opportunities by Product Where Closed Lost", opportunityRepository.countOfOpportunitiesByProductWhereClosedLost());
+        hashMap.put("Count of Opportunities by Product Where Open", opportunityRepository.countOfOpportunitiesByProductWhereOpen());
         hashMap.put("Count of Opportunities by Country", opportunityRepository.countOfOpportuntiesByCountry());
         hashMap.put("Count of Opportunities by Country Where Closed Won", opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon());
         hashMap.put("Count of Opportunities by Country Where Closed Lost", opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost());
@@ -63,18 +62,18 @@ public class CommandManager {
         hashMap.put("Count of Opportunities by Industry Where Open", opportunityRepository.countOfOpportuntiesByIndustryWhereOpen());
 
 
-        stats.put("Mean of Quantity",opportunityRepository.meanOfQuantity());
-        stats.put("Max of Quantity",opportunityRepository.maxOfQuantity().doubleValue());
-        stats.put("Min of Quantity",accountRepository.minOfEmployeeCount().doubleValue());
-        stats.put("Median of Quantity",opportunityRepository.medianOfQuantity());
-        stats.put("Mean of Employee Count",accountRepository.meanOfEmployeeCount());
-        stats.put("Max of Employee Count",accountRepository.maxOfEmployeeCount().doubleValue());
-        stats.put("Min of Employee Count",accountRepository.minOfEmployeeCount().doubleValue());
-        stats.put("Median of Employee Count",accountRepository.medianOfEmployeeCount());
-        stats.put("Mean of Opportunities in Accounts",accountRepository.meanOfOpportunitiesOnAccounts());
-        stats.put("Max  of opportunities in Accounts",accountRepository.maxOfOpportunitiesOnAccounts().doubleValue());
-        stats.put("Min of Opportunities in Accounts",accountRepository.minOfOpportunitiesOnAccounts().doubleValue());
-        stats.put("Median of Opportunities in Accounts",accountRepository.medianOfOpportunitiesOnAccounts());
+        stats.put("Mean of Quantity", opportunityRepository.meanOfQuantity());
+        stats.put("Max of Quantity", opportunityRepository.maxOfQuantity().doubleValue());
+        stats.put("Min of Quantity", accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Quantity", opportunityRepository.medianOfQuantity());
+        stats.put("Mean of Employee Count", accountRepository.meanOfEmployeeCount());
+        stats.put("Max of Employee Count", accountRepository.maxOfEmployeeCount().doubleValue());
+        stats.put("Min of Employee Count", accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Employee Count", accountRepository.medianOfEmployeeCount());
+        stats.put("Mean of Opportunities in Accounts", accountRepository.meanOfOpportunitiesOnAccounts());
+        stats.put("Max  of opportunities in Accounts", accountRepository.maxOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Min of Opportunities in Accounts", accountRepository.minOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Median of Opportunities in Accounts", accountRepository.medianOfOpportunitiesOnAccounts());
 
 
         PdfGenerator.init(hashMap, stats);
@@ -89,7 +88,6 @@ public class CommandManager {
             e.printStackTrace();
         }
     }
-
 
 
     public static void introduceCommand() {

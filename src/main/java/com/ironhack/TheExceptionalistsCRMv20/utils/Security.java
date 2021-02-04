@@ -14,15 +14,15 @@ public class Security {
 
     static private int loginAttempt = 0;
 
-    public static void introLogin(){
-        if (loginAttempt >= 3){
+    public static void introLogin() {
+        if (loginAttempt >= 3) {
             System.exit(ConsoleApp.getExitCode());
         }
         System.out.println(DEFAULT + "\n\n\n\n");
         System.out.println(DEFAULT + "\n\n\n\n");
         System.out.println(DEFAULT + "\n\n\n\n\n\n\n");
         System.out.println();
-        System.out.println(fillWithSpaces(27) + INVERSE + BOLD+ Buffer.getAppName() + DEFAULT);
+        System.out.println(fillWithSpaces(27) + INVERSE + BOLD + Buffer.getAppName() + DEFAULT);
         System.out.println("\n\n\n");
         System.out.println(fillWithSpaces(34) + "Username:".toUpperCase(Locale.ROOT));
         System.out.println();
@@ -34,7 +34,7 @@ public class Security {
         System.out.println(DEFAULT + "\n\n\n\n");
         System.out.println(DEFAULT + "\n\n\n\n\n\n\n");
         System.out.println();
-        System.out.println(fillWithSpaces(24) + INVERSE + BOLD+ Buffer.getAppName() + DEFAULT);
+        System.out.println(fillWithSpaces(24) + INVERSE + BOLD + Buffer.getAppName() + DEFAULT);
         System.out.println("\n\n\n");
         System.out.println(fillWithSpaces(34) + "Password:".toUpperCase(Locale.ROOT));
         System.out.println();

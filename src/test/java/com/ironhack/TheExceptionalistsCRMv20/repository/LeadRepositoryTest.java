@@ -38,7 +38,7 @@ class LeadRepositoryTest {
     void setUp() {
 
 
-        Account account = accountRepository.save(new Account( 001,"IKEA", Industry.ECOMMERCE,
+        Account account = accountRepository.save(new Account(001, "IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain"));
         Account account2 = accountRepository.save(new Account(002, "Muebles julian", Industry.PRODUCE,
                 23, "Eisenach", "Germany"));
@@ -52,12 +52,12 @@ class LeadRepositoryTest {
 
         SalesRep salesRep = salesRepRepository.save(new SalesRep(005, "Maria Aguilar"));
 
-        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(001,Product.HYBRID, 10, contact1,
+        Opportunity opportunity1 = opportunityRepository.save(new Opportunity(001, Product.HYBRID, 10, contact1,
                 Status.OPEN, account, salesRep));
-        Opportunity opportunity2 = opportunityRepository.save(new Opportunity(002,Product.BOX, 10, contact2,
-                Status.OPEN,  account, salesRep));
-        Opportunity opportunity3 = opportunityRepository.save(new Opportunity(003,Product.FLATBED, 10, contact3,
-                Status.OPEN,  account, salesRep));
+        Opportunity opportunity2 = opportunityRepository.save(new Opportunity(002, Product.BOX, 10, contact2,
+                Status.OPEN, account, salesRep));
+        Opportunity opportunity3 = opportunityRepository.save(new Opportunity(003, Product.FLATBED, 10, contact3,
+                Status.OPEN, account, salesRep));
 //        Opportunity opportunity4 = opportunityRepository.save(new Opportunity("op004",Product.FLATBED, 10, contact1,
 //                Status.OPEN,  salesRep, account));
 
@@ -126,7 +126,6 @@ class LeadRepositoryTest {
         assertEquals(Industry.ECOMMERCE.toString(), result.get(0)[0]);
         assertEquals(new BigInteger("6"), result.get(0)[1]);
     }
-
 
 
 }

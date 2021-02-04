@@ -109,7 +109,7 @@ public class PdfGenerator {
             Paragraph paragraph = new Paragraph(title, subFont);
             com.itextpdf.text.List list = new com.itextpdf.text.List(false, false, 10);
             for (Object[] object : objects) {
-                Chunk chunk = new Chunk(String.valueOf( object[0]) + ": ", smallBold);
+                Chunk chunk = new Chunk(String.valueOf(object[0]) + ": ", smallBold);
                 Chunk chunk1 = new Chunk(String.valueOf(object[1]), small);
                 Paragraph paragraph1 = new Paragraph("");
                 paragraph1.add(chunk);
