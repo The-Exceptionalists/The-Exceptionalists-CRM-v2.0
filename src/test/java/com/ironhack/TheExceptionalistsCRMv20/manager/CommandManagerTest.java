@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CommandManagerTest {
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         CommandManager commandManager = new CommandManager();
         List<String> commandList = commandManager.getCommandList();
         CommandManager.setCommandList();
@@ -53,9 +53,6 @@ class CommandManagerTest {
         assertTrue(commandList.equals(CommandManager.getCommandList()));
 
     }
-
-
-
 
 
 }

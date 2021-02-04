@@ -68,7 +68,7 @@ public class Opportunity {
         return id;
     }
 
-    public String getIdToPrint(){
+    public String getIdToPrint() {
         return "Id: " + id;
     }
 

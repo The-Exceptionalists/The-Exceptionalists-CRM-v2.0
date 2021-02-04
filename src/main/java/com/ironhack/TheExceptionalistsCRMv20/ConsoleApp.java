@@ -3,8 +3,10 @@ package com.ironhack.TheExceptionalistsCRMv20;
 
 import com.ironhack.TheExceptionalistsCRMv20.manager.CommandManager;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utils.*;
-import com.itextpdf.text.pdf.*;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Init;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

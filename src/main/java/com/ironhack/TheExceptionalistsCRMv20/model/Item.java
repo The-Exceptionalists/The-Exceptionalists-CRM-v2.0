@@ -35,12 +35,11 @@ public class Item {
     }
 
 
-
     public Integer getId() {
         return id;
     }
 
-    public String getIdToPrint(){
+    public String getIdToPrint() {
         return "Id: " + id;
     }
 
@@ -51,6 +50,7 @@ public class Item {
     public String getName() {
         return name;
     }
+
     public String getNameToPrint() {
         return "Name: " + name;
     }

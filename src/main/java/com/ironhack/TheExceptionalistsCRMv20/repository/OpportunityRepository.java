@@ -129,6 +129,7 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
 
     //Returns a count of Opportunities for a specific SalesRep Id
     Integer countBySalesRepId(Integer salesRepId);
+
     //Return a count of Opportunities for a specific SalesRep Name
     Integer countBySalesRepName(String salesRep);
 
