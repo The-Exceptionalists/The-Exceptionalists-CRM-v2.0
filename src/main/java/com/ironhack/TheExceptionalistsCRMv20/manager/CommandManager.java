@@ -737,7 +737,7 @@ public class CommandManager {
     private static void showReport(String stat, String criterion) {
         List<Object[]> result = new ArrayList<>();
 
-        switch(criterion) {
+        switch (criterion) {
             case "salesrep" -> {
                 switch(stat) {
                     case "lead" -> { result = leadRepository.countOfLeadsBySalesReps(); }
@@ -786,16 +786,48 @@ public class CommandManager {
         }
 
         //TODO: Add the outputs
-        if (result.size() > 50){
+        if (result.size() > 50) {
             String[] stringsRepository = new String[result.size() + 20];
             Arrays.fill(stringsRepository, "");
             Buffer.setStringsRepository(stringsRepository);
         }
-        int startingStrIndex = 10;
-        for (Object[] objects : result) {
-            Buffer.insertStringIntoRepository((String) objects[0], startingStrIndex);
-            Buffer.insertStringIntoRepository(String.valueOf(objects[1]), startingStrIndex);
-//            System.out.println(objects[0] + " " + objects[1]);
+        printReports(result, 0);
+//        int startingStrIndex = 10;
+//        for (Object[] objects : result) {
+//            Buffer.insertStringIntoRepository((String) objects[0], startingStrIndex);
+//            Buffer.insertStringIntoRepository((String) objects[1], startingStrIndex);
+////            System.out.println(objects[0] + " " + objects[1]);
+//        }
+    }
+
+    //Method that prints a list of leads
+    private static void printReports(List<Object[]> reportList, int index) {
+        Buffer.resetScreenBuffer();
+        Buffer.initStringsRepository();
+        Buffer.resetPromptMessages();
+        Buffer.setUpLayout();
+        Buffer.insertItemList(6);
+
+        int startingRepositoryIndex = 10;
+        int finalCounter = index;
+        for (int i = index; i < reportList.size() && i < index + 15; i++) {
+            Buffer.insertStringIntoRepository((String) reportList.get(i)[0], startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository((String) reportList.get(i)[1], startingRepositoryIndex++);
+            finalCounter++;
+        }
+        if (finalCounter < reportList.size()) {
+            Buffer.setPromptLineOne("Report List");
+            Buffer.insertCentralPromptPoints(1);
+            Buffer.setPromptLineTwo("press INTRO to next page");
+            printScreenBeforeAndPromptNext();
+            printReports(reportList, finalCounter);
+        } else if (reportList.size() == 0) {
+            Buffer.setPromptLineTwo("Empty reads List - press INTRO");
+            printScreenBeforeAndPromptNext();
+
+        } else {
+            Buffer.setPromptLineTwo("Report List - press INTRO");
+            printScreenBeforeAndPromptNext();
         }
     }
 
