@@ -794,7 +794,7 @@ public class CommandManager {
         int startingStrIndex = 10;
         for (Object[] objects : result) {
             Buffer.insertStringIntoRepository((String) objects[0], startingStrIndex);
-            Buffer.insertStringIntoRepository((String) objects[1], startingStrIndex);
+            Buffer.insertStringIntoRepository(String.valueOf(objects[1]), startingStrIndex);
 //            System.out.println(objects[0] + " " + objects[1]);
         }
     }
