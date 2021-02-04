@@ -14,18 +14,18 @@ Developed in bright 16-bit colors, you can easily store all you customer-related
 
 2. Open the directory as a project on a IDE as IntelliJ.
 
-3. Go into your application.properties and add or replace the line spring.datasource.url
+3. Go into your application.properties and add or replace the line `spring.datasource.url`
 
 ```bash   
 spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
 ```
 
 4. Also in application.properties update the lines 
-   spring.datasource.username=username and spring.datasource.password=password with your username and password.
+   `spring.datasource.username=username` and `spring.datasource.password=password` with your username and password.
    
 5. Create the next Schema into your MySQL.
 
-Insert here the route to CRM_database.sql
+https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/CRM_database.sql
 
 4. Run the ConsoleApp.java file on the path:
 
@@ -56,17 +56,19 @@ Insert here the route to CRM_database.sql
 - Case Diagram:
 
 
-![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM/blob/develop/src/main/resources/CRM-UseCase-Diagram.jpg)
+![alt text]()
 
 
 - Class Diagram:
 
 
-![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM/blob/develop/src/main/resources/CRM_Exceptionalists.jpeg)
+![alt text]()
+
 
 - Relations Diagram
 
-Insert here our er_model.png
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/er_model.png)
+
 
 ## Usage
 
@@ -78,9 +80,9 @@ The central window will contain the information of the objects the user wants to
 
 ## Screenshots
 
-![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM/blob/develop/src/main/resources/screen1.jpg)
-![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM/blob/develop/src/main/resources/screen2.jpg)
-![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM/blob/develop/src/main/resources/screen3.jpg)
+![alt text]()
+![alt text]()
+![alt text]()
 
 ## Authors
 **The Excepcionalist Team**: Adrià López, Jaume Sánchez, Salvatore Corsaro, Antonio Navarro, Iván Trujillo.
