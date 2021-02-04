@@ -2,13 +2,15 @@ package com.ironhack.TheExceptionalistsCRMv20.manager;
 
 import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
+import com.ironhack.TheExceptionalistsCRMv20.enums.PrintLayout;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utils.*;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,6 +23,8 @@ public class CommandManager {
     private static OpportunityRepository opportunityRepository;
     private static AccountRepository accountRepository;
     private static SalesRepRepository salesRepRepository;
+    private static String normalPrompt = "Introduce a command from the list:";
+    private static String errorPrompt = "";
 
 
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
@@ -29,16 +33,12 @@ public class CommandManager {
         CommandManager.opportunityRepository = opportunityRepository;
         CommandManager.accountRepository = accountRepository;
         CommandManager.salesRepRepository = salesRepRepository;
-        exportPdf();
     }
 
     public static void introduceCommand() {
         CommandManager.setCommandList();
-        Buffer.setUpLayout();
-        Buffer.setPromptLineTwo("Introduce a command from the list:");
-        Buffer.insertCentralPromptPoints(2);
-        Buffer.insertCentralPromptPoints(1);
-        Output.printScreen();
+        Output.printPage(errorPrompt, normalPrompt, PrintLayout.MENU_ON, false);
+        errorPrompt = "";
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
         command = command.toLowerCase();
@@ -46,7 +46,7 @@ public class CommandManager {
         if (Validator.validateCommand(command)) {
             processCommand(command);
         } else {
-            Buffer.setPromptLineOne("Command not found");
+            errorPrompt = "Command not found";
         }
     }
 
@@ -57,12 +57,13 @@ public class CommandManager {
             case "new" -> createObject(words[1]);
             case "show" -> showList(words[1]);
             case "convert" -> convertLeadToOpportunity(Integer.parseInt(words[1]));
-            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));  //TODO: Add the name of the SalesRep on Lead and Opportunity
+            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[0], words[1]);
-            case "help" -> introduceCommand();
+            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
+//            case "help" -> introduceCommand();
+            case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
     }
@@ -72,10 +73,22 @@ public class CommandManager {
         System.exit(0);
     }
 
+    private static void helpPage(){
+        Output.printHelpPage();
+        Scanner sc = new Scanner(System.in);
+        String command = sc.nextLine();
+    }
+
+
     //Method that handles the object creation
     private static void createObject(String word) {
         switch (word) {
             case "lead" -> {
+                if(salesRepRepository.count() == 0L){
+                    //TODO: add a message, to tell the user, we need at least a salesRep. if not we go into a endless cicle.
+                    System.out.println("You should add at least a salesRep, before create a lead");
+                    introduceCommand();
+                };
                 Lead lead = promptLead();
                 leadRepository.save(lead);
                 System.out.println("New lead successfully added!");
@@ -122,15 +135,50 @@ public class CommandManager {
             Contact contact = leadToContact(lead);
             Opportunity opportunity = promptOpportunity(contact);
             opportunity.setSalesRep(lead.getSalesRep());
-            //TODO: Add the option to add the opportunity and contact on an existing Account
-            Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
-            opportunity.setAccount(account);
-            contact.setAccount(account);
-            //Adds all objects to the storage class
-            contactRepository.save(contact);
-            opportunityRepository.save(opportunity);
-            accountRepository.save(account);
-            leadRepository.deleteById(id);
+            Buffer.resetPromptMessages();
+            String text = "Do you want to create a new Account? (YES / NO)";
+            printItemPrompt(text);
+            Scanner sc = new Scanner(System.in);
+            String createNewAccount = sc.nextLine();
+            createNewAccount.toLowerCase();
+            while(!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
+                Buffer.setPromptLineOne("Enter a correct response.");
+                printItemPrompt(text);
+                Buffer.resetPromptOne();
+                sc = new Scanner(System.in);
+                createNewAccount = sc.nextLine().toLowerCase();
+            }
+            if(createNewAccount.equals("yes")) {
+                Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
+                opportunity.setAccount(account);
+                contact.setAccount(account);
+                //Adds all objects to the storage class
+                contactRepository.save(contact);
+                opportunityRepository.save(opportunity);
+                accountRepository.save(account);
+                leadRepository.deleteById(id);
+            } else {
+                text = "Enter an Account ID:";
+                printItemPrompt(text);
+                sc = new Scanner(System.in);
+                String accountId = sc.nextLine();
+                while(Validator.validateNumber(accountId) && !accountRepository.existsById(Integer.parseInt(accountId))) {
+                    Buffer.setPromptLineOne("Enter a valid and existing Account ID.");
+                    printItemPrompt(text);
+                    Buffer.resetPromptOne();
+                    sc = new Scanner(System.in);
+                    accountId = sc.nextLine();
+                }
+                Account account = accountRepository.findById(Integer.parseInt(accountId)).get();
+                opportunity.setAccount(account);
+                contact.setAccount(account);
+                //Adds all objects to the storage class
+                contactRepository.save(contact);
+                opportunityRepository.save(opportunity);
+                leadRepository.deleteById(id);
+                printItemPrompt("New Account created - press INTRO");
+                String retNext = sc.nextLine();
+            }
             //Return an error message if the id is not found
         } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
             Buffer.setUpLayout();
@@ -470,11 +518,17 @@ public class CommandManager {
         text = "SalesRep ID: ";
         printItemPrompt(text);
         String salesRepId = sc.nextLine();
-        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+        while(!Validator.validateNumber(salesRepId)) {
             Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
             printItemPrompt(text);
             Buffer.resetPromptOne();
             salesRepId = sc.nextLine();
+        }
+        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+                Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
+                printItemPrompt(text);
+                Buffer.resetPromptOne();
+                salesRepId = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
@@ -655,100 +709,50 @@ public class CommandManager {
     private static void showReport(String stat, String criterion) {
         List<Object[]> result = new ArrayList<>();
 
-        switch (criterion) {
+        switch(criterion) {
             case "salesrep" -> {
-                switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsBySalesReps();
-                    }
-                    case "opportunity" -> {
-                        result = opportunityRepository.countOfOpportunitiesBySalesReps();
-                    }
-                    case "closed-won" -> {
-                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon();
-                    }
-                    case "closed-lost" -> {
-                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost();
-                    }
-                    case "open" -> {
-                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen();
-                    }
+                switch(stat) {
+                    case "lead" -> { result = leadRepository.countOfLeadsBySalesReps(); }
+                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesBySalesReps(); }
+                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon(); }
+                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost(); }
+                    case "open" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen(); }
                 }
             }
             case "product" -> {
-                switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByProduct();
-                    }
-                    case "opportunity" -> {
-                        result = opportunityRepository.countOfOpportunitiesByProduct();
-                    }
-                    case "closed-won" -> {
-                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon();
-                    }
-                    case "closed-lost" -> {
-                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost();
-                    }
-                    case "open" -> {
-                        result = opportunityRepository.countOfOpportunitiesByProductWhereOpen();
-                    }
+                switch(stat) {
+                    case "lead" -> { result = leadRepository.countOfLeadsByProduct(); }
+                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesByProduct(); }
+                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon(); }
+                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost(); }
+                    case "open" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereOpen(); }
                 }
             }
             case "country" -> {
-                switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByCountry();
-                    }
-                    case "opportunity" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCountry();
-                    }
-                    case "closed-won" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon();
-                    }
-                    case "closed-lost" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost();
-                    }
-                    case "open" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen();
-                    }
+                switch(stat) {
+                    case "lead" -> { result = leadRepository.countOfLeadsByCountry(); }
+                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCountry(); }
+                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon(); }
+                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost(); }
+                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen(); }
                 }
             }
             case "city" -> {
-                switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByCity();
-                    }
-                    case "opportunity" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCity();
-                    }
-                    case "closed-won" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon();
-                    }
-                    case "closed-lost" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost();
-                    }
-                    case "open" -> {
-                        result = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
-                    }
+                switch(stat) {
+                    case "lead" -> { result = leadRepository.countOfLeadsByCity(); }
+                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCity(); }
+                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon(); }
+                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost(); }
+                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereOpen(); }
                 }
             }
             case "industry" -> {
-                switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByIndustry();
-                    }
-                    case "opportunity" -> {
-                        result = opportunityRepository.countOfOpportuntiesByIndustry();
-                    }
-                    case "closed-won" -> {
-                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon();
-                    }
-                    case "closed-lost" -> {
-                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost();
-                    }
-                    case "open" -> {
-                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen();
-                    }
+                switch(stat) {
+                    case "lead" -> { result = leadRepository.countOfLeadsByIndustry(); }
+                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByIndustry(); }
+                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon(); }
+                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost(); }
+                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen(); }
                 }
             }
         }
@@ -756,16 +760,6 @@ public class CommandManager {
         //TODO: Add the outputs
         for (Object[] objects : result) {
             System.out.println(objects[0] + " " + objects[1]);
-        }
-    }
-
-    private static void exportPdf() {
-        PdfGenerator pdfWriter = new PdfGenerator(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
-        try {
-            pdfWriter.generatePdf();
-        } catch (Exception e) {
-            System.err.println("No he sido posible crear el report");
-
         }
     }
 
@@ -845,8 +839,8 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Close Opportunity as won", 50);
         Buffer.insertStringIntoRepository("CLOSE-LOST <Id>", 51);
         Buffer.insertStringIntoRepository("Close Opportunity as lost", 52);
-        Buffer.insertStringIntoRepository("", 53);
-        Buffer.insertStringIntoRepository("", 54);
+        Buffer.insertStringIntoRepository("HELP", 53);
+        Buffer.insertStringIntoRepository("Shows more commands available", 54);
         Buffer.insertStringIntoRepository("EXIT", 55);
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
     }

@@ -13,7 +13,7 @@ public class Validator {
     }
 
     public static boolean validateName(String name) {
-        return validate(name, "^[ÁÉÍÓÚA-Z]?[a-záéíóú]+(\\s+[ÁÉÍÓÚA-Z]?[a-záéíóú]+)*${1,31}");
+        return validate(name, "^[ÁÉÍÓÚA-ZÑ]?[a-záéíóúñ]+(\\s+[ÁÉÍÓÚA-ZÑ]?[a-záéíóúñ]+)*${1,31}");
     }
 
     public static boolean validateProduct(String product) {
@@ -86,6 +86,18 @@ public class Validator {
                                     return word.length == 4 && word[2].equals("by");
                                 }
                             }
+                        }
+                    }
+                    return false;
+                }
+
+                case "mean", "median", "max", "min" -> {
+                    switch (word[1]) {
+                        case "employeecount", "quantity" -> {
+                            return word.length == 2;
+                        }
+                        case "opps" -> {
+                            return word[2].equals("per") && word[3].equals("account");
                         }
                     }
                     return false;

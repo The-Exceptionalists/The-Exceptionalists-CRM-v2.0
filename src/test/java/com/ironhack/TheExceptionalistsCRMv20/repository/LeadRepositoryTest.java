@@ -1,5 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.repository;
 
+import com.ironhack.TheExceptionalistsCRMv20.Application;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class LeadRepositoryTest {
 
     @Autowired

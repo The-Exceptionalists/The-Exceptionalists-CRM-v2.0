@@ -42,6 +42,10 @@ public class Lead extends Item {
         return salesRep;
     }
 
+    public String getSalesRepToPrint(){
+        return "SalesRep: " + salesRep.getName();
+    }
+
     public void setSalesRep(SalesRep salesRep) {
         this.salesRep = salesRep;
     }

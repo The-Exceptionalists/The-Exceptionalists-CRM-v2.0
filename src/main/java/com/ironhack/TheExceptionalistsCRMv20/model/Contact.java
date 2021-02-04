@@ -5,8 +5,8 @@ import javax.persistence.*;
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "contacts")
-public class Contact extends Item {
-    @ManyToOne
+public class Contact extends Item{
+    @ManyToOne(cascade = CascadeType.ALL)
     private Account account;
 
     @OneToOne(mappedBy = "decisionMaker")
@@ -36,6 +36,7 @@ public class Contact extends Item {
         super(id, name, email, companyName, phoneNumber);
         setAccount(account);
     }
+
 
 
     public Account getAccount() {
