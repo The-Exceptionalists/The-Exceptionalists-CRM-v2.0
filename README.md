@@ -57,7 +57,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
 - Case Diagram:
 
 
-![alt text]()
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/diagrams/TheDataLayer-UseCase-Diagram.png)
 
 
 - Class Diagram:
