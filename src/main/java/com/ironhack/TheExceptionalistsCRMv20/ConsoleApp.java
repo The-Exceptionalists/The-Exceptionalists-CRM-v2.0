@@ -3,7 +3,10 @@ package com.ironhack.TheExceptionalistsCRMv20;
 
 import com.ironhack.TheExceptionalistsCRMv20.manager.CommandManager;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utils.*;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Init;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
+import com.ironhack.TheExceptionalistsCRMv20.utils.Security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +56,14 @@ public class ConsoleApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        PdfWriter.createPdf();
         Output.introResolutionAlert();
         Security.introLogin();
         Buffer.initStringsRepository();
+        Init init = new Init(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
+        init.addLeads();
+        init.addAccounts();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
+
         while (true) {
             CommandManager.introduceCommand();
         }

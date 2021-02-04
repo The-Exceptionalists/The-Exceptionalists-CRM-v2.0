@@ -243,15 +243,13 @@ public class Buffer {
         insertStringIntoRepository("MEDIAN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
         insertStringIntoRepository("MAX <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
         insertStringIntoRepository("MIN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
-        insertStringIntoRepository("HELP : Already here!", startingRepository += 2);
-        insertStringIntoRepository("EXIT : Exists the application.", startingRepository += 2);
-
+        insertStringIntoRepository("PDF : Generates a file with all reports and stats", startingRepository += 2);
     }
 
     public static void insertItemList(int startingRow){
         char startingLocation = 'a' ;
 
-        for (int i = 0; i < 16; i++){
+        for (int i = 0; i < 15; i++){
             screenBuffer[startingRow + i][4 ] = 'g';
             screenBuffer[startingRow + i][5 ] = (char) (startingLocation + i);
         }
@@ -369,6 +367,7 @@ public class Buffer {
         insertAppName();
         insertCompanyName();
         insertSideBox();
+        insertOptionsAnchors();
         insertVersionIndicator();
     }
 

@@ -7,11 +7,12 @@ import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
+import com.ironhack.TheExceptionalistsCRMv20.utils.*;
+import com.itextpdf.text.*;
 
+import java.io.*;
 import java.util.*;
+import java.util.List;
 
 
 public class CommandManager {
@@ -25,13 +26,73 @@ public class CommandManager {
     private static List<String> commandList;
 
 
+
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
         CommandManager.leadRepository = leadRepository;
         CommandManager.contactRepository = contactRepository;
         CommandManager.opportunityRepository = opportunityRepository;
         CommandManager.accountRepository = accountRepository;
         CommandManager.salesRepRepository = salesRepRepository;
+
+
     }
+
+    private static void createPdf() {
+
+        HashMap<String, List<Object[]>> hashMap = new HashMap<>();
+        HashMap<String, Double> stats = new HashMap<>();
+
+        hashMap.put("Count of Opportunities By Sales Rep",opportunityRepository.countOfOpportunitiesBySalesReps());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Won",opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Lost",opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Open",opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen());
+        hashMap.put("Count of Leads by Sales Reps",leadRepository.countOfLeadsBySalesReps());
+        hashMap.put("Count of Opportunities by Product",opportunityRepository.countOfOpportunitiesByProduct());
+        hashMap.put("Count of Opportunities by Product Where Closed Won",opportunityRepository.countOfOpportunitiesByProductWhereClosedWon());
+        hashMap.put("Count of Opportunities by Product Where Closed Lost",opportunityRepository.countOfOpportunitiesByProductWhereClosedLost());
+        hashMap.put("Count of Opportunities by Product Where Open",opportunityRepository.countOfOpportunitiesByProductWhereOpen());
+        hashMap.put("Count of Opportunities by Country", opportunityRepository.countOfOpportuntiesByCountry());
+        hashMap.put("Count of Opportunities by Country Where Closed Won", opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon());
+        hashMap.put("Count of Opportunities by Country Where Closed Lost", opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost());
+        hashMap.put("Count of Opportunities by Country Where Open", opportunityRepository.countOfOpportuntiesByCountryWhereOpen());
+        hashMap.put("Count of Opportunities by City", opportunityRepository.countOfOpportuntiesByCity());
+        hashMap.put("Count of Opportunities by City Where Closed Won", opportunityRepository.countOfOpportuntiesByCityWhereClosedWon());
+        hashMap.put("Count of Opportunities by City Where Closed Lost", opportunityRepository.countOfOpportuntiesByCityWhereClosedLost());
+        hashMap.put("Count of Opportunities by City Where Open", opportunityRepository.countOfOpportuntiesByCityWhereOpen());
+        hashMap.put("Count of Opportunities by Industry", opportunityRepository.countOfOpportuntiesByIndustry());
+        hashMap.put("Count of Opportunities by Industry Where Closed Won", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon());
+        hashMap.put("Count of Opportunities by Industry Where Closed Lost", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost());
+        hashMap.put("Count of Opportunities by Industry Where Open", opportunityRepository.countOfOpportuntiesByIndustryWhereOpen());
+
+
+        stats.put("Mean of Quantity",opportunityRepository.meanOfQuantity());
+        stats.put("Max of Quantity",opportunityRepository.maxOfQuantity().doubleValue());
+        stats.put("Min of Quantity",accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Quantity",opportunityRepository.medianOfQuantity());
+        stats.put("Mean of Employee Count",accountRepository.meanOfEmployeeCount());
+        stats.put("Max of Employee Count",accountRepository.maxOfEmployeeCount().doubleValue());
+        stats.put("Min of Employee Count",accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Employee Count",accountRepository.medianOfEmployeeCount());
+        stats.put("Mean of Opportunities in Accounts",accountRepository.meanOfOpportunitiesOnAccounts());
+        stats.put("Max  of opportunities in Accounts",accountRepository.maxOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Min of Opportunities in Accounts",accountRepository.minOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Median of Opportunities in Accounts",accountRepository.medianOfOpportunitiesOnAccounts());
+
+
+        PdfGenerator.init(hashMap, stats);
+        try {
+            PdfGenerator.generatePdf();
+            Output.printPage("Your report has been created in resources.", "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
+            Scanner sc = new Scanner(System.in);
+            sc.nextLine();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public static void introduceCommand() {
         CommandManager.setCommandList();
@@ -60,10 +121,12 @@ public class CommandManager {
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
             case "mean", "median", "max", "min" -> showStats(words[0], words[1]);
+            case "pdf" -> createPdf();
             case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
     }
+
 
     private static void saveChangesAndExit() {
 //        ConsoleApp.ctx.close();
@@ -757,9 +820,6 @@ public class CommandManager {
             case "product" -> {
                 Buffer.setReportColOne("Product");
                 switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByProduct();
-                    }
                     case "opportunity" -> {
                         result = opportunityRepository.countOfOpportunitiesByProduct();
                     }
@@ -777,9 +837,6 @@ public class CommandManager {
             case "country" -> {
                 Buffer.setReportColOne("Country");
                 switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByCountry();
-                    }
                     case "opportunity" -> {
                         result = opportunityRepository.countOfOpportuntiesByCountry();
                     }
@@ -797,9 +854,6 @@ public class CommandManager {
             case "city" -> {
                 Buffer.setReportColOne("City");
                 switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByCity();
-                    }
                     case "opportunity" -> {
                         result = opportunityRepository.countOfOpportuntiesByCity();
                     }
@@ -817,9 +871,6 @@ public class CommandManager {
             case "industry" -> {
                 Buffer.setReportColOne("Industry");
                 switch (stat) {
-                    case "lead" -> {
-                        result = leadRepository.countOfLeadsByIndustry();
-                    }
                     case "opportunity" -> {
                         result = opportunityRepository.countOfOpportuntiesByIndustry();
                     }
