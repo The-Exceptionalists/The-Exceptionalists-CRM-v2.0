@@ -11,7 +11,6 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
-import java.io.OutputStream;
 import java.util.*;
 
 
@@ -59,7 +58,7 @@ public class CommandManager {
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
+            case "mean", "median", "max", "min" -> showStats(words[0], words[1]);
             case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
@@ -70,7 +69,7 @@ public class CommandManager {
         System.exit(0);
     }
 
-    private static void helpPage(){
+    private static void helpPage() {
         Output.printHelpPage();
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
@@ -81,14 +80,15 @@ public class CommandManager {
     private static void createObject(String word) {
         switch (word) {
             case "lead" -> {
-                if(salesRepRepository.count() == 0L){
+                if (salesRepRepository.count() == 0L) {
                     //TODO: add a message, to tell the user, we need at least a salesRep. if not we go into a endless cicle.
                     Output.printPage("You should add at least a salesRep, before create a lead", "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
 //                    System.out.println("You should add at least a salesRep, before create a lead");
                     Scanner sc = new Scanner(System.in);
                     sc.nextLine();
                     introduceCommand();
-                };
+                }
+                ;
                 Lead lead = promptLead();
                 leadRepository.save(lead);
 //                System.out.println("New lead successfully added!");
@@ -142,14 +142,14 @@ public class CommandManager {
             Scanner sc = new Scanner(System.in);
             String createNewAccount = sc.nextLine();
             createNewAccount.toLowerCase();
-            while(!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
+            while (!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
                 Buffer.setPromptLineOne("Enter a correct response.");
                 printItemPrompt(text);
                 Buffer.resetPromptOne();
                 sc = new Scanner(System.in);
                 createNewAccount = sc.nextLine().toLowerCase();
             }
-            if(createNewAccount.equals("yes")) {
+            if (createNewAccount.equals("yes")) {
                 Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
                 opportunity.setAccount(account);
                 contact.setAccount(account);
@@ -163,7 +163,7 @@ public class CommandManager {
                 printItemPrompt(text);
                 sc = new Scanner(System.in);
                 String accountId = sc.nextLine();
-                while(Validator.validateNumber(accountId) && !accountRepository.existsById(Integer.parseInt(accountId))) {
+                while (Validator.validateNumber(accountId) && !accountRepository.existsById(Integer.parseInt(accountId))) {
                     Buffer.setPromptLineOne("Enter a valid and existing Account ID.");
                     printItemPrompt(text);
                     Buffer.resetPromptOne();
@@ -537,17 +537,27 @@ public class CommandManager {
         text = "SalesRep ID: ";
         printItemPrompt(text);
         String salesRepId = sc.nextLine();
-        while(!Validator.validateNumber(salesRepId)) {
-            Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
-            printItemPrompt(text);
-            Buffer.resetPromptOne();
-            salesRepId = sc.nextLine();
-        }
-        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+        if (salesRepId.toLowerCase().startsWith("show ")) {
+            showList("salesreps");
+        } else {
+            while (!Validator.validateNumber(salesRepId)) {
+                if (salesRepId.startsWith("show")){
+                    showList("salesreps");
+                }
                 Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
                 printItemPrompt(text);
                 Buffer.resetPromptOne();
                 salesRepId = sc.nextLine();
+            }
+            while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+                if (salesRepId.startsWith("show")) {
+                    showList("salesreps");
+                }
+                Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
+                printItemPrompt(text);
+                Buffer.resetPromptOne();
+                salesRepId = sc.nextLine();
+            }
         }
         Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
@@ -728,56 +738,106 @@ public class CommandManager {
     private static void showReport(String stat, String criterion) {
         List<Object[]> result = new ArrayList<>();
 
-        switch(criterion) {
+        switch (criterion) {
             case "salesrep" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsBySalesReps(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesBySalesReps(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsBySalesReps();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesReps();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen();
+                    }
                 }
             }
             case "product" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByProduct(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesByProduct(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByProduct();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProduct();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereOpen();
+                    }
                 }
             }
             case "country" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByCountry(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCountry(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByCountry();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountry();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen();
+                    }
                 }
             }
             case "city" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByCity(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCity(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByCity();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCity();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
+                    }
                 }
             }
             case "industry" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByIndustry(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByIndustry(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByIndustry();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustry();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen();
+                    }
                 }
             }
         }
 
         //TODO: Add the outputs
-        if (result.size() > 50){
+        if (result.size() > 50) {
             String[] stringsRepository = new String[result.size() + 20];
             Arrays.fill(stringsRepository, "");
             Buffer.setStringsRepository(stringsRepository);
