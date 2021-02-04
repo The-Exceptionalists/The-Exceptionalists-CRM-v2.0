@@ -28,10 +28,9 @@ public class SalesRep {
         this.name = name;
     }
 
-    public String getIdToPrint() {
-        return "Id: " + id;
+    public String getIdToPrint(){
+        return "SalesRep Id: " + id;
     }
-
     public String getNameToPrint() {
         return "Name: " + name;
     }

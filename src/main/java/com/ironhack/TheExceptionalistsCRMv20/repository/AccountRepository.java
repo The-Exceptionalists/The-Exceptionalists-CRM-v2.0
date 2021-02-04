@@ -11,6 +11,12 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
+    @Query("SELECT a FROM Account a JOIN FETCH a.opportunityList WHERE a.id = :id")
+    public Optional<Account> findByIdFetchOpp(@Param("id")Integer id);
+
+    @Query("SELECT a FROM Account a JOIN FETCH a.contactList WHERE a.id = :id")
+    public Optional<Account> findByIdFetchCon(@Param("id")Integer id);
+
     @Query("SELECT a FROM Account a JOIN FETCH a.contactList c WHERE a.id = :id")
     public Optional<Account> findByIdWithContact(@Param("id") Integer id);
 
