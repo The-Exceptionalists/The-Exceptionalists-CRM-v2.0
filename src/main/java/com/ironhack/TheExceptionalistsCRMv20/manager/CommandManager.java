@@ -11,10 +11,8 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
 import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.io.OutputStream;
+import java.util.*;
 
 
 public class CommandManager {
@@ -57,12 +55,11 @@ public class CommandManager {
             case "new" -> createObject(words[1]);
             case "show" -> showList(words[1]);
             case "convert" -> convertLeadToOpportunity(Integer.parseInt(words[1]));
-            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));  //TODO: Add the name of the SalesRep on Lead and Opportunity
+            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
             case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
-//            case "help" -> introduceCommand();
             case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
@@ -86,17 +83,21 @@ public class CommandManager {
             case "lead" -> {
                 if(salesRepRepository.count() == 0L){
                     //TODO: add a message, to tell the user, we need at least a salesRep. if not we go into a endless cicle.
-                    System.out.println("You should add at least a salesRep, before create a lead");
+                    Output.printPage("You should add at least a salesRep, before create a lead", "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
+//                    System.out.println("You should add at least a salesRep, before create a lead");
+                    Scanner sc = new Scanner(System.in);
+                    sc.nextLine();
                     introduceCommand();
                 };
                 Lead lead = promptLead();
                 leadRepository.save(lead);
-                System.out.println("New lead successfully added!");
+//                System.out.println("New lead successfully added!");
             }
             case "salesrep" -> {
                 SalesRep salesRep = promptSalesRep();
                 salesRepRepository.save(salesRep);
-                System.out.println("New SalesRep successfully added!");
+
+//                System.out.println("New SalesRep successfully added!");
             }
         }
     }
@@ -373,6 +374,23 @@ public class CommandManager {
                     Buffer.resetPromptMessages();
                 }
             }
+            case "salesrep" -> {
+                try {
+                    SalesRep salesRep = salesRepRepository.findById(id).get();
+                    Buffer.insertSalesRepStringRepository(salesRep, 1, 1);
+                    Buffer.insertItemSolo();
+                    Buffer.setPromptLineTwo("Lookup SalesRep - press INTRO");
+                    Buffer.insertCentralPromptPoints(2);
+                    Output.printScreen();
+                    Scanner sc = new Scanner(System.in);
+                    String next = sc.nextLine();
+                } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
+                    Buffer.setPromptLineTwo("Lookup SalesRep - press INTRO");
+                    Buffer.insertCentralPromptPoints(2);
+                    normalOneLinePrint("SalesRep with id " + id + " not found.");
+                    Buffer.resetPromptMessages();
+                }
+            }
         }
     }
 
@@ -520,6 +538,7 @@ public class CommandManager {
             phoneNumber = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("Phone: " + phoneNumber, 14);
+        //TODO SalesRep loop menu show-> show salesreps , correctid -> continue
         text = "SalesRep ID: ";
         printItemPrompt(text);
         String salesRepId = sc.nextLine();
@@ -764,8 +783,16 @@ public class CommandManager {
         }
 
         //TODO: Add the outputs
+        if (result.size() > 50){
+            String[] stringsRepository = new String[result.size() + 20];
+            Arrays.fill(stringsRepository, "");
+            Buffer.setStringsRepository(stringsRepository);
+        }
+        int startingStrIndex = 10;
         for (Object[] objects : result) {
-            System.out.println(objects[0] + " " + objects[1]);
+            Buffer.insertStringIntoRepository((String) objects[0], startingStrIndex);
+            Buffer.insertStringIntoRepository((String) objects[1], startingStrIndex);
+//            System.out.println(objects[0] + " " + objects[1]);
         }
     }
 

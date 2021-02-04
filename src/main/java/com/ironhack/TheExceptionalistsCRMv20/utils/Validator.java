@@ -13,7 +13,7 @@ public class Validator {
     }
 
     public static boolean validateName(String name) {
-        return validate(name, "^[ÁÉÍÓÚA-Z]?[a-záéíóú]+(\\s+[ÁÉÍÓÚA-Z]?[a-záéíóú]+)*${1,31}");
+        return validate(name, "^[ÁÉÍÓÚA-ZÑ]?[a-záéíóúñ]+(\\s+[ÁÉÍÓÚA-ZÑ]?[a-záéíóúñ]+)*${1,31}");
     }
 
     public static boolean validateProduct(String product) {

@@ -185,116 +185,116 @@ public class Output {
                             case '1' -> {
                                 System.out.print(DARK_GREY_BCK+ BOLD + UNDERLINE
                                         + insertText(Buffer.getStringFromRepository(10) + BLOCK
-                                        + Buffer.getStringFromRepository(11), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(11), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'a' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(10) + BLOCK
-                                        + Buffer.getStringFromRepository(11), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(11), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'b' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(12) + BLOCK
-                                        + Buffer.getStringFromRepository(13), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(13), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'c' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(14) + BLOCK
-                                        + Buffer.getStringFromRepository(15), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(15), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'd' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(16) + BLOCK
-                                        + Buffer.getStringFromRepository(17), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(17), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'e' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(18) + BLOCK
-                                        + Buffer.getStringFromRepository(19), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(19), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'f' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(20) + BLOCK
-                                        + Buffer.getStringFromRepository(21), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(21), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'g' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(22) + BLOCK
-                                        + Buffer.getStringFromRepository(23), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(23), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'h' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(24) + BLOCK
-                                        + Buffer.getStringFromRepository(25), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(25), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'i' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(26) + BLOCK
-                                        + Buffer.getStringFromRepository(27), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(27), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'j' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(28) + BLOCK
-                                        + Buffer.getStringFromRepository(29), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(29), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'k' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(30) + BLOCK
-                                        + Buffer.getStringFromRepository(31), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(31), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'l' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(32) + BLOCK
-                                        + Buffer.getStringFromRepository(33), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(33), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'm' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(34) + BLOCK
-                                        + Buffer.getStringFromRepository(35), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(35), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'n' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(36) + BLOCK
-                                        + Buffer.getStringFromRepository(37), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(37), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'o' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(38) + BLOCK
-                                        + Buffer.getStringFromRepository(39), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(39), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'p' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(40) + BLOCK
-                                        + Buffer.getStringFromRepository(41), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(41), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'q' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(42) + BLOCK
-                                        + Buffer.getStringFromRepository(43), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(43), 80) + DEFAULT);
+                                j += 39;
                             }
                             case 'r' -> {
                                 System.out.print(DARK_GREY_BCK
                                         + insertText(Buffer.getStringFromRepository(44) + BLOCK
-                                        + Buffer.getStringFromRepository(45), 40) + DEFAULT);
-                                j += 19;
+                                        + Buffer.getStringFromRepository(45), 80) + DEFAULT);
+                                j += 39;
                             }
 
                         }
