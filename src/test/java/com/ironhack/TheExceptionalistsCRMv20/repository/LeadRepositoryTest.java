@@ -37,7 +37,6 @@ class LeadRepositoryTest {
     @BeforeEach
     void setUp() {
 
-
         Account account = accountRepository.save(new Account( 001,"IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain"));
         Account account2 = accountRepository.save(new Account( 002,"Muebles julian", Industry.PRODUCE,
