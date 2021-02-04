@@ -55,7 +55,7 @@ public class ConsoleApp implements CommandLineRunner {
     public void run(String... args) throws Exception {
         PdfWriter.createPdf();
         Output.introResolutionAlert();
-        Output.introLogin();
+        Security.introLogin();
         Buffer.initStringsRepository();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
         while (true) {
