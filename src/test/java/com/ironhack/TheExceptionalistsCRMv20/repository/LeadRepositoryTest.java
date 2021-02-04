@@ -37,16 +37,17 @@ class LeadRepositoryTest {
     @BeforeEach
     void setUp() {
 
+
         Account account = accountRepository.save(new Account( 001,"IKEA", Industry.ECOMMERCE,
                 200, "Madrid", "Spain"));
-        Account account2 = accountRepository.save(new Account( 002,"Muebles julian", Industry.PRODUCE,
+        Account account2 = accountRepository.save(new Account(002, "Muebles julian", Industry.PRODUCE,
                 23, "Eisenach", "Germany"));
 
-        Contact contact1 = contactRepository.save(new Contact(001 , "Pedro Luis",
+        Contact contact1 = contactRepository.save(new Contact(001, "Pedro Luis",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
-        Contact contact2 = contactRepository.save(new Contact(002 , "Jens Trittel",
+        Contact contact2 = contactRepository.save(new Contact(002, "Jens Trittel",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account2));
-        Contact contact3 = contactRepository.save(new Contact(003 , "Pedro Francisco",
+        Contact contact3 = contactRepository.save(new Contact(003, "Pedro Francisco",
                 "pedro.luis@gmail.com", "IKEA", "666 333 222 111", account));
 
         SalesRep salesRep = salesRepRepository.save(new SalesRep(005, "Maria Aguilar"));
