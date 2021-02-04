@@ -533,6 +533,7 @@ public class CommandManager {
             phoneNumber = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("Phone: " + phoneNumber, 14);
+        //TODO SalesRep loop menu show-> show salesreps , correctid -> continue
         text = "SalesRep ID: ";
         printItemPrompt(text);
         String salesRepId = sc.nextLine();
