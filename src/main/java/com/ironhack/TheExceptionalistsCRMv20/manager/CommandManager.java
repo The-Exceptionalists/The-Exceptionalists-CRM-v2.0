@@ -33,8 +33,6 @@ public class CommandManager {
         CommandManager.opportunityRepository = opportunityRepository;
         CommandManager.accountRepository = accountRepository;
         CommandManager.salesRepRepository = salesRepRepository;
-
-
     }
 
     private static void createPdf() {
@@ -82,7 +80,7 @@ public class CommandManager {
         PdfGenerator.init(hashMap, stats);
         try {
             PdfGenerator.generatePdf();
-            Output.printPage("Your report has been created in resources.", "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
+            Output.printPage("Your report has been created in resources.", "Press INTRO to continue", PrintLayout.LIST_LAYOUT, true);
             Scanner sc = new Scanner(System.in);
             sc.nextLine();
         } catch (DocumentException e) {
