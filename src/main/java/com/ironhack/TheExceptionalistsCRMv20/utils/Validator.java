@@ -105,11 +105,10 @@ public class Validator {
 
             }
         } else if (word.length == 1) {
-            if (word[0].equals("help")) {
-                return true;
-            } else if (word[0].equals("exit")) {
+            if (word[0].equals("help") || word[0].equals("exit") || word[0].equals("pdf")) {
                 return true;
             }
+
         }
 
         return false;

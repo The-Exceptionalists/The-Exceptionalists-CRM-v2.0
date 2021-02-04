@@ -61,7 +61,6 @@ public class ConsoleApp implements CommandLineRunner {
         init.addLeads();
         init.addAccounts();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
-        PdfGenerator.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
 
         while (true) {
             CommandManager.introduceCommand();
