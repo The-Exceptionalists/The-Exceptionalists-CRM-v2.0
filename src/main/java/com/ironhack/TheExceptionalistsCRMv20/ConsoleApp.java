@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -35,14 +36,20 @@ public class ConsoleApp implements CommandLineRunner {
     @Autowired
     SalesRepRepository salesRepRepository;
 
-    public static ConfigurableApplicationContext ctx;
+//    public static ConfigurableApplicationContext ctx;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleApp.class);
-
+    private static int exitCode;
 
 
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        ctx = SpringApplication.run(ConsoleApp.class, args);
+        ConfigurableApplicationContext ctx = SpringApplication.run(ConsoleApp.class, args);
+        exitCode = SpringApplication.exit(ctx, new ExitCodeGenerator() {
+            @Override
+            public int getExitCode() {
+                return 0;
+            }
+        });
     }
 
     @Override
@@ -54,5 +61,13 @@ public class ConsoleApp implements CommandLineRunner {
         while (true) {
             CommandManager.introduceCommand();
         }
+    }
+
+    public static int getExitCode() {
+        return exitCode;
+    }
+
+    public static void setExitCode(int exitCode) {
+        ConsoleApp.exitCode = exitCode;
     }
 }

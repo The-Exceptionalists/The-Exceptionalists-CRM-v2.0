@@ -22,6 +22,7 @@ public class CommandManager {
     private static SalesRepRepository salesRepRepository;
     private static String normalPrompt = "Introduce a command from the list:";
     private static String errorPrompt = "";
+    private static List<String> commandList;
 
 
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
@@ -65,8 +66,8 @@ public class CommandManager {
     }
 
     private static void saveChangesAndExit() {
-        ConsoleApp.ctx.close();
-        System.exit(0);
+//        ConsoleApp.ctx.close();
+        System.exit(ConsoleApp.getExitCode());
     }
 
     private static void helpPage() {
@@ -96,8 +97,7 @@ public class CommandManager {
             case "salesrep" -> {
                 SalesRep salesRep = promptSalesRep();
                 salesRepRepository.save(salesRep);
-
-//                System.out.println("New SalesRep successfully added!");
+                introduceCommand();
             }
         }
     }
@@ -725,7 +725,7 @@ public class CommandManager {
             printScreenBeforeAndPromptNext();
             printSalesRepList(salesRepList, finalCounter);
         } else if (salesRepList.size() == 0) {
-            Buffer.setPromptLineTwo("SalesRep leads List - press INTRO");
+            Buffer.setPromptLineTwo("SalesRep List is EMPTY - press INTRO");
             printScreenBeforeAndPromptNext();
 
         } else {
@@ -784,20 +784,12 @@ public class CommandManager {
                 }
             }
         }
-
-        //TODO: Add the outputs
         if (result.size() > 50){
             String[] stringsRepository = new String[result.size() + 20];
             Arrays.fill(stringsRepository, "");
             Buffer.setStringsRepository(stringsRepository);
         }
         printReports(result, 0);
-//        int startingStrIndex = 10;
-//        for (Object[] objects : result) {
-//            Buffer.insertStringIntoRepository((String) objects[0], startingStrIndex);
-//            Buffer.insertStringIntoRepository((String) objects[1], startingStrIndex);
-////            System.out.println(objects[0] + " " + objects[1]);
-//        }
     }
 
     //Method that prints a list of leads
@@ -887,9 +879,10 @@ public class CommandManager {
                 }
             }
         }
-
-        //TODO: Add the outputs
-        System.out.println(result);
+        Output.printPage("The result of your query is " + result, PrintLayout.SOLO_LAYOUT);
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
+//        System.out.println(result);
     }
 
     //Method to create the command list for printing
@@ -903,17 +896,17 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Convert Lead -> Opportunity", 46);
         Buffer.insertStringIntoRepository("LOOKUP <Object> <Id>", 47);
         Buffer.insertStringIntoRepository("Show an object", 48);
-        Buffer.insertStringIntoRepository("CLOSE-WON <Id>", 49);
-        Buffer.insertStringIntoRepository("Close Opportunity as won", 50);
-        Buffer.insertStringIntoRepository("CLOSE-LOST <Id>", 51);
-        Buffer.insertStringIntoRepository("Close Opportunity as lost", 52);
+        Buffer.insertStringIntoRepository("", 49);
+        Buffer.insertStringIntoRepository("", 50);
+        Buffer.insertStringIntoRepository("", 51);
+        Buffer.insertStringIntoRepository("", 52);
         Buffer.insertStringIntoRepository("HELP", 53);
-        Buffer.insertStringIntoRepository("Shows more commands available", 54);
+        Buffer.insertStringIntoRepository("Show all commands available", 54);
         Buffer.insertStringIntoRepository("EXIT", 55);
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
     }
 
-    private static List<String> commandList;
+
 
     public static List<String> getCommandList() {
         return commandList;
