@@ -6,10 +6,9 @@ import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Buffer;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
+import com.ironhack.TheExceptionalistsCRMv20.utils.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,6 +29,7 @@ public class CommandManager {
         CommandManager.opportunityRepository = opportunityRepository;
         CommandManager.accountRepository = accountRepository;
         CommandManager.salesRepRepository = salesRepRepository;
+        exportPdf();
     }
 
     public static void introduceCommand() {
@@ -61,7 +61,7 @@ public class CommandManager {
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
+            case "mean", "median", "max", "min" -> showStats(words[0], words[1]);
             case "help" -> introduceCommand();
             case "exit" -> saveChangesAndExit();
         }
@@ -655,50 +655,100 @@ public class CommandManager {
     private static void showReport(String stat, String criterion) {
         List<Object[]> result = new ArrayList<>();
 
-        switch(criterion) {
+        switch (criterion) {
             case "salesrep" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsBySalesReps(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesBySalesReps(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsBySalesReps();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesReps();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen();
+                    }
                 }
             }
             case "product" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByProduct(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesByProduct(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByProduct();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProduct();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereOpen();
+                    }
                 }
             }
             case "country" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByCountry(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCountry(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByCountry();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountry();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen();
+                    }
                 }
             }
             case "city" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByCity(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCity(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByCity();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCity();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
+                    }
                 }
             }
             case "industry" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByIndustry(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByIndustry(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen(); }
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsByIndustry();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustry();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen();
+                    }
                 }
             }
         }
@@ -706,6 +756,16 @@ public class CommandManager {
         //TODO: Add the outputs
         for (Object[] objects : result) {
             System.out.println(objects[0] + " " + objects[1]);
+        }
+    }
+
+    private static void exportPdf() {
+        PdfGenerator pdfWriter = new PdfGenerator(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
+        try {
+            pdfWriter.generatePdf();
+        } catch (Exception e) {
+            System.err.println("No he sido posible crear el report");
+
         }
     }
 

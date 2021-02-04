@@ -155,9 +155,10 @@ class ValidatorTest {
     }
 
     @Test
-    public void introduceCommand_checkEmptyInput_false(){
+    public void introduceCommand_checkEmptyInput_false() {
         assertFalse(Validator.validateCommand(""));
     }
+
     @Test
     public void validateCommand_ValidLookupCommand_True() {
         assertFalse(Validator.validateCommand("lookup opportunity"));

@@ -40,14 +40,15 @@ public class ConsoleApp implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleApp.class);
 
 
-
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         ctx = SpringApplication.run(ConsoleApp.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        PdfWriter.createPdf();
+        //Init init = new Init(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
+        //init.addLeads();
+        //init.addAccounts();
         Output.introResolutionAlert();
         Buffer.initStringsRepository();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);

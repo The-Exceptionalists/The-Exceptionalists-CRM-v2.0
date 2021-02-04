@@ -425,6 +425,7 @@ public class Output {
 
     /**
      * As name said, it prints spaces
+     *
      * @param len
      * @return
      */
@@ -436,6 +437,7 @@ public class Output {
 
     /**
      * Print a line int the middle
+     *
      * @param len
      * @return
      */
@@ -447,6 +449,7 @@ public class Output {
 
     /**
      * Method that insert a line of a max certain len
+     *
      * @param text
      * @param len
      * @return
@@ -459,6 +462,7 @@ public class Output {
 
     /**
      * Method that print a text in a colorful way
+     *
      * @param text
      * @param color starting index of the color
      * @return
@@ -472,12 +476,12 @@ public class Output {
         return textArray.length;
     }
 
-    public static void introResolutionAlert(){
+    public static void introResolutionAlert() {
         System.out.println(DEFAULT + "\n\n\n\n");
         System.out.println(fillWithSpaces(26) + "RECEIVING DATA FROM DATABASE");
         System.out.print(fillWithSpaces(10));
         System.out.println(DEFAULT + "\n\n\n\n");
-        for (int i = 0; i < 40; i++){
+        for (int i = 0; i < 40; i++) {
             System.out.print(GREEN_BCK + BLOCK);
             try {
                 Thread.sleep(120);
@@ -495,7 +499,7 @@ public class Output {
         sc.nextLine();
     }
 
-    public static void printPage(String uniquePrompt, PrintLayout printLayout){
+    public static void printPage(String uniquePrompt, PrintLayout printLayout) {
         Buffer.resetPromptMessages();
         Buffer.resetScreenBuffer();
         Buffer.initStringsRepository();
@@ -507,7 +511,7 @@ public class Output {
         Output.printScreen();
     }
 
-    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout){
+    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout) {
         Buffer.resetPromptMessages();
         Buffer.resetScreenBuffer();
         Buffer.initStringsRepository();
@@ -516,7 +520,7 @@ public class Output {
         Buffer.setPromptLineTwo(secondPrompt);
         Buffer.insertCentralPromptPoints(1);
         Buffer.insertCentralPromptPoints(2);
-        switch(printLayout){
+        switch (printLayout) {
             case SOLO_LAYOUT -> Buffer.insertItemSolo();
             case THREE_LAYOUT -> Buffer.insertItemThree();
             case LIST_LAYOUT -> Buffer.insertItemList(6);
