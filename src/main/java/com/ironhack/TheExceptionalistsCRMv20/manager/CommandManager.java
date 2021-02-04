@@ -150,9 +150,9 @@ public class CommandManager {
                 opportunity.setAccount(account);
                 contact.setAccount(account);
                 //Adds all objects to the storage class
+                accountRepository.save(account);
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
-                accountRepository.save(account);
                 leadRepository.deleteById(id);
             } else {
                 text = "Enter an Account ID:";
@@ -166,9 +166,10 @@ public class CommandManager {
                     sc = new Scanner(System.in);
                     accountId = sc.nextLine();
                 }
-                Account account = accountRepository.findById(Integer.parseInt(accountId)).get();
-                opportunity.setAccount(account);
-                contact.setAccount(account);
+                Account accountForOpp = accountRepository.findByIdFetchOpp(Integer.parseInt(accountId)).get();
+                Account accountForCon = accountRepository.findByIdFetchCon(Integer.parseInt(accountId)).get();
+                opportunity.setAccount(accountForOpp);
+                contact.setAccount(accountForCon);
                 //Adds all objects to the storage class
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
