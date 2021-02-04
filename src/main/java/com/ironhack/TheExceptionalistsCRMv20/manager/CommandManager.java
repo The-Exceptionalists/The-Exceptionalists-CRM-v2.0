@@ -733,9 +733,9 @@ public class CommandManager {
 
     private static void showReport(String stat, String criterion) {
         List<Object[]> result = new ArrayList<>();
-        //TODO check what happens if report lead 1
         switch (criterion) {
             case "salesrep" -> {
+                Buffer.setReportColOne("SalesRep");
                 switch (stat) {
                     case "lead" -> {
                         result = leadRepository.countOfLeadsBySalesReps();
@@ -755,6 +755,7 @@ public class CommandManager {
                 }
             }
             case "product" -> {
+                Buffer.setReportColOne("Product");
                 switch (stat) {
                     case "lead" -> {
                         result = leadRepository.countOfLeadsByProduct();
@@ -774,6 +775,7 @@ public class CommandManager {
                 }
             }
             case "country" -> {
+                Buffer.setReportColOne("Country");
                 switch (stat) {
                     case "lead" -> {
                         result = leadRepository.countOfLeadsByCountry();
@@ -793,6 +795,7 @@ public class CommandManager {
                 }
             }
             case "city" -> {
+                Buffer.setReportColOne("City");
                 switch (stat) {
                     case "lead" -> {
                         result = leadRepository.countOfLeadsByCity();
@@ -812,6 +815,7 @@ public class CommandManager {
                 }
             }
             case "industry" -> {
+                Buffer.setReportColOne("Industry");
                 switch (stat) {
                     case "lead" -> {
                         result = leadRepository.countOfLeadsByIndustry();
@@ -847,17 +851,21 @@ public class CommandManager {
         Buffer.setUpLayout();
         Buffer.insertItemList(6);
 
+
         int startingRepositoryIndex = 10;
         int finalCounter = index;
-        for (int i = index; i < reportList.size() && i < index + 15; i++) {
-            Buffer.insertStringIntoRepository(String.valueOf(reportList.get(i)[0]), startingRepositoryIndex++);
+
+        Buffer.insertStringIntoRepository(Buffer.getReportColOne() + " - ", startingRepositoryIndex++);
+        Buffer.insertStringIntoRepository(Buffer.getReportColTwo(), startingRepositoryIndex++);
+        for (int i = index; i < reportList.size() && i < index + 14; i++) {
+            Buffer.insertStringIntoRepository(String.valueOf(reportList.get(i)[0]) + " - ", startingRepositoryIndex++);
             Buffer.insertStringIntoRepository(String.valueOf(reportList.get(i)[1]), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < reportList.size()) {
             Buffer.setPromptLineOne("Report List");
             Buffer.insertCentralPromptPoints(1);
-            Buffer.setPromptLineTwo("press INTRO to next page");
+            Buffer.setPromptLineTwo("Press INTRO to next page");
             printScreenBeforeAndPromptNext();
             printReports(reportList, finalCounter);
         } else if (reportList.size() == 0) {
@@ -926,10 +934,9 @@ public class CommandManager {
                 }
             }
         }
-        Output.printPage("The result of your query is " + result, PrintLayout.SOLO_LAYOUT);
+        Output.printPage("The result of your query is " + result, "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
-//        System.out.println(result);
     }
 
     //Method to create the command list for printing

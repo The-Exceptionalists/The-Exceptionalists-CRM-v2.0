@@ -36,7 +36,6 @@ public class ConsoleApp implements CommandLineRunner {
     @Autowired
     SalesRepRepository salesRepRepository;
 
-//    public static ConfigurableApplicationContext ctx;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleApp.class);
     private static int exitCode;
@@ -55,7 +54,8 @@ public class ConsoleApp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         PdfWriter.createPdf();
-//        Output.introResolutionAlert();
+        Output.introResolutionAlert();
+        Output.introLogin();
         Buffer.initStringsRepository();
         CommandManager.initRepos(leadRepository, contactRepository, opportunityRepository, accountRepository, salesRepRepository);
         while (true) {

@@ -58,8 +58,9 @@ public class Buffer {
     private static String promptLineOne = "";
     private static String promptLineTwo = "";
     private static String resultItem = "Result ";
-    private static String appVersion = "ver: 1.0";
-
+    private static String appVersion = "ver: 2.0";
+    private static String reportColTwo = "Count";
+    private static String reportColOne = "";
 
 
     private static String[] stringsRepository;
@@ -451,4 +452,19 @@ public class Buffer {
         Buffer.stringsRepository = stringsRepository;
     }
 
+    public static String getReportColTwo() {
+        return reportColTwo;
+    }
+
+    public static void setReportColTwo(String reportColTwo) {
+        Buffer.reportColTwo = reportColTwo;
+    }
+
+    public static String getReportColOne() {
+        return reportColOne;
+    }
+
+    public static void setReportColOne(String reportColOne) {
+        Buffer.reportColOne = reportColOne;
+    }
 }
