@@ -79,30 +79,32 @@ public class Validator {
                 }
 
                 case "report" -> {
-                    switch (word[1]) {
-                        case "lead", "opportunity", "closed-won", "closed-lost", "open" -> {
-                            switch (word[3]) {
-                                case "salesrep", "product", "country", "city", "industry" -> {
-                                    return word.length == 4 && word[2].equals("by");
+                    if (word.length == 4 && word[2].equals("by")) {
+                        switch (word[1]) {
+                            case "lead", "opportunity", "closed-won", "closed-lost", "open" -> {
+                                switch (word[3]) {
+                                    case "salesrep", "product", "country", "city", "industry" -> {
+                                        return true;
+                                    }
                                 }
                             }
                         }
                     }
                     return false;
                 }
-
                 case "mean", "median", "max", "min" -> {
                     switch (word[1]) {
                         case "employeecount", "quantity" -> {
                             return word.length == 2;
                         }
                         case "opps" -> {
-                            return word[2].equals("per") && word[3].equals("account");
+                            if (word.length == 4) {
+                                return word[2].equals("per") && word[3].equals("account");
+                            }
                         }
                     }
                     return false;
                 }
-
             }
         } else if (word.length == 1) {
             if (word[0].equals("help")) {
