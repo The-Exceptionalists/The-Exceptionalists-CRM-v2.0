@@ -21,38 +21,40 @@ public class PdfGenerator {
     private static SalesRepRepository salesRepRepository;
     private static ContactRepository contactRepository;
 
+/*
 
     //Report
-    private List<Object[]> leadsBySalesReps = leadRepository.countOfLeadsBySalesReps();
-    private List<Object[]> opportunitiesBySalesReps = opportunityRepository.countOfOpportunitiesBySalesReps();
-    private List<Object[]> ofOpportunitiesBySalesRepsWhereClosedWon = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon();
-    private List<Object[]> countOfOpportunitiesBySalesRepsWhereClosedLost = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost();
-    private List<Object[]> countOfOpportunitiesBySalesRepsWhereOpen = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen();
+    private static List<Object[]> leadsBySalesReps = leadRepository.countOfLeadsBySalesReps();
+    private static List<Object[]> opportunitiesBySalesReps = opportunityRepository.countOfOpportunitiesBySalesReps();
+    private static List<Object[]> ofOpportunitiesBySalesRepsWhereClosedWon = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon();
+    private static List<Object[]> countOfOpportunitiesBySalesRepsWhereClosedLost = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost();
+    private static List<Object[]> countOfOpportunitiesBySalesRepsWhereOpen = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen();
     //Stats
     //By Product
-    private List<Object[]> countOfLeadsByProduct = leadRepository.countOfLeadsByProduct();
-    private List<Object[]> countOfOpportunitiesByProduct = opportunityRepository.countOfOpportunitiesByProduct();
-    private List<Object[]> countOfOpportunitiesByProductWhereClosedWon = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon();
-    private List<Object[]> countOfOpportunitiesByProductWhereClosedLost = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost();
-    private List<Object[]> countOfOpportunitiesByProductWhereOpen = opportunityRepository.countOfOpportunitiesByProductWhereOpen();
+    private static List<Object[]> countOfLeadsByProduct = leadRepository.countOfLeadsByProduct();
+    private static List<Object[]> countOfOpportunitiesByProduct = opportunityRepository.countOfOpportunitiesByProduct();
+    private static List<Object[]> countOfOpportunitiesByProductWhereClosedWon = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon();
+    private static List<Object[]> countOfOpportunitiesByProductWhereClosedLost = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost();
+    private static List<Object[]> countOfOpportunitiesByProductWhereOpen = opportunityRepository.countOfOpportunitiesByProductWhereOpen();
     //By country
-    private List<Object[]> countOfLeadsByCountry = leadRepository.countOfLeadsByCountry();
-    private List<Object[]> countOfOpportuntiesByCountry = opportunityRepository.countOfOpportuntiesByCountry();
-    private List<Object[]> countOfOpportuntiesByCountryWhereClosedWon = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon();
-    private List<Object[]> countOfOpportuntiesByCountryWhereClosedLost = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost();
-    private List<Object[]> countOfOpportuntiesByCountryWhereOpen = opportunityRepository.countOfOpportuntiesByCountryWhereOpen();
+    private static List<Object[]> countOfLeadsByCountry = leadRepository.countOfLeadsByCountry();
+    private static List<Object[]> countOfOpportuntiesByCountry = opportunityRepository.countOfOpportuntiesByCountry();
+    private static List<Object[]> countOfOpportuntiesByCountryWhereClosedWon = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon();
+    private static List<Object[]> countOfOpportuntiesByCountryWhereClosedLost = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost();
+    private static List<Object[]> countOfOpportuntiesByCountryWhereOpen = opportunityRepository.countOfOpportuntiesByCountryWhereOpen();
     //By City
-    private List<Object[]> countOfLeadsByCity = leadRepository.countOfLeadsByCity();
-    private List<Object[]> countOfOpportuntiesByCity = opportunityRepository.countOfOpportuntiesByCity();
-    private List<Object[]> countOfOpportuntiesByCityWhereClosedWon = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon();
-    private List<Object[]> countOfOpportuntiesByCityWhereClosedLost = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost();
-    private List<Object[]> countOfOpportuntiesByCityWhereOpen = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
+    private static List<Object[]> countOfLeadsByCity = leadRepository.countOfLeadsByCity();
+    private static List<Object[]> countOfOpportuntiesByCity = opportunityRepository.countOfOpportuntiesByCity();
+    private static List<Object[]> countOfOpportuntiesByCityWhereClosedWon = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon();
+    private static List<Object[]> countOfOpportuntiesByCityWhereClosedLost = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost();
+    private static List<Object[]> countOfOpportuntiesByCityWhereOpen = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
     // By Industry
-    private List<Object[]> countOfLeadsByIndustry = leadRepository.countOfLeadsByIndustry();
-    private List<Object[]> countOfOpportuntiesByIndustry = opportunityRepository.countOfOpportuntiesByIndustry();
-    private List<Object[]> countOfOpportuntiesByIndustryWhereClosedWon = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon();
-    private List<Object[]> countOfOpportuntiesByIndustryWhereClosedLost = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost();
-    private List<Object[]> countOfOpportuntiesByIndustryWhereOpen = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen();
+    private static List<Object[]> countOfLeadsByIndustry = leadRepository.countOfLeadsByIndustry();
+    private static List<Object[]> countOfOpportuntiesByIndustry = opportunityRepository.countOfOpportuntiesByIndustry();
+    private static List<Object[]> countOfOpportuntiesByIndustryWhereClosedWon = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon();
+    private static List<Object[]> countOfOpportuntiesByIndustryWhereClosedLost = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost();
+    private static List<Object[]> countOfOpportuntiesByIndustryWhereOpen = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen();
+*/
 
     private static Font catFont = new Font(Font.FontFamily.HELVETICA, 18,
             Font.BOLD);
@@ -62,6 +64,8 @@ public class PdfGenerator {
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.HELVETICA, 12,
             Font.BOLD);
+    private static Font smallItalics = new Font(Font.FontFamily.HELVETICA, 12,
+            Font.ITALIC);
 
 
 
@@ -76,11 +80,12 @@ public class PdfGenerator {
 
 
     public static void generatePdf() throws DocumentException, FileNotFoundException {
-        Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("generate.pdf"));
+        Document document = new Document(PageSize.A4,50, 50, 50,5);
+            PdfWriter.getInstance(document, new FileOutputStream("generate2.pdf"));
             document.open();
             addMetaData(document);
             addTitlePage(document);
+            //addleadsBySalesReps(document);
             addContent(document);
             document.close();
 
@@ -94,11 +99,10 @@ public class PdfGenerator {
  * */
 
     private static void addMetaData(Document document) {
-        document.addTitle("My first PDF");
-        document.addSubject("Using iText");
-        document.addKeywords("Java, PDF, iText");
-        document.addAuthor("Lars Vogel");
-        document.addCreator("Lars Vogel");
+        document.addTitle("CRM Report");
+        document.addSubject("Report of your database");
+        document.addAuthor("The Exceptionalists CRM 2.0");
+        document.addCreator("The Exceptionalists CRM 2.0");
     }
 
     private static void addTitlePage(Document document)
@@ -107,28 +111,26 @@ public class PdfGenerator {
         // We add one empty line
         addEmptyLine(preface, 1);
         // Lets write a big header
-        preface.add(new Paragraph("Title of the document", catFont));
+        preface.add(new Paragraph("The Exceptionalists CRM Report", catFont));
 
         addEmptyLine(preface, 1);
         // Will create: Report generated by: _name, _date
         preface.add(new Paragraph(
                 "Report generated by: " + System.getProperty("user.name") + ", " + new Date(), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 smallBold));
-        addEmptyLine(preface, 3);
         preface.add(new Paragraph(
-                "This document describes something which is very important ",
-                smallBold));
+                "This file contains all reports and stats available at the exceptionalists CRM",
+                smallItalics));
 
-        addEmptyLine(preface, 8);
-
-        preface.add(new Paragraph(
-                "This document is a preliminary version and not subject to your license agreement or any other agreement with vogella.com ;-).",
-                redFont));
+        addEmptyLine(preface, 1);
 
         document.add(preface);
         // Start a new page
-        document.newPage();
+
     }
+
+
+
 
     private static void addContent(Document document) throws DocumentException {
         Anchor anchor = new Anchor("First Chapter", catFont);
@@ -144,8 +146,7 @@ public class PdfGenerator {
         subPara = new Paragraph("Subcategory 2", subFont);
         subCatPart = catPart.addSection(subPara);
         subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
+
 
         // add a list
         createList(subCatPart);
@@ -172,6 +173,35 @@ public class PdfGenerator {
 
         // now add all this to the document
         document.add(catPart);
+
+    }
+
+    private static void addleadsBySalesReps(Document document) throws DocumentException {
+        Anchor anchor = new Anchor("Leads by Sales Rep", catFont);
+        anchor.setName("Leads by Sales Rep");
+
+
+        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+        Paragraph leadsParagraph = new Paragraph();
+
+/*
+
+        if (leadRepository != null) {
+        for (Object object[] : leadsBySalesReps) {
+            leadsParagraph.add((String) object[0] +": " + object[1]);
+        }
+
+        }
+*/
+
+
+        catPart.add(leadsParagraph);
+
+        document.add(catPart);
+
+
+
+
 
     }
 

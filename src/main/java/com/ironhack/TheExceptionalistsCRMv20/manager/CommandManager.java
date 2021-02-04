@@ -11,10 +11,8 @@ import com.ironhack.TheExceptionalistsCRMv20.utils.*;
 import com.itextpdf.text.*;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 
 public class CommandManager {
@@ -33,13 +31,13 @@ public class CommandManager {
         CommandManager.opportunityRepository = opportunityRepository;
         CommandManager.accountRepository = accountRepository;
         CommandManager.salesRepRepository = salesRepRepository;
-        try {
+        /*try {
             PdfGenerator.generatePdf();
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public static void introduceCommand() {
