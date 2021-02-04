@@ -812,7 +812,7 @@ public class CommandManager {
         int finalCounter = index;
         for (int i = index; i < reportList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository((String) reportList.get(i)[0], startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository((String) reportList.get(i)[1], startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(String.valueOf(reportList.get(i)[1]), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < reportList.size()) {
