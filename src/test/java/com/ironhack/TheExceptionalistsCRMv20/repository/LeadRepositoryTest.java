@@ -1,6 +1,6 @@
 package com.ironhack.TheExceptionalistsCRMv20.repository;
 
-import com.ironhack.TheExceptionalistsCRMv20.Application;
+import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
@@ -10,29 +10,33 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 class LeadRepositoryTest {
 
-    @Autowired
-    AccountRepository accountRepository;
+    @MockBean
+    private ConsoleApp consoleApp;
 
     @Autowired
-    ContactRepository contactRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    SalesRepRepository salesRepRepository;
+    private ContactRepository contactRepository;
 
     @Autowired
-    OpportunityRepository opportunityRepository;
+    private SalesRepRepository salesRepRepository;
 
     @Autowired
-    LeadRepository leadRepository;
+    private OpportunityRepository opportunityRepository;
+
+    @Autowired
+    private LeadRepository leadRepository;
 
     @BeforeEach
     void setUp() {
