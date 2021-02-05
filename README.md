@@ -87,9 +87,11 @@ correctly.
 
 ## Screenshots
 
-![alt text]()
-![alt text]()
-![alt text]()
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/screenshots/screen1.jpg)
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/screenshots/screen2.jpg)
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/screenshots/screen3.jpg)
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/screenshots/screen4.jpg)
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/screenshots/screen5.jpg)
 
 ## Authors
 
