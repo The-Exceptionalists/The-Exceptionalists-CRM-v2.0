@@ -66,11 +66,11 @@ spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
 
 - Class Diagram:
 
-![alt text]()
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/main/src/main/resources/diagrams/CRM_Exceptionalists.jpeg)
 
 - Relations Diagram
 
-![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/er_model.png)
+![alt text](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/diagrams/er_model.png)
 
 ## Usage
 
