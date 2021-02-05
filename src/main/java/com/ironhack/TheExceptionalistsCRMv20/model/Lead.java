@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "leads")
-public class Lead extends Item{
+public class Lead extends Item {
     @ManyToOne
     private SalesRep salesRep;
 
@@ -42,7 +42,7 @@ public class Lead extends Item{
         return salesRep;
     }
 
-    public String getSalesRepToPrint(){
+    public String getSalesRepToPrint() {
         return "SalesRep: " + salesRep.getName();
     }
 

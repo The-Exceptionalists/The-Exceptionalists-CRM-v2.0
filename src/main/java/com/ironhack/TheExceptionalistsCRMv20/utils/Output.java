@@ -184,7 +184,7 @@ public class Output {
                     case 'g' -> {
                         switch (Buffer.screenBuffer[i][j + 1]) {
                             case '1' -> {
-                                System.out.print(DARK_GREY_BCK+ BOLD + UNDERLINE
+                                System.out.print(DARK_GREY_BCK + BOLD + UNDERLINE
                                         + insertText(Buffer.getStringFromRepository(10) + BLOCK
                                         + Buffer.getStringFromRepository(11), 80) + DEFAULT);
                                 j += 39;
@@ -438,6 +438,7 @@ public class Output {
 
     /**
      * As name said, it prints spaces
+     *
      * @param len
      * @return
      */
@@ -449,6 +450,7 @@ public class Output {
 
     /**
      * Print a line int the middle
+     *
      * @param len
      * @return
      */
@@ -460,6 +462,7 @@ public class Output {
 
     /**
      * Method that insert a line of a max certain len
+     *
      * @param text
      * @param len
      * @return
@@ -472,6 +475,7 @@ public class Output {
 
     /**
      * Method that print a text in a colorful way
+     *
      * @param text
      * @param color starting index of the color
      * @return
@@ -485,12 +489,12 @@ public class Output {
         return textArray.length;
     }
 
-    public static void introResolutionAlert(){
+    public static void introResolutionAlert() {
         System.out.println(DEFAULT + "\n\n\n\n");
         System.out.println(fillWithSpaces(26) + "RECEIVING DATA FROM DATABASE");
         System.out.print(fillWithSpaces(10));
         System.out.println(DEFAULT + "\n\n\n\n");
-        for (int i = 0; i < 40; i++){
+        for (int i = 0; i < 40; i++) {
             System.out.print(GREEN_BCK + BLOCK);
             try {
                 Thread.sleep(120);
@@ -508,54 +512,8 @@ public class Output {
         sc.nextLine();
     }
 
-    static private int loginAttempt = 0;
 
-    public static void introLogin(){
-        if (loginAttempt >= 3){
-            System.exit(ConsoleApp.getExitCode());
-        }
-        System.out.println(DEFAULT + "\n\n\n\n");
-        System.out.println(DEFAULT + "\n\n\n\n");
-        System.out.println(DEFAULT + "\n\n\n\n\n\n\n");
-        System.out.println();
-        System.out.println(fillWithSpaces(24) + INVERSE + BOLD+ Buffer.getAppName() + DEFAULT);
-        System.out.println("\n\n\n");
-        System.out.println(fillWithSpaces(34) + "Username:".toUpperCase(Locale.ROOT));
-        System.out.println();
-        System.out.println(DEFAULT + "\n\n\n\n");
-        System.out.println("\n\n\n");
-        Scanner sc = new Scanner(System.in);
-        String username = sc.nextLine();
-        System.out.println(DEFAULT + "\n\n\n\n");
-        System.out.println(DEFAULT + "\n\n\n\n");
-        System.out.println(DEFAULT + "\n\n\n\n\n\n\n");
-        System.out.println();
-        System.out.println(fillWithSpaces(24) + INVERSE + BOLD+ Buffer.getAppName() + DEFAULT);
-        System.out.println("\n\n\n");
-        System.out.println(fillWithSpaces(34) + "Password:".toUpperCase(Locale.ROOT));
-        System.out.println();
-        System.out.println(DEFAULT + "\n\n\n\n");
-        System.out.println("\n\n\n");
-        sc = new Scanner(System.in);
-        String password = sc.nextLine();
-        if (!username.equalsIgnoreCase("ironhacker") || !password.equals("bet4TE$t")) {
-            loginAttempt++;
-            System.out.println("Wrong credentials, try again. You have " + (3 - loginAttempt) + " attempts left.");
-            System.out.println("You want to try again?");
-            sc.nextLine();
-            introLogin();
-        }
-        Buffer.setUserName(" " + username);
-        System.out.println("Login completed.");
-        try {
-            Thread.sleep(700);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static void printPage(String uniquePrompt, PrintLayout printLayout){
+    public static void printPage(String uniquePrompt, PrintLayout printLayout) {
         Buffer.resetPromptMessages();
         Buffer.resetScreenBuffer();
         Buffer.initStringsRepository();
@@ -567,7 +525,7 @@ public class Output {
         Output.printScreen();
     }
 
-    public static void printHelpPage(){
+    public static void printHelpPage() {
         Buffer.resetPromptMessages();
         Buffer.resetScreenBuffer();
         Buffer.initStringsRepository();
@@ -579,7 +537,7 @@ public class Output {
         Output.printScreen();
     }
 
-    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout){
+    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout) {
         Buffer.resetPromptMessages();
         Buffer.resetScreenBuffer();
         Buffer.initStringsRepository();
@@ -588,7 +546,7 @@ public class Output {
         Buffer.setPromptLineTwo(secondPrompt);
         Buffer.insertCentralPromptPoints(1);
         Buffer.insertCentralPromptPoints(2);
-        switch(printLayout){
+        switch (printLayout) {
             case SOLO_LAYOUT -> Buffer.insertItemSolo();
             case THREE_LAYOUT -> Buffer.insertItemThree();
             case LIST_LAYOUT -> Buffer.insertItemList(6);
@@ -598,8 +556,8 @@ public class Output {
         Output.printScreen();
     }
 
-    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout, boolean resetPromptMessages){
-        if (resetPromptMessages){
+    public static void printPage(String firstPrompt, String secondPrompt, PrintLayout printLayout, boolean resetPromptMessages) {
+        if (resetPromptMessages) {
             Buffer.resetPromptMessages();
             Buffer.initStringsRepository();
         }
@@ -609,7 +567,7 @@ public class Output {
         Buffer.setPromptLineTwo(secondPrompt);
         Buffer.insertCentralPromptPoints(1);
         Buffer.insertCentralPromptPoints(2);
-        switch(printLayout){
+        switch (printLayout) {
             case SOLO_LAYOUT -> Buffer.insertItemSolo();
             case THREE_LAYOUT -> Buffer.insertItemThree();
             case LIST_LAYOUT -> Buffer.insertItemList(6);
