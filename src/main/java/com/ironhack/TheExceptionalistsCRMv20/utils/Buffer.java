@@ -1,4 +1,4 @@
-package com.ironhack.TheExceptionalistsCRMv20.utilities;
+package com.ironhack.TheExceptionalistsCRMv20.utils;
 
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 
@@ -58,31 +58,34 @@ public class Buffer {
     private static String promptLineOne = "";
     private static String promptLineTwo = "";
     private static String resultItem = "Result ";
-    private static String appVersion = "ver: 1.0";
+    private static String appVersion = "ver: 2.0";
+    private static String reportColTwo = "Count";
+    private static String reportColOne = "";
 
 
     private static String[] stringsRepository;
 
-    public static void initStringsRepository(){
+
+    public static void initStringsRepository() {
         stringsRepository = new String[60];
         Arrays.fill(stringsRepository, "");
     }
 
-    public static void insertStringIntoRepository(String str, int index){
-        if (index > stringsRepository.length -1 || index < 0){
+    public static void insertStringIntoRepository(String str, int index) {
+        if (index > stringsRepository.length - 1 || index < 0) {
             throw new IllegalArgumentException();
         }
         stringsRepository[index] = str;
     }
 
-    public static String getStringFromRepository(int index){
-        if (index > stringsRepository.length -1  || index < 0){
+    public static String getStringFromRepository(int index) {
+        if (index > stringsRepository.length - 1 || index < 0) {
             throw new IllegalArgumentException();
         }
         return stringsRepository[index];
     }
 
-    public static void resetScreenBuffer(){
+    public static void resetScreenBuffer() {
         for (int i = 0; i < Buffer.screenBuffer.length; i++) {
             for (int j = 0; j < Buffer.screenBuffer[i].length; ++j)
                 screenBuffer[i][j] = ' ';
@@ -96,23 +99,23 @@ public class Buffer {
     }
 
     public static void insertCentralBox() {
-        for (int i = 0; i < 17; i++){
-            for (int j = 0; j < 42; j++){
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0; j < 42; j++) {
                 screenBuffer[6 + i][2 + j] = 'B';
             }
         }
     }
 
     public static void insertCentralPrompt() {
-        for (int i = 0; i < 4; i++){
-            for (int j = 0; j < 42; j++){
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 42; j++) {
                 screenBuffer[24 + i][2 + j] = 'P';
             }
         }
     }
 
-    public static void insertCentralPromptPoints(int itemIndex){
-        switch(itemIndex){
+    public static void insertCentralPromptPoints(int itemIndex) {
+        switch (itemIndex) {
             case 1 -> {
                 screenBuffer[25][4] = 'p';
                 screenBuffer[25][5] = '1';
@@ -125,7 +128,7 @@ public class Buffer {
         }
     }
 
-    public static void insertVersionIndicator(){
+    public static void insertVersionIndicator() {
         screenBuffer[27][53] = 'v';
     }
 
@@ -153,15 +156,15 @@ public class Buffer {
     }
 
     public static void insertAppName() {
-            screenBuffer[1 ][8] = 'A';
+        screenBuffer[1][8] = 'A';
     }
 
     public static void insertUserName() {
-        screenBuffer[1 ][47] = 'U';
+        screenBuffer[1][47] = 'U';
     }
 
     public static void insertCompanyName() {
-        screenBuffer[3 ][8] = 'C';
+        screenBuffer[3][8] = 'C';
 
     }
 
@@ -204,14 +207,14 @@ public class Buffer {
         char startingLocationA = 'a';
         char startingLocationB = 'e';
 
-        for (int i = 0; i < 3; i++){
-            switch(i) {
+        for (int i = 0; i < 3; i++) {
+            switch (i) {
                 case 0 -> startingRow = 7;
                 case 1 -> startingRow = 12;
                 case 2 -> startingRow = 17;
             }
             screenBuffer[startingRow - 1][4] = 'i';
-            screenBuffer[startingRow - 1][5] = (char ) ('1' + i);
+            screenBuffer[startingRow - 1][5] = (char) ('1' + i);
 
 
             for (int j = 0; j < 4; j++) {
@@ -222,17 +225,32 @@ public class Buffer {
             }
 
         }
-
-
-
     }
 
-    public static void insertItemList(int startingRow){
-        char startingLocation = 'a' ;
+    public static void prepareHelpPage() {
+        int startingRepository = 10;
+        insertStringIntoRepository("List of Commands Available:", startingRepository += 2);
+        insertStringIntoRepository("NEW LEAD", startingRepository += 2);
+        insertStringIntoRepository("SHOW <ObjectInPlural>: Show a list of objects", startingRepository += 2);
+        insertStringIntoRepository("CONVERT ID: Start the process to convert a lead to opportunity", startingRepository += 2);
+        insertStringIntoRepository("LOOKUP <Object> <Id>: Show an object by his id", startingRepository += 2);
+        insertStringIntoRepository("CLOSE-WON <Id>: Closes an opportunity and marks it as won", startingRepository += 2);
+        insertStringIntoRepository("CLOSE-Close <Id>: Closes an opportunity and marks it as lost", startingRepository += 2);
+        insertStringIntoRepository("REPORT <Lead/Opportunity/CLOSED-WON/CLOSED-LOST/OPEN>", startingRepository += 2);
+        insertStringIntoRepository("          by <SalesRep/Product/Country/City/Industry>", startingRepository += 2);
+        insertStringIntoRepository("MEAN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("MEDIAN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("MAX <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("MIN <EmployeeCount/Quantity/Opps per Account>", startingRepository += 2);
+        insertStringIntoRepository("PDF : Generates a file with all reports and stats", startingRepository += 2);
+    }
 
-        for (int i = 0; i < 15; i++){
-            screenBuffer[startingRow + i][4 ] = 'g';
-            screenBuffer[startingRow + i][5 ] = (char) (startingLocation + i);
+    public static void insertItemList(int startingRow) {
+        char startingLocation = 'a';
+
+        for (int i = 0; i < 15; i++) {
+            screenBuffer[startingRow + i][4] = 'g';
+            screenBuffer[startingRow + i][5] = (char) (startingLocation + i);
         }
     }
 
@@ -268,10 +286,13 @@ public class Buffer {
         insertStringIntoRepository(lead.getPhoneNumberToPrint(), startingRepository++);
         insertStringIntoRepository(lead.getEmailToPrint(), startingRepository++);
         insertStringIntoRepository(lead.getCompanyNameToPrint(), startingRepository++);
+        insertStringIntoRepository(lead.getSalesRepToPrint(), startingRepository++);
+
     }
 
     /**
      * Extract data from Opportunity
+     *
      * @param opportunity
      * @param resultIndex
      * @param listIndex
@@ -293,6 +314,7 @@ public class Buffer {
 
     /**
      * Extract data from Contact
+     *
      * @param contact
      * @param resultIndex
      * @param listIndex
@@ -314,6 +336,7 @@ public class Buffer {
 
     /**
      * Insert data from account
+     *
      * @param account
      * @param resultIndex
      * @param listIndex
@@ -423,5 +446,27 @@ public class Buffer {
         Buffer.appVersion = appVersion;
     }
 
+    public static String[] getStringsRepository() {
+        return stringsRepository;
+    }
 
+    public static void setStringsRepository(String[] stringsRepository) {
+        Buffer.stringsRepository = stringsRepository;
+    }
+
+    public static String getReportColTwo() {
+        return reportColTwo;
+    }
+
+    public static void setReportColTwo(String reportColTwo) {
+        Buffer.reportColTwo = reportColTwo;
+    }
+
+    public static String getReportColOne() {
+        return reportColOne;
+    }
+
+    public static void setReportColOne(String reportColOne) {
+        Buffer.reportColOne = reportColOne;
+    }
 }

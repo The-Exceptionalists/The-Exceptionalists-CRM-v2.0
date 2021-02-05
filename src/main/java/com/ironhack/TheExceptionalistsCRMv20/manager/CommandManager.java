@@ -2,18 +2,17 @@ package com.ironhack.TheExceptionalistsCRMv20.manager;
 
 import com.ironhack.TheExceptionalistsCRMv20.ConsoleApp;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Industry;
+import com.ironhack.TheExceptionalistsCRMv20.enums.PrintLayout;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Product;
 import com.ironhack.TheExceptionalistsCRMv20.enums.Status;
 import com.ironhack.TheExceptionalistsCRMv20.model.*;
 import com.ironhack.TheExceptionalistsCRMv20.repository.*;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Buffer;
-import com.ironhack.TheExceptionalistsCRMv20.utilities.Output;
-import com.ironhack.TheExceptionalistsCRMv20.utils.Validator;
+import com.ironhack.TheExceptionalistsCRMv20.utils.*;
+import com.itextpdf.text.*;
 
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 
 public class CommandManager {
@@ -22,6 +21,9 @@ public class CommandManager {
     private static OpportunityRepository opportunityRepository;
     private static AccountRepository accountRepository;
     private static SalesRepRepository salesRepRepository;
+    private static String normalPrompt = "Introduce a command from the list:";
+    private static String errorPrompt = "";
+    private static List<String> commandList;
 
 
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
@@ -32,13 +34,66 @@ public class CommandManager {
         CommandManager.salesRepRepository = salesRepRepository;
     }
 
+    private static void createPdf() {
+
+        HashMap<String, List<Object[]>> hashMap = new HashMap<>();
+        HashMap<String, Double> stats = new HashMap<>();
+
+        hashMap.put("Count of Opportunities By Sales Rep", opportunityRepository.countOfOpportunitiesBySalesReps());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Won", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Lost", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Open", opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen());
+        hashMap.put("Count of Leads by Sales Reps", leadRepository.countOfLeadsBySalesReps());
+        hashMap.put("Count of Opportunities by Product", opportunityRepository.countOfOpportunitiesByProduct());
+        hashMap.put("Count of Opportunities by Product Where Closed Won", opportunityRepository.countOfOpportunitiesByProductWhereClosedWon());
+        hashMap.put("Count of Opportunities by Product Where Closed Lost", opportunityRepository.countOfOpportunitiesByProductWhereClosedLost());
+        hashMap.put("Count of Opportunities by Product Where Open", opportunityRepository.countOfOpportunitiesByProductWhereOpen());
+        hashMap.put("Count of Opportunities by Country", opportunityRepository.countOfOpportuntiesByCountry());
+        hashMap.put("Count of Opportunities by Country Where Closed Won", opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon());
+        hashMap.put("Count of Opportunities by Country Where Closed Lost", opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost());
+        hashMap.put("Count of Opportunities by Country Where Open", opportunityRepository.countOfOpportuntiesByCountryWhereOpen());
+        hashMap.put("Count of Opportunities by City", opportunityRepository.countOfOpportuntiesByCity());
+        hashMap.put("Count of Opportunities by City Where Closed Won", opportunityRepository.countOfOpportuntiesByCityWhereClosedWon());
+        hashMap.put("Count of Opportunities by City Where Closed Lost", opportunityRepository.countOfOpportuntiesByCityWhereClosedLost());
+        hashMap.put("Count of Opportunities by City Where Open", opportunityRepository.countOfOpportuntiesByCityWhereOpen());
+        hashMap.put("Count of Opportunities by Industry", opportunityRepository.countOfOpportuntiesByIndustry());
+        hashMap.put("Count of Opportunities by Industry Where Closed Won", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon());
+        hashMap.put("Count of Opportunities by Industry Where Closed Lost", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost());
+        hashMap.put("Count of Opportunities by Industry Where Open", opportunityRepository.countOfOpportuntiesByIndustryWhereOpen());
+
+
+        stats.put("Mean of Quantity", opportunityRepository.meanOfQuantity());
+        stats.put("Max of Quantity", opportunityRepository.maxOfQuantity().doubleValue());
+        stats.put("Min of Quantity", accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Quantity", opportunityRepository.medianOfQuantity());
+        stats.put("Mean of Employee Count", accountRepository.meanOfEmployeeCount());
+        stats.put("Max of Employee Count", accountRepository.maxOfEmployeeCount().doubleValue());
+        stats.put("Min of Employee Count", accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Employee Count", accountRepository.medianOfEmployeeCount());
+        stats.put("Mean of Opportunities in Accounts", accountRepository.meanOfOpportunitiesOnAccounts());
+        stats.put("Max  of opportunities in Accounts", accountRepository.maxOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Min of Opportunities in Accounts", accountRepository.minOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Median of Opportunities in Accounts", accountRepository.medianOfOpportunitiesOnAccounts());
+
+
+        PdfGenerator.init(hashMap, stats);
+        try {
+            PdfGenerator.generatePdf();
+            Output.printPage("Your report has been created in resources.", "Press INTRO to continue", PrintLayout.LIST_LAYOUT, true);
+            Scanner sc = new Scanner(System.in);
+            sc.nextLine();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void introduceCommand() {
         CommandManager.setCommandList();
-        Buffer.setUpLayout();
-        Buffer.setPromptLineTwo("Introduce a command from the list:");
-        Buffer.insertCentralPromptPoints(2);
-        Buffer.insertCentralPromptPoints(1);
-        Output.printScreen();
+        Output.printPage(errorPrompt, normalPrompt, PrintLayout.MENU_ON, false);
+        errorPrompt = "";
         Scanner sc = new Scanner(System.in);
         String command = sc.nextLine();
         command = command.toLowerCase();
@@ -46,7 +101,7 @@ public class CommandManager {
         if (Validator.validateCommand(command)) {
             processCommand(command);
         } else {
-            Buffer.setPromptLineOne("Command not found");
+            errorPrompt = "Command not found";
         }
     }
 
@@ -57,33 +112,47 @@ public class CommandManager {
             case "new" -> createObject(words[1]);
             case "show" -> showList(words[1]);
             case "convert" -> convertLeadToOpportunity(Integer.parseInt(words[1]));
-            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));  //TODO: Add the name of the SalesRep on Lead and Opportunity
+            case "lookup" -> showObject(words[1], Integer.parseInt(words[2]));
             case "close-won" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_WON);
             case "close-lost" -> closeOpportunity(Integer.parseInt(words[1]), Status.CLOSED_LOST);
             case "report" -> showReport(words[1], words[3]);
-            case "mean", "median", "max", "min" -> showStats(words[0],words[1]);
-            case "help" -> introduceCommand();
+            case "mean", "median", "max", "min" -> showStats(words[0], words[1]);
+            case "pdf" -> createPdf();
+            case "help" -> helpPage();
             case "exit" -> saveChangesAndExit();
         }
     }
 
+
     private static void saveChangesAndExit() {
-        ConsoleApp.ctx.close();
-        System.exit(0);
+//        ConsoleApp.ctx.close();
+        System.exit(ConsoleApp.getExitCode());
     }
+
+    private static void helpPage() {
+        Output.printHelpPage();
+        Scanner sc = new Scanner(System.in);
+        String command = sc.nextLine();
+    }
+
 
     //Method that handles the object creation
     private static void createObject(String word) {
         switch (word) {
             case "lead" -> {
+                if (salesRepRepository.count() == 0L) {
+                    Output.printPage("You should add at least a salesRep, before create a lead", "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
+                    Scanner sc = new Scanner(System.in);
+                    sc.nextLine();
+                    introduceCommand();
+                }
                 Lead lead = promptLead();
                 leadRepository.save(lead);
-                System.out.println("New lead successfully added!");
             }
             case "salesrep" -> {
                 SalesRep salesRep = promptSalesRep();
                 salesRepRepository.save(salesRep);
-                System.out.println("New SalesRep successfully added!");
+                introduceCommand();
             }
         }
     }
@@ -128,53 +197,51 @@ public class CommandManager {
             Scanner sc = new Scanner(System.in);
             String createNewAccount = sc.nextLine();
             createNewAccount.toLowerCase();
-            while(!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
+            while (!createNewAccount.equals("yes") && !createNewAccount.equals("no")) {
                 Buffer.setPromptLineOne("Enter a correct response.");
                 printItemPrompt(text);
                 Buffer.resetPromptOne();
                 sc = new Scanner(System.in);
                 createNewAccount = sc.nextLine().toLowerCase();
             }
-            if(createNewAccount.equals("yes")) {
+            if (createNewAccount.equals("yes")) {
                 Account account = promptAccount(contact.getCompanyName(), contact, opportunity);
                 opportunity.setAccount(account);
                 contact.setAccount(account);
                 //Adds all objects to the storage class
+                accountRepository.save(account);
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
-                accountRepository.save(account);
                 leadRepository.deleteById(id);
             } else {
                 text = "Enter an Account ID:";
                 printItemPrompt(text);
                 sc = new Scanner(System.in);
                 String accountId = sc.nextLine();
-                while(Validator.validateNumber(accountId) && !accountRepository.existsById(Integer.parseInt(accountId))) {
+                while (Validator.validateNumber(accountId) && accountRepository.findById(Integer.parseInt(accountId)).isEmpty()) {
                     Buffer.setPromptLineOne("Enter a valid and existing Account ID.");
                     printItemPrompt(text);
                     Buffer.resetPromptOne();
                     sc = new Scanner(System.in);
                     accountId = sc.nextLine();
                 }
-                Account account = accountRepository.findById(Integer.parseInt(accountId)).get();
-                opportunity.setAccount(account);
-                contact.setAccount(account);
+                Account accountForOpp = accountRepository.findByIdFetchOpp(Integer.parseInt(accountId)).get();
+                Account accountForCon = accountRepository.findByIdFetchCon(Integer.parseInt(accountId)).get();
+                opportunity.setAccount(accountForOpp);
+                contact.setAccount(accountForCon);
                 //Adds all objects to the storage class
                 contactRepository.save(contact);
                 opportunityRepository.save(opportunity);
                 leadRepository.deleteById(id);
-                printItemPrompt("New Account created - press INTRO");
-                String retNext = sc.nextLine();
+                printItemPrompt("Contact and Opportunity added - press INTRO");
+                sc.nextLine();
             }
             //Return an error message if the id is not found
         } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
-            Buffer.setUpLayout();
-            Buffer.setPromptLineOne("Lead with id " + id + " not found.");
+            Buffer.setPromptLineTwo("Convert Lead - press INTRO");
             Buffer.insertCentralPromptPoints(2);
-            Buffer.insertCentralPromptPoints(1);
-            Output.printScreen();
-            Scanner sc = new Scanner(System.in);
-            String retScanner = sc.nextLine();
+            normalOneLinePrint("Lead with id " + id + " not found.");
+            Buffer.resetPromptMessages();
 
         }
     }
@@ -355,6 +422,23 @@ public class CommandManager {
                     Buffer.resetPromptMessages();
                 }
             }
+            case "salesrep" -> {
+                try {
+                    SalesRep salesRep = salesRepRepository.findById(id).get();
+                    Buffer.insertSalesRepStringRepository(salesRep, 1, 1);
+                    Buffer.insertItemSolo();
+                    Buffer.setPromptLineTwo("Lookup SalesRep - press INTRO");
+                    Buffer.insertCentralPromptPoints(2);
+                    Output.printScreen();
+                    Scanner sc = new Scanner(System.in);
+                    String next = sc.nextLine();
+                } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
+                    Buffer.setPromptLineTwo("Lookup SalesRep - press INTRO");
+                    Buffer.insertCentralPromptPoints(2);
+                    normalOneLinePrint("SalesRep with id " + id + " not found.");
+                    Buffer.resetPromptMessages();
+                }
+            }
         }
     }
 
@@ -502,19 +586,36 @@ public class CommandManager {
             phoneNumber = sc.nextLine();
         }
         Buffer.insertStringIntoRepository("Phone: " + phoneNumber, 14);
-        text = "SalesRep ID: ";
-        printItemPrompt(text);
-        String salesRepId = sc.nextLine();
-        while (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
-            Buffer.setPromptLineOne("Enter a correct SalesRep ID"); //Be more specific with the format
-            printItemPrompt(text);
-            Buffer.resetPromptOne();
-            salesRepId = sc.nextLine();
-        }
+        String salesRepId = promptSalesRepId();
         Buffer.insertStringIntoRepository("SalesRep ID: " + salesRepId, 15);
         printItemPrompt("Lead Created! - press INTRO");
         String nextRet = sc.nextLine();
         return new Lead(name, email, companyName, phoneNumber, salesRepRepository.findById(Integer.parseInt(salesRepId)).get());
+    }
+
+    private static String promptSalesRepId() {
+        Scanner sc = new Scanner(System.in);
+        Output.printPage("Insert: SalesRep Id / <SHOW> for SalesRep list", "", PrintLayout.SOLO_LAYOUT, false);
+        String salesRepId = sc.nextLine();
+        if (salesRepId.toLowerCase().startsWith("show") || salesRepId.toLowerCase().startsWith("show ")) {
+            showList("salesreps");
+            salesRepId = promptSalesRepId();
+        } else {
+            while (!Validator.validateNumber(salesRepId)) {
+                if (salesRepId.toLowerCase().startsWith("show") || salesRepId.toLowerCase().startsWith("show ")) {
+                    salesRepId = promptSalesRepId();
+                } else {
+                    Output.printPage("Insert SalesRep Id(<SHOW> for SalesRep list)",
+                            "Enter a correct SalesRep ID", PrintLayout.SOLO_LAYOUT, false);
+                    salesRepId = sc.nextLine();
+                }
+            }
+            if (!salesRepRepository.existsById(Integer.parseInt(salesRepId))) {
+                Buffer.setPromptLineTwo("Enter a correct SalesRep ID");
+                salesRepId = promptSalesRepId();
+            }
+        }
+        return salesRepId;
     }
 
     private static void printItemPrompt(String text) {
@@ -537,7 +638,8 @@ public class CommandManager {
         int finalCounter = index;
         for (int i = index; i < leadList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository(leadList.get(i).getIdToPrint(), startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository(leadList.get(i).getNameToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(leadList.get(i).getNameToPrint() + "  " +
+                    leadList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < leadList.size()) {
@@ -575,7 +677,8 @@ public class CommandManager {
         int finalCounter = index;
         for (int i = index; i < opportunityList.size() && i < index + 15; i++) {
             Buffer.insertStringIntoRepository(opportunityList.get(i).getIdToPrint(), startingRepositoryIndex++);
-            Buffer.insertStringIntoRepository(opportunityList.get(i).getDecisionMaker().getNameToPrint(), startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(opportunityList.get(i).getDecisionMaker().getNameToPrint() + "  " +
+                    opportunityList.get(i).getSalesRep().getIdToPrint(), startingRepositoryIndex++);
             finalCounter++;
         }
         if (finalCounter < opportunityList.size()) {
@@ -678,7 +781,7 @@ public class CommandManager {
             printScreenBeforeAndPromptNext();
             printSalesRepList(salesRepList, finalCounter);
         } else if (salesRepList.size() == 0) {
-            Buffer.setPromptLineTwo("SalesRep leads List - press INTRO");
+            Buffer.setPromptLineTwo("SalesRep List is EMPTY - press INTRO");
             printScreenBeforeAndPromptNext();
 
         } else {
@@ -689,58 +792,136 @@ public class CommandManager {
 
     private static void showReport(String stat, String criterion) {
         List<Object[]> result = new ArrayList<>();
-
-        switch(criterion) {
+        switch (criterion) {
             case "salesrep" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsBySalesReps(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesBySalesReps(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen(); }
+                Buffer.setReportColOne("SalesRep");
+                switch (stat) {
+                    case "lead" -> {
+                        result = leadRepository.countOfLeadsBySalesReps();
+                    }
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesReps();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen();
+                    }
                 }
             }
             case "product" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByProduct(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportunitiesByProduct(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportunitiesByProductWhereOpen(); }
+                Buffer.setReportColOne("Product");
+                switch (stat) {
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProduct();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportunitiesByProductWhereOpen();
+                    }
                 }
             }
             case "country" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByCountry(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCountry(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen(); }
+                Buffer.setReportColOne("Country");
+                switch (stat) {
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountry();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCountryWhereOpen();
+                    }
                 }
             }
             case "city" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByCity(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByCity(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByCityWhereOpen(); }
+                Buffer.setReportColOne("City");
+                switch (stat) {
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCity();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByCityWhereOpen();
+                    }
                 }
             }
             case "industry" -> {
-                switch(stat) {
-                    case "lead" -> { result = leadRepository.countOfLeadsByIndustry(); }
-                    case "opportunity" -> { result = opportunityRepository.countOfOpportuntiesByIndustry(); }
-                    case "closed-won" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon(); }
-                    case "closed-lost" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost(); }
-                    case "open" -> { result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen(); }
+                Buffer.setReportColOne("Industry");
+                switch (stat) {
+                    case "opportunity" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustry();
+                    }
+                    case "closed-won" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon();
+                    }
+                    case "closed-lost" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost();
+                    }
+                    case "open" -> {
+                        result = opportunityRepository.countOfOpportuntiesByIndustryWhereOpen();
+                    }
                 }
             }
         }
+        if (result.size() > 50) {
+            String[] stringsRepository = new String[result.size() + 20];
+            Arrays.fill(stringsRepository, "");
+            Buffer.setStringsRepository(stringsRepository);
+        }
+        printReports(result, 0);
+    }
 
-        //TODO: Add the outputs
-        for (Object[] objects : result) {
-            System.out.println(objects[0] + " " + objects[1]);
+    //Method that prints a list of leads
+    private static void printReports(List<Object[]> reportList, int index) {
+        Buffer.resetScreenBuffer();
+        Buffer.initStringsRepository();
+        Buffer.resetPromptMessages();
+        Buffer.setUpLayout();
+        Buffer.insertItemList(6);
+
+
+        int startingRepositoryIndex = 10;
+        int finalCounter = index;
+
+        Buffer.insertStringIntoRepository(Buffer.getReportColOne() + " - ", startingRepositoryIndex++);
+        Buffer.insertStringIntoRepository(Buffer.getReportColTwo(), startingRepositoryIndex++);
+        for (int i = index; i < reportList.size() && i < index + 14; i++) {
+            Buffer.insertStringIntoRepository(String.valueOf(reportList.get(i)[0]) + " - ", startingRepositoryIndex++);
+            Buffer.insertStringIntoRepository(String.valueOf(reportList.get(i)[1]), startingRepositoryIndex++);
+            finalCounter++;
+        }
+        if (finalCounter < reportList.size()) {
+            Buffer.setPromptLineOne("Report List");
+            Buffer.insertCentralPromptPoints(1);
+            Buffer.setPromptLineTwo("Press INTRO to next page");
+            printScreenBeforeAndPromptNext();
+            printReports(reportList, finalCounter);
+        } else if (reportList.size() == 0) {
+            Buffer.setPromptLineTwo("Empty reads List - press INTRO");
+            printScreenBeforeAndPromptNext();
+
+        } else {
+            Buffer.setPromptLineTwo("Report List - press INTRO");
+            printScreenBeforeAndPromptNext();
         }
     }
 
@@ -800,9 +981,9 @@ public class CommandManager {
                 }
             }
         }
-
-        //TODO: Add the outputs
-        System.out.println(result);
+        Output.printPage("The result of your query is " + result, "Press INTRO to continue", PrintLayout.SOLO_LAYOUT);
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
     }
 
     //Method to create the command list for printing
@@ -816,17 +997,16 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Convert Lead -> Opportunity", 46);
         Buffer.insertStringIntoRepository("LOOKUP <Object> <Id>", 47);
         Buffer.insertStringIntoRepository("Show an object", 48);
-        Buffer.insertStringIntoRepository("CLOSE-WON <Id>", 49);
-        Buffer.insertStringIntoRepository("Close Opportunity as won", 50);
-        Buffer.insertStringIntoRepository("CLOSE-LOST <Id>", 51);
-        Buffer.insertStringIntoRepository("Close Opportunity as lost", 52);
-        Buffer.insertStringIntoRepository("", 53);
-        Buffer.insertStringIntoRepository("", 54);
+        Buffer.insertStringIntoRepository("", 49);
+        Buffer.insertStringIntoRepository("", 50);
+        Buffer.insertStringIntoRepository("", 51);
+        Buffer.insertStringIntoRepository("", 52);
+        Buffer.insertStringIntoRepository("HELP", 53);
+        Buffer.insertStringIntoRepository("Show all commands available", 54);
         Buffer.insertStringIntoRepository("EXIT", 55);
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
     }
 
-    private static List<String> commandList;
 
     public static List<String> getCommandList() {
         return commandList;
