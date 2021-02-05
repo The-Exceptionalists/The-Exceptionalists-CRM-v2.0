@@ -97,38 +97,36 @@ class LeadRepositoryTest {
     void countOfLeadsByProduct_containsLeads_listOfProductAndCountOfLeads() {
         List<Object[]> result = leadRepository.countOfLeadsByProduct();
         assertEquals(3, result.size());
-        assertEquals(Product.HYBRID.toString(), result.get(0)[0]);
+        assertEquals(Product.BOX.toString(), result.get(0)[0]);
         assertEquals(new BigInteger("3"), result.get(0)[1]);
-        assertEquals(Product.BOX.toString(), result.get(1)[0]);
+        assertEquals(Product.FLATBED.toString(), result.get(1)[0]);
         assertEquals(new BigInteger("3"), result.get(1)[1]);
-        assertEquals(Product.FLATBED.toString(), result.get(2)[0]);
+        assertEquals(Product.HYBRID.toString(), result.get(2)[0]);
         assertEquals(new BigInteger("3"), result.get(2)[1]);
     }
 
     @Test
     void countOfLeadsByCountry_containsLeads_listOfLeadAndCounty() {
         List<Object[]> result = leadRepository.countOfLeadsByCountry();
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
         assertEquals("Spain", result.get(0)[0]);
-        assertEquals(new BigInteger("6"), result.get(0)[1]);
-        assertEquals("Germany", result.get(1)[0]);
-        assertEquals(new BigInteger("3"), result.get(1)[1]);
+        assertEquals(new BigInteger("9"), result.get(0)[1]);
     }
 
     @Test
     void countOfLeadsByCity_containsLeads_listOfProductAndCount() {
         List<Object[]> result = leadRepository.countOfLeadsByCity();
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
         assertEquals("Madrid", result.get(0)[0]);
-        assertEquals(new BigInteger("6"), result.get(0)[1]);
+        assertEquals(new BigInteger("9"), result.get(0)[1]);
     }
 
     @Test
     void countOfLeadByIndustry_containsLeads_listOfProductAndCount() {
         List<Object[]> result = leadRepository.countOfLeadsByIndustry();
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
         assertEquals(Industry.ECOMMERCE.toString(), result.get(0)[0]);
-        assertEquals(new BigInteger("6"), result.get(0)[1]);
+        assertEquals(new BigInteger("9"), result.get(0)[1]);
     }
 
 

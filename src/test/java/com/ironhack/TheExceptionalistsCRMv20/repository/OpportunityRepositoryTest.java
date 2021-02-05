@@ -91,7 +91,7 @@ class OpportunityRepositoryTest {
 
     @Test
     void countBySalesRep_salesRepExistingId_count() {
-        assertEquals(4, opportunityRepository.countBySalesRepId(5));
+        assertEquals(4, opportunityRepository.countBySalesRepId(salesRepRepository.findAll().get(0).getId()));
     }
 
     @Test
@@ -136,12 +136,12 @@ class OpportunityRepositoryTest {
     void countOfOpportunitiesByProduct_containsOpportunities_listOfProductAndCount() {
         List<Object[]> result = opportunityRepository.countOfOpportunitiesByProduct();
         assertEquals(3L, result.size());
-        assertEquals(Product.HYBRID, result.get(0)[0]);
-        assertEquals(2L, result.get(0)[1]);
-        assertEquals(Product.BOX, result.get(1)[0]);
+        assertEquals(Product.BOX, result.get(0)[0]);
+        assertEquals(1L, result.get(0)[1]);
+        assertEquals(Product.FLATBED, result.get(1)[0]);
         assertEquals(1L, result.get(1)[1]);
-        assertEquals(Product.FLATBED, result.get(2)[0]);
-        assertEquals(1L, result.get(2)[1]);
+        assertEquals(Product.HYBRID, result.get(2)[0]);
+        assertEquals(2L, result.get(2)[1]);
     }
 
     @Test

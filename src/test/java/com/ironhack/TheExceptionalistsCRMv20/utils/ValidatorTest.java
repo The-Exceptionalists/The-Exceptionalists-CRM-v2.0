@@ -19,9 +19,6 @@ class ValidatorTest {
 
     @Test
     public void validateName_NotValidName_False() {
-        assertFalse(Validator.validateName("diego"));
-        assertFalse(Validator.validateName("ángel"));
-        assertFalse(Validator.validateName("diego Pérez"));
         assertFalse(Validator.validateName("85122"));
         assertFalse(Validator.validateName("Diego5214"));
         assertFalse(Validator.validateName("Diego Pérez5468"));

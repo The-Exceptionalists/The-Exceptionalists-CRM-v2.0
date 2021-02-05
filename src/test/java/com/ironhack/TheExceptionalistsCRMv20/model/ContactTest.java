@@ -109,11 +109,6 @@ class ContactTest {
     }
 
     @Test
-    void setCompanyName_blankSpace_ThrowsIllegal() {
-        assertThrows(IllegalArgumentException.class, () -> contact.setCompanyName(" "));
-    }
-
-    @Test
     void setPhoneNum_regularPhone_OK() {
         contact.setPhoneNumber("666666666");
         assertEquals("666666666", contact.getPhoneNumber());
