@@ -23,7 +23,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
 ```
 
 4. Also in application.properties update the lines
-   `spring.datasource.username=username` and `spring.datasource.password=password` with your username and password.
+   `spring.datasource.username=username` and `spring.datasource.password=password` with your username and password (NOT THE SAME USED FOR THE LOGIN).
 
 5. Create the next Schema into your MySQL.
 
