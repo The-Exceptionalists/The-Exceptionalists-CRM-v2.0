@@ -29,11 +29,13 @@ spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
 
 [MySQL Schema](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/CRM_database.sql)
 
-4. Run the ConsoleApp.java file on the path:
+6. Run the ConsoleApp.java file on the path:
 
 ```bash
  ./src/main/java/com/ironhack/TheExceptionalistsCRMv20/ConsoleApp.java
 ```
+
+7. Introduce ironhacker as username and bet4TE$t as password to login.
 
 ## Functionalities
 
