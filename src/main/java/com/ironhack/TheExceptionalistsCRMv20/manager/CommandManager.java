@@ -14,7 +14,6 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-
 public class CommandManager {
     private static LeadRepository leadRepository;
     private static ContactRepository contactRepository;
@@ -25,7 +24,7 @@ public class CommandManager {
     private static String errorPrompt = "";
     private static List<String> commandList;
 
-
+    //Method for initializing repositories
     public static void initRepos(LeadRepository leadRepository, ContactRepository contactRepository, OpportunityRepository opportunityRepository, AccountRepository accountRepository, SalesRepRepository salesRepRepository) {
         CommandManager.leadRepository = leadRepository;
         CommandManager.contactRepository = contactRepository;
@@ -34,62 +33,7 @@ public class CommandManager {
         CommandManager.salesRepRepository = salesRepRepository;
     }
 
-    private static void createPdf() {
-
-        HashMap<String, List<Object[]>> hashMap = new HashMap<>();
-        HashMap<String, Double> stats = new HashMap<>();
-
-        hashMap.put("Count of Opportunities By Sales Rep", opportunityRepository.countOfOpportunitiesBySalesReps());
-        hashMap.put("Count of Opportunities by Sales Reps Where Closed Won", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon());
-        hashMap.put("Count of Opportunities by Sales Reps Where Closed Lost", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost());
-        hashMap.put("Count of Opportunities by Sales Reps Where Closed Open", opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen());
-        hashMap.put("Count of Leads by Sales Reps", leadRepository.countOfLeadsBySalesReps());
-        hashMap.put("Count of Opportunities by Product", opportunityRepository.countOfOpportunitiesByProduct());
-        hashMap.put("Count of Opportunities by Product Where Closed Won", opportunityRepository.countOfOpportunitiesByProductWhereClosedWon());
-        hashMap.put("Count of Opportunities by Product Where Closed Lost", opportunityRepository.countOfOpportunitiesByProductWhereClosedLost());
-        hashMap.put("Count of Opportunities by Product Where Open", opportunityRepository.countOfOpportunitiesByProductWhereOpen());
-        hashMap.put("Count of Opportunities by Country", opportunityRepository.countOfOpportuntiesByCountry());
-        hashMap.put("Count of Opportunities by Country Where Closed Won", opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon());
-        hashMap.put("Count of Opportunities by Country Where Closed Lost", opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost());
-        hashMap.put("Count of Opportunities by Country Where Open", opportunityRepository.countOfOpportuntiesByCountryWhereOpen());
-        hashMap.put("Count of Opportunities by City", opportunityRepository.countOfOpportuntiesByCity());
-        hashMap.put("Count of Opportunities by City Where Closed Won", opportunityRepository.countOfOpportuntiesByCityWhereClosedWon());
-        hashMap.put("Count of Opportunities by City Where Closed Lost", opportunityRepository.countOfOpportuntiesByCityWhereClosedLost());
-        hashMap.put("Count of Opportunities by City Where Open", opportunityRepository.countOfOpportuntiesByCityWhereOpen());
-        hashMap.put("Count of Opportunities by Industry", opportunityRepository.countOfOpportuntiesByIndustry());
-        hashMap.put("Count of Opportunities by Industry Where Closed Won", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon());
-        hashMap.put("Count of Opportunities by Industry Where Closed Lost", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost());
-        hashMap.put("Count of Opportunities by Industry Where Open", opportunityRepository.countOfOpportuntiesByIndustryWhereOpen());
-
-
-        stats.put("Mean of Quantity", opportunityRepository.meanOfQuantity());
-        stats.put("Max of Quantity", opportunityRepository.maxOfQuantity().doubleValue());
-        stats.put("Min of Quantity", accountRepository.minOfEmployeeCount().doubleValue());
-        stats.put("Median of Quantity", opportunityRepository.medianOfQuantity());
-        stats.put("Mean of Employee Count", accountRepository.meanOfEmployeeCount());
-        stats.put("Max of Employee Count", accountRepository.maxOfEmployeeCount().doubleValue());
-        stats.put("Min of Employee Count", accountRepository.minOfEmployeeCount().doubleValue());
-        stats.put("Median of Employee Count", accountRepository.medianOfEmployeeCount());
-        stats.put("Mean of Opportunities in Accounts", accountRepository.meanOfOpportunitiesOnAccounts());
-        stats.put("Max  of opportunities in Accounts", accountRepository.maxOfOpportunitiesOnAccounts().doubleValue());
-        stats.put("Min of Opportunities in Accounts", accountRepository.minOfOpportunitiesOnAccounts().doubleValue());
-        stats.put("Median of Opportunities in Accounts", accountRepository.medianOfOpportunitiesOnAccounts());
-
-
-        PdfGenerator.init(hashMap, stats);
-        try {
-            PdfGenerator.generatePdf();
-            Output.printPage("Your report has been created in resources.", "Press INTRO to continue", PrintLayout.LIST_LAYOUT, true);
-            Scanner sc = new Scanner(System.in);
-            sc.nextLine();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-
+    //Method for the command insertion phase
     public static void introduceCommand() {
         CommandManager.setCommandList();
         Output.printPage(errorPrompt, normalPrompt, PrintLayout.MENU_ON, false);
@@ -122,19 +66,6 @@ public class CommandManager {
             case "exit" -> saveChangesAndExit();
         }
     }
-
-
-    private static void saveChangesAndExit() {
-//        ConsoleApp.ctx.close();
-        System.exit(ConsoleApp.getExitCode());
-    }
-
-    private static void helpPage() {
-        Output.printHelpPage();
-        Scanner sc = new Scanner(System.in);
-        String command = sc.nextLine();
-    }
-
 
     //Method that handles the object creation
     private static void createObject(String word) {
@@ -470,15 +401,6 @@ public class CommandManager {
             normalOneLinePrint(text);
 
         }
-    }
-
-    private static void normalOneLinePrint(String text) {
-        Buffer.setPromptLineOne(text);
-        Buffer.insertCentralPromptPoints(1);
-        Output.printScreen();
-        Buffer.resetPromptOne();
-        Scanner sc = new Scanner(System.in);
-        String next = sc.nextLine();
     }
 
     //Returns an enum depending on the String parameter
@@ -986,6 +908,61 @@ public class CommandManager {
         sc.nextLine();
     }
 
+    private static void createPdf() {
+
+        HashMap<String, List<Object[]>> hashMap = new HashMap<>();
+        HashMap<String, Double> stats = new HashMap<>();
+
+        hashMap.put("Count of Opportunities By Sales Rep", opportunityRepository.countOfOpportunitiesBySalesReps());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Won", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedWon());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Lost", opportunityRepository.countOfOpportunitiesBySalesRepsWhereClosedLost());
+        hashMap.put("Count of Opportunities by Sales Reps Where Closed Open", opportunityRepository.countOfOpportunitiesBySalesRepsWhereOpen());
+        hashMap.put("Count of Leads by Sales Reps", leadRepository.countOfLeadsBySalesReps());
+        hashMap.put("Count of Opportunities by Product", opportunityRepository.countOfOpportunitiesByProduct());
+        hashMap.put("Count of Opportunities by Product Where Closed Won", opportunityRepository.countOfOpportunitiesByProductWhereClosedWon());
+        hashMap.put("Count of Opportunities by Product Where Closed Lost", opportunityRepository.countOfOpportunitiesByProductWhereClosedLost());
+        hashMap.put("Count of Opportunities by Product Where Open", opportunityRepository.countOfOpportunitiesByProductWhereOpen());
+        hashMap.put("Count of Opportunities by Country", opportunityRepository.countOfOpportuntiesByCountry());
+        hashMap.put("Count of Opportunities by Country Where Closed Won", opportunityRepository.countOfOpportuntiesByCountryWhereClosedWon());
+        hashMap.put("Count of Opportunities by Country Where Closed Lost", opportunityRepository.countOfOpportuntiesByCountryWhereClosedLost());
+        hashMap.put("Count of Opportunities by Country Where Open", opportunityRepository.countOfOpportuntiesByCountryWhereOpen());
+        hashMap.put("Count of Opportunities by City", opportunityRepository.countOfOpportuntiesByCity());
+        hashMap.put("Count of Opportunities by City Where Closed Won", opportunityRepository.countOfOpportuntiesByCityWhereClosedWon());
+        hashMap.put("Count of Opportunities by City Where Closed Lost", opportunityRepository.countOfOpportuntiesByCityWhereClosedLost());
+        hashMap.put("Count of Opportunities by City Where Open", opportunityRepository.countOfOpportuntiesByCityWhereOpen());
+        hashMap.put("Count of Opportunities by Industry", opportunityRepository.countOfOpportuntiesByIndustry());
+        hashMap.put("Count of Opportunities by Industry Where Closed Won", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedWon());
+        hashMap.put("Count of Opportunities by Industry Where Closed Lost", opportunityRepository.countOfOpportuntiesByIndustryWhereClosedLost());
+        hashMap.put("Count of Opportunities by Industry Where Open", opportunityRepository.countOfOpportuntiesByIndustryWhereOpen());
+
+
+        stats.put("Mean of Quantity", opportunityRepository.meanOfQuantity());
+        stats.put("Max of Quantity", opportunityRepository.maxOfQuantity().doubleValue());
+        stats.put("Min of Quantity", accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Quantity", opportunityRepository.medianOfQuantity());
+        stats.put("Mean of Employee Count", accountRepository.meanOfEmployeeCount());
+        stats.put("Max of Employee Count", accountRepository.maxOfEmployeeCount().doubleValue());
+        stats.put("Min of Employee Count", accountRepository.minOfEmployeeCount().doubleValue());
+        stats.put("Median of Employee Count", accountRepository.medianOfEmployeeCount());
+        stats.put("Mean of Opportunities in Accounts", accountRepository.meanOfOpportunitiesOnAccounts());
+        stats.put("Max  of opportunities in Accounts", accountRepository.maxOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Min of Opportunities in Accounts", accountRepository.minOfOpportunitiesOnAccounts().doubleValue());
+        stats.put("Median of Opportunities in Accounts", accountRepository.medianOfOpportunitiesOnAccounts());
+
+
+        PdfGenerator.init(hashMap, stats);
+        try {
+            PdfGenerator.generatePdf();
+            Output.printPage("Your report has been created in resources.", "Press INTRO to continue", PrintLayout.LIST_LAYOUT, true);
+            Scanner sc = new Scanner(System.in);
+            sc.nextLine();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Method to create the command list for printing
     public static void setCommandList() {
         Buffer.insertStringIntoRepository("=====Command List=====", 40);
@@ -1007,9 +984,27 @@ public class CommandManager {
         Buffer.insertStringIntoRepository("Save and close the CRM", 56);
     }
 
-
     public static List<String> getCommandList() {
         return commandList;
+    }
+
+    private static void normalOneLinePrint(String text) {
+        Buffer.setPromptLineOne(text);
+        Buffer.insertCentralPromptPoints(1);
+        Output.printScreen();
+        Buffer.resetPromptOne();
+        Scanner sc = new Scanner(System.in);
+        String next = sc.nextLine();
+    }
+
+    private static void saveChangesAndExit() {
+        System.exit(ConsoleApp.getExitCode());
+    }
+
+    private static void helpPage() {
+        Output.printHelpPage();
+        Scanner sc = new Scanner(System.in);
+        String command = sc.nextLine();
     }
 
 }
