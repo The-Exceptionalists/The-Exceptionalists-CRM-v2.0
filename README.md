@@ -25,17 +25,14 @@ spring.datasource.url=jdbc:mysql://localhost:3306/crm?serverTimezone=UTC
 4. Also in application.properties update the lines
    `spring.datasource.username=username` and `spring.datasource.password=password` with your username and password (NOT TO BE CONFUSED WITH THE LOGIN CREDENTIALS FOR THE ACTUAL APP).
 
-5. Create the next Schema into your MySQL.
 
-[MySQL Schema](https://github.com/The-Exceptionalists/The-Exceptionalists-CRM-v2.0/blob/develop/src/main/resources/sql/CRM_database.sql)
-
-6. Run the ConsoleApp.java file on the path:
+5. Run the ConsoleApp.java file on the path:
 
 ```bash
  ./src/main/java/com/ironhack/TheExceptionalistsCRMv20/ConsoleApp.java
 ```
 
-7. Introduce ironhacker as username and bet4TE$t as password to login.
+6. Introduce ironhacker as username and bet4TE$t as password to login.
 
 ## Functionalities
 
